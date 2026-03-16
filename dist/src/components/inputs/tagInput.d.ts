@@ -10,5 +10,6 @@ export type TagInputProps = {
     required?: boolean;
     info?: string;
     description?: string;
+    textSize?: 'sm' | 'md';
 };
-export default function TagInput({ label, name, value, onChange, placeholder, error, className, disabled, required, info, description, }: TagInputProps): import("react/jsx-runtime").JSX.Element;
+export default function TagInput({ label, name, value, onChange, placeholder, error, className, disabled, required, info, description, textSize, }: TagInputProps): import("react/jsx-runtime").JSX.Element;

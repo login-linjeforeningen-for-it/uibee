@@ -8,10 +8,11 @@ export type RangeProps = Omit<React.ComponentProps<'input'>, 'name'> & {
     info?: string
     description?: string
     showValue?: boolean
+    textSize?: 'sm' | 'md'
 }
 
 export default function Range(props: RangeProps) {
-    const { name, label, error, className, info, description, showValue = true, ...inputProps } = props
+    const { name, label, error, className, info, description, showValue = true, textSize = 'sm', ...inputProps } = props
     const { min = 0, max = 100, step = 1, value = 0 } = inputProps
 
     return (
@@ -22,6 +23,7 @@ export default function Range(props: RangeProps) {
             info={info}
             description={description}
             error={error}
+            textSize={textSize}
             className={className}
         >
             <div className='flex items-center gap-4'>

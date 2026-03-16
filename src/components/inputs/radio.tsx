@@ -12,6 +12,7 @@ type RadioItemProps = Omit<React.ComponentProps<'input'>, 'name'> & {
     info?: string
     description?: string
     className?: string
+    textSize?: 'sm' | 'md'
 }
 
 export type RadioProps = Omit<React.ComponentProps<'input'>, 'name' | 'onChange' | 'value'> & {
@@ -24,10 +25,11 @@ export type RadioProps = Omit<React.ComponentProps<'input'>, 'name' | 'onChange'
     options: RadioOption[]
     value?: string | number | null
     onChange?: (value: string | number) => void
+    textSize?: 'sm' | 'md'
 }
 
 export default function Radio(props: RadioProps) {
-    const { options, onChange, value, label, description, error, info, name, className, ...rest } = props
+    const { options, onChange, value, label, description, error, info, name, className, textSize = 'sm', ...rest } = props
 
     return (
         <FieldWrapper
@@ -37,6 +39,7 @@ export default function Radio(props: RadioProps) {
             info={info}
             description={description}
             error={error}
+            textSize={textSize}
             className={className}
         >
             <div className='flex flex-col gap-2'>

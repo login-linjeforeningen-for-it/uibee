@@ -1,8 +1,8 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { FieldWrapper, InputLabel } from './shared';
 export default function Radio(props) {
-    const { options, onChange, value, label, description, error, info, name, className, ...rest } = props;
-    return (_jsx(FieldWrapper, { label: label, name: name, required: rest.required, info: info, description: description, error: error, className: className, children: _jsx("div", { className: 'flex flex-col gap-2', children: options.map((option) => (_jsx(RadioItem, { name: name, value: option.value, label: option.label, checked: value === option.value, disabled: rest.disabled, onChange: () => {
+    const { options, onChange, value, label, description, error, info, name, className, textSize = 'sm', ...rest } = props;
+    return (_jsx(FieldWrapper, { label: label, name: name, required: rest.required, info: info, description: description, error: error, textSize: textSize, className: className, children: _jsx("div", { className: 'flex flex-col gap-2', children: options.map((option) => (_jsx(RadioItem, { name: name, value: option.value, label: option.label, checked: value === option.value, disabled: rest.disabled, onChange: () => {
                     if (onChange)
                         onChange(option.value);
                 }, className: 'mb-0' }, option.value))) }) }));
@@ -23,5 +23,5 @@ function RadioItem(props) {
                     absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
                     w-2 h-2 rounded-full bg-white pointer-events-none opacity-0
                     peer-checked:opacity-100 transition-opacity duration-200
-                ` })] }), label && (_jsx(InputLabel, { label: label, name: name, className: 'select-none cursor-pointer' }))] }));
+                ` })] }), label && (_jsx(InputLabel, { label: label, name: name, disabled: inputProps.disabled, className: 'select-none cursor-pointer' }))] }));
 }

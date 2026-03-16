@@ -13,6 +13,7 @@ type CheckboxItemProps = Omit<React.ComponentProps<'input'>, 'name'> & {
     info?: string
     description?: string
     className?: string
+    textSize?: 'sm' | 'md'
 }
 
 export type CheckboxProps = Omit<React.ComponentProps<'input'>, 'name' | 'onChange' | 'value'> & {
@@ -25,10 +26,11 @@ export type CheckboxProps = Omit<React.ComponentProps<'input'>, 'name' | 'onChan
     options: CheckboxOption[]
     value?: (string | number)[]
     onChange?: (value: (string | number)[]) => void
+    textSize?: 'sm' | 'md'
 }
 
 export default function Checkbox(props: CheckboxProps) {
-    const { options, onChange, value, label, description, error, info, name, className, ...rest } = props
+    const { options, onChange, value, label, description, error, info, name, className, textSize = 'sm', ...rest } = props
     const selectedValues = Array.isArray(value) ? value : []
 
     return (
@@ -39,6 +41,7 @@ export default function Checkbox(props: CheckboxProps) {
             info={info}
             description={description}
             error={error}
+            textSize={textSize}
             className={className}
         >
             <div className='flex flex-col gap-2'>

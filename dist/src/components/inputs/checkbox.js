@@ -2,9 +2,9 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { Check } from 'lucide-react';
 import { FieldWrapper, InputLabel } from './shared';
 export default function Checkbox(props) {
-    const { options, onChange, value, label, description, error, info, name, className, ...rest } = props;
+    const { options, onChange, value, label, description, error, info, name, className, textSize = 'sm', ...rest } = props;
     const selectedValues = Array.isArray(value) ? value : [];
-    return (_jsx(FieldWrapper, { label: label, name: name, required: rest.required, info: info, description: description, error: error, className: className, children: _jsx("div", { className: 'flex flex-col gap-2', children: options.map((option) => (_jsx(CheckboxItem, { name: name, value: option.value, label: option.label, checked: selectedValues.includes(option.value), disabled: rest.disabled, onChange: (e) => {
+    return (_jsx(FieldWrapper, { label: label, name: name, required: rest.required, info: info, description: description, error: error, textSize: textSize, className: className, children: _jsx("div", { className: 'flex flex-col gap-2', children: options.map((option) => (_jsx(CheckboxItem, { name: name, value: option.value, label: option.label, checked: selectedValues.includes(option.value), disabled: rest.disabled, onChange: (e) => {
                     if (!onChange)
                         return;
                     const isChecked = e.target.checked;
@@ -33,5 +33,5 @@ function CheckboxItem(props) {
                         absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
                         w-3.5 h-3.5 pointer-events-none text-white opacity-0
                         peer-checked:opacity-100 transition-opacity duration-200
-                    ` })] }), label && (_jsx(InputLabel, { label: label, name: name, className: 'select-none cursor-pointer' }))] }));
+                    ` })] }), label && (_jsx(InputLabel, { label: label, name: name, disabled: inputProps.disabled, className: 'select-none cursor-pointer' }))] }));
 }

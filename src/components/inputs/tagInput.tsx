@@ -16,6 +16,7 @@ export type TagInputProps = {
     required?: boolean
     info?: string
     description?: string
+    textSize?: 'sm' | 'md'
 }
 
 export default function TagInput({
@@ -30,6 +31,7 @@ export default function TagInput({
     required,
     info,
     description,
+    textSize = 'sm',
 }: TagInputProps) {
     const [inputValue, setInputValue] = useState('')
 
@@ -63,6 +65,7 @@ export default function TagInput({
             description={description}
             error={error}
             className={className}
+            textSize={textSize}
         >
             <div
                 className={`

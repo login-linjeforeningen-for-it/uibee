@@ -8,10 +8,11 @@ export type SwitchProps = Omit<React.ComponentProps<'input'>, 'name'> & {
     description?: string
     className?: string
     switchOnly?: boolean
+    textSize?: 'sm' | 'md'
 }
 
 export default function Switch(props: SwitchProps) {
-    const { name, label, error, info, description, className, switchOnly, ...inputProps } = props
+    const { name, label, error, info, description, className, switchOnly, textSize = 'sm', ...inputProps } = props
 
     return (
         <FieldWrapper
@@ -21,6 +22,7 @@ export default function Switch(props: SwitchProps) {
             info={info}
             error={error}
             description={description}
+            textSize={textSize}
             className={className}
         >
             <label className={`relative inline-flex items-center cursor-pointer ${switchOnly ? 'h-fit' : 'h-10.5'}`}>

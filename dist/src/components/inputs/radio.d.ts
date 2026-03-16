@@ -12,5 +12,6 @@ export type RadioProps = Omit<React.ComponentProps<'input'>, 'name' | 'onChange'
     options: RadioOption[];
     value?: string | number | null;
     onChange?: (value: string | number) => void;
+    textSize?: 'sm' | 'md';
 };
 export default function Radio(props: RadioProps): import("react/jsx-runtime").JSX.Element;

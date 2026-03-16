@@ -3,7 +3,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState } from 'react';
 import { X } from 'lucide-react';
 import { FieldWrapper } from './shared';
-export default function TagInput({ label, name, value = [], onChange, placeholder = 'Add...', error, className, disabled, required, info, description, }) {
+export default function TagInput({ label, name, value = [], onChange, placeholder = 'Add...', error, className, disabled, required, info, description, textSize = 'sm', }) {
     const [inputValue, setInputValue] = useState('');
     function handleKeyDown(e) {
         if ((e.key === 'Enter' || e.key === ',') && inputValue.trim()) {
@@ -29,7 +29,7 @@ export default function TagInput({ label, name, value = [], onChange, placeholde
         if (onChange)
             onChange(newValue);
     }
-    return (_jsxs(FieldWrapper, { label: label, name: name, required: required, info: info, description: description, error: error, className: className, children: [_jsxs("div", { className: `
+    return (_jsxs(FieldWrapper, { label: label, name: name, required: required, info: info, description: description, error: error, className: className, textSize: textSize, children: [_jsxs("div", { className: `
                     flex flex-wrap gap-2 p-2 rounded-md bg-login-500/50 border border-login-500 
                     text-login-text min-h-10.5
                     focus-within:border-login focus-within:ring-1 focus-within:ring-login

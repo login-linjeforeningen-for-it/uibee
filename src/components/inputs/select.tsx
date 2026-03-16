@@ -27,6 +27,7 @@ export type SelectProps = {
     description?: string
     clearable?: boolean
     searchable?: boolean
+    textSize?: 'sm' | 'md'
 }
 
 export default function Select({
@@ -44,6 +45,7 @@ export default function Select({
     description,
     clearable = true,
     searchable = true,
+    textSize = 'sm',
 }: SelectProps) {
     const [isOpen, setIsOpen] = useState(false)
     const [searchTerm, setSearchTerm] = useState('')
@@ -93,6 +95,7 @@ export default function Select({
             info={info}
             description={description}
             error={error}
+            textSize={textSize}
             className={className}
         >
             <div className='relative' ref={containerRef}>

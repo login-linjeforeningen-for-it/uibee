@@ -6,7 +6,7 @@ import DateTimePickerPopup from './shared/dateTimePickerPopup';
 import ColorPickerPopup from './shared/colorPickerPopup';
 import useClickOutside from '../../hooks/useClickOutside';
 export default function Input(props) {
-    const { name, label, error, className, icon, info, description, ...inputProps } = props;
+    const { name, label, error, className, icon, info, description, textSize = 'sm', ...inputProps } = props;
     const { type = 'text', value } = inputProps;
     const localRef = useRef(null);
     const [isOpen, setIsOpen] = useState(false);
@@ -105,7 +105,7 @@ export default function Input(props) {
             return `${dd}.${MM}.${yyyy} ${hh}:${mm}`;
         return value;
     }
-    return (_jsx(FieldWrapper, { label: label, name: name, required: inputProps.required, info: info, error: error, description: description, className: className, children: _jsxs("div", { className: 'relative flex items-center', ref: containerRef, children: [displayIcon && (_jsx("div", { className: `
+    return (_jsx(FieldWrapper, { label: label, name: name, required: inputProps.required, info: info, error: error, description: description, textSize: textSize, className: className, children: _jsxs("div", { className: 'relative flex items-center', ref: containerRef, children: [displayIcon && (_jsx("div", { className: `
                             absolute left-3 text-login-200
                             ${isClickableType && !inputProps.disabled ? 'cursor-pointer hover:text-login-text' : 'pointer-events-none'}
                         `, onClick: handleIconClick, children: displayIcon })), _jsx("input", { ...inputProps, ref: localRef, id: name, name: isClickableType ? undefined : name, type: isClickableType ? 'text' : type, value: isDateType ? getDateDisplayValue() : value, readOnly: isClickableType, onClick: () => isClickableType && !inputProps.disabled && setIsOpen(true), title: label, "aria-invalid": !!error, "aria-describedby": error ? `${name}-error` : undefined, className: `

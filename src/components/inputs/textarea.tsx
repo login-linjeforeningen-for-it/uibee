@@ -11,6 +11,7 @@ export type TextareaProps = Omit<React.ComponentProps<'textarea'>, 'name'> & {
     info?: string
     description?: string
     type?: 'markdown' | 'json' | 'text'
+    textSize?: 'sm' | 'md'
 }
 
 function isValidJson(str: string): string | null {
@@ -23,7 +24,7 @@ function isValidJson(str: string): string | null {
 }
 
 export default function Textarea(props: TextareaProps) {
-    const { name, label, error, className, info, description, type = 'text', rows = 4, ...textareaProps } = props
+    const { name, label, error, className, info, description, type = 'text', rows = 4, textSize = 'sm', ...textareaProps } = props
     const { value } = textareaProps
     const [preview, setPreview] = useState(false)
 
@@ -38,6 +39,7 @@ export default function Textarea(props: TextareaProps) {
             info={info}
             description={description}
             error={displayError}
+            textSize={textSize}
             className={className}
         >
             <div className='relative'>
