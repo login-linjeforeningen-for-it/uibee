@@ -1,9 +1,9 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { FieldWrapper } from './shared';
 export default function Range(props) {
-    const { name, label, error, className, info, showValue = true, ...inputProps } = props;
+    const { name, label, error, className, info, description, showValue = true, ...inputProps } = props;
     const { min = 0, max = 100, step = 1, value = 0 } = inputProps;
-    return (_jsx(FieldWrapper, { label: label, name: name, required: inputProps.required, info: info, error: error, className: className, children: _jsxs("div", { className: 'flex items-center gap-4', children: [_jsx("input", { ...inputProps, id: name, name: name, type: 'range', min: min, max: max, step: step, value: value, title: label, "aria-invalid": !!error, "aria-describedby": error ? `${name}-error` : undefined, className: `
+    return (_jsx(FieldWrapper, { label: label, name: name, required: inputProps.required, info: info, description: description, error: error, className: className, children: _jsxs("div", { className: 'flex items-center gap-4', children: [_jsx("input", { ...inputProps, id: name, name: name, type: 'range', min: min, max: max, step: step, value: value, title: label, "aria-invalid": !!error, "aria-describedby": error ? `${name}-error` : undefined, className: `
                         flex-1 h-2 bg-login-500 rounded-lg appearance-none cursor-pointer
                         accent-login
                         [&::-webkit-slider-thumb]:appearance-none

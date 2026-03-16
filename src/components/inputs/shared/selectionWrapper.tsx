@@ -9,6 +9,7 @@ interface SelectionWrapperProps {
     required?: boolean
     info?: string
     error?: string
+    description?: string
     children: ReactNode
     className?: string
     disabled?: boolean
@@ -21,6 +22,7 @@ export default function SelectionWrapper({
     required,
     info,
     error,
+    description,
     children,
     className,
     disabled,
@@ -28,7 +30,7 @@ export default function SelectionWrapper({
 }: SelectionWrapperProps) {
     return (
         <div className={`flex flex-col gap-1 ${className || ''}`}>
-            <div className='flex items-center justify-between mb-1'>
+            <div className='flex items-start justify-between mb-1'>
                 <div className='flex items-center gap-2'>
                     {children}
                     {label && (
@@ -43,6 +45,11 @@ export default function SelectionWrapper({
                 </div>
                 {info && <InputInfo info={info} />}
             </div>
+            {description && (
+                <p className='text-xs text-login-200 ml-7 -mt-1 mb-1'>
+                    {description}
+                </p>
+            )}
             {!hideError && <InputError error={error} />}
         </div>
     )

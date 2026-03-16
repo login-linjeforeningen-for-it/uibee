@@ -15,7 +15,8 @@ export type SelectProps = {
     required?: boolean;
     placeholder?: string;
     info?: string;
+    description?: string;
     clearable?: boolean;
     searchable?: boolean;
 };
-export default function Select({ label, name, value, onChange, options, error, className, disabled, required, placeholder, info, clearable, searchable, }: SelectProps): import("react/jsx-runtime").JSX.Element;
+export default function Select({ label, name, value, onChange, options, error, className, disabled, required, placeholder, info, description, clearable, searchable, }: SelectProps): import("react/jsx-runtime").JSX.Element;

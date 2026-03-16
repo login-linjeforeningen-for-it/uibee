@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useClickOutside } from '../../hooks';
 import { ChevronDown, X, Search } from 'lucide-react';
 import { FieldWrapper } from './shared';
-export default function Select({ label, name, value, onChange, options, error, className, disabled, required, placeholder = 'Select an option', info, clearable = true, searchable = true, }) {
+export default function Select({ label, name, value, onChange, options, error, className, disabled, required, placeholder = 'Select an option', info, description, clearable = true, searchable = true, }) {
     const [isOpen, setIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedOption, setSelectedOption] = useState(options.find(opt => opt.value === value));
@@ -37,7 +37,7 @@ export default function Select({ label, name, value, onChange, options, error, c
         }
     }
     const filteredOptions = options.filter(option => option.label.toLowerCase().includes(searchTerm.toLowerCase()));
-    return (_jsxs(FieldWrapper, { label: label, name: name, required: required, info: info, error: error, className: className, children: [_jsxs("div", { className: 'relative', ref: containerRef, children: [_jsxs("button", { type: 'button', onClick: () => !disabled && setIsOpen(!isOpen), disabled: disabled, "aria-haspopup": 'listbox', "aria-expanded": isOpen, "aria-labelledby": label ? undefined : name, className: `
+    return (_jsxs(FieldWrapper, { label: label, name: name, required: required, info: info, description: description, error: error, className: className, children: [_jsxs("div", { className: 'relative', ref: containerRef, children: [_jsxs("button", { type: 'button', onClick: () => !disabled && setIsOpen(!isOpen), disabled: disabled, "aria-haspopup": 'listbox', "aria-expanded": isOpen, "aria-labelledby": label ? undefined : name, className: `
                         w-full rounded-md bg-login-500/50 border border-login-500 
                         text-login-text text-left
                         focus:outline-none focus:border-login focus:ring-1 focus:ring-login

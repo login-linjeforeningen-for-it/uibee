@@ -3,6 +3,7 @@ export type SwitchProps = Omit<React.ComponentProps<'input'>, 'name'> & {
     label?: string;
     error?: string;
     info?: string;
+    description?: string;
     className?: string;
     switchOnly?: boolean;
 };

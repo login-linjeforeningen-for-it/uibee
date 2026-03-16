@@ -24,6 +24,7 @@ export type SelectProps = {
     required?: boolean
     placeholder?: string
     info?: string
+    description?: string
     clearable?: boolean
     searchable?: boolean
 }
@@ -40,6 +41,7 @@ export default function Select({
     required,
     placeholder = 'Select an option',
     info,
+    description,
     clearable = true,
     searchable = true,
 }: SelectProps) {
@@ -89,6 +91,7 @@ export default function Select({
             name={name}
             required={required}
             info={info}
+            description={description}
             error={error}
             className={className}
         >

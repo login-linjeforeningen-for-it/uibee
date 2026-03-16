@@ -1,10 +1,10 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { SelectionWrapper } from './shared';
 export default function Radio(props) {
-    const { name, label, error, info, className, ...inputProps } = props;
+    const { name, label, error, info, description, className, ...inputProps } = props;
     const { value } = inputProps;
     const id = `${name}-${value}`;
-    return (_jsx(SelectionWrapper, { label: label, name: id, required: inputProps.required, info: info, error: error, className: className, disabled: inputProps.disabled, children: _jsxs("div", { className: 'relative flex items-center', children: [_jsx("input", { ...inputProps, id: id, name: name, type: 'radio', className: `
+    return (_jsx(SelectionWrapper, { label: label, name: id, required: inputProps.required, info: info, description: description, error: error, className: className, disabled: inputProps.disabled, children: _jsxs("div", { className: 'relative flex items-center', children: [_jsx("input", { ...inputProps, id: id, name: name, type: 'radio', className: `
                         peer appearance-none h-5 w-5 rounded-full border border-login-500 bg-login-500/50
                         checked:bg-login checked:border-login
                         focus:outline-none focus:ring-2 focus:ring-login/50

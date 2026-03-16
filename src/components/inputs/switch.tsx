@@ -5,12 +5,13 @@ export type SwitchProps = Omit<React.ComponentProps<'input'>, 'name'> & {
     label?: string
     error?: string
     info?: string
+    description?: string
     className?: string
     switchOnly?: boolean
 }
 
 export default function Switch(props: SwitchProps) {
-    const { name, label, error, info, className, switchOnly, ...inputProps } = props
+    const { name, label, error, info, description, className, switchOnly, ...inputProps } = props
 
     return (
         <SelectionWrapper
@@ -18,6 +19,7 @@ export default function Switch(props: SwitchProps) {
             name={name}
             required={inputProps.required}
             info={info}
+            description={description}
             error={error}
             hideError={switchOnly}
             className={className}

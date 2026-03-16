@@ -15,6 +15,7 @@ export type TagInputProps = {
     disabled?: boolean
     required?: boolean
     info?: string
+    description?: string
 }
 
 export default function TagInput({
@@ -28,6 +29,7 @@ export default function TagInput({
     disabled,
     required,
     info,
+    description,
 }: TagInputProps) {
     const [inputValue, setInputValue] = useState('')
 
@@ -58,6 +60,7 @@ export default function TagInput({
             name={name}
             required={required}
             info={info}
+            description={description}
             error={error}
             className={className}
         >

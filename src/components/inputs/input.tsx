@@ -12,10 +12,11 @@ export type InputProps = Omit<React.ComponentProps<'input'>, 'name'> & {
     className?: string
     icon?: JSX.Element
     info?: string
+    description?: string
 }
 
 export default function Input(props: InputProps) {
-    const { name, label, error, className, icon, info, ...inputProps } = props
+    const { name, label, error, className, icon, info, description, ...inputProps } = props
     const { type = 'text', value } = inputProps
     const localRef = useRef<HTMLInputElement>(null)
     const [isOpen, setIsOpen] = useState(false)
@@ -130,6 +131,7 @@ export default function Input(props: InputProps) {
             required={inputProps.required}
             info={info}
             error={error}
+            description={description}
             className={className}
         >
             <div className='relative flex items-center' ref={containerRef}>

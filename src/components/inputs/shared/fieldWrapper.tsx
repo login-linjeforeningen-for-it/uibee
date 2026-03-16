@@ -9,6 +9,7 @@ interface FieldWrapperProps {
     required?: boolean
     info?: string
     error?: string
+    description?: string
     children: ReactNode
     className?: string
 }
@@ -19,6 +20,7 @@ export default function FieldWrapper({
     required,
     info,
     error,
+    description,
     children,
     className,
 }: FieldWrapperProps) {
@@ -36,6 +38,11 @@ export default function FieldWrapper({
                     )}
                     {info && <InputInfo info={info} />}
                 </div>
+            )}
+            {description && (
+                <p className='text-sm text-login-100 ml-1 mb-1'>
+                    {description}
+                </p>
             )}
             {children}
             <InputError error={error} id={`${name}-error`} />

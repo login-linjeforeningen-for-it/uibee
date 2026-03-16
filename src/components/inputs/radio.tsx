@@ -5,11 +5,12 @@ export type RadioProps = Omit<React.ComponentProps<'input'>, 'name'> & {
     label?: string
     error?: string
     info?: string
+    description?: string
     className?: string
 }
 
 export default function Radio(props: RadioProps) {
-    const { name, label, error, info, className, ...inputProps } = props
+    const { name, label, error, info, description, className, ...inputProps } = props
     const { value } = inputProps
     const id = `${name}-${value}`
 
@@ -19,6 +20,7 @@ export default function Radio(props: RadioProps) {
             name={id}
             required={inputProps.required}
             info={info}
+            description={description}
             error={error}
             className={className}
             disabled={inputProps.disabled}

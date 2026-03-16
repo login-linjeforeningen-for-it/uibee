@@ -6,11 +6,12 @@ export type CheckboxProps = Omit<React.ComponentProps<'input'>, 'name'> & {
     label?: string
     error?: string
     info?: string
+    description?: string
     className?: string
 }
 
 export default function Checkbox(props: CheckboxProps) {
-    const { name, label, error, info, className, ...inputProps } = props
+    const { name, label, error, info, description, className, ...inputProps } = props
 
     return (
         <SelectionWrapper
@@ -18,6 +19,7 @@ export default function Checkbox(props: CheckboxProps) {
             name={name}
             required={inputProps.required}
             info={info}
+            description={description}
             error={error}
             className={className}
             disabled={inputProps.disabled}

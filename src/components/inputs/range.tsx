@@ -6,11 +6,12 @@ export type RangeProps = Omit<React.ComponentProps<'input'>, 'name'> & {
     error?: string
     className?: string
     info?: string
+    description?: string
     showValue?: boolean
 }
 
 export default function Range(props: RangeProps) {
-    const { name, label, error, className, info, showValue = true, ...inputProps } = props
+    const { name, label, error, className, info, description, showValue = true, ...inputProps } = props
     const { min = 0, max = 100, step = 1, value = 0 } = inputProps
 
     return (
@@ -19,6 +20,7 @@ export default function Range(props: RangeProps) {
             name={name}
             required={inputProps.required}
             info={info}
+            description={description}
             error={error}
             className={className}
         >

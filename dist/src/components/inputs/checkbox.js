@@ -2,8 +2,8 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { Check } from 'lucide-react';
 import { SelectionWrapper } from './shared';
 export default function Checkbox(props) {
-    const { name, label, error, info, className, ...inputProps } = props;
-    return (_jsx(SelectionWrapper, { label: label, name: name, required: inputProps.required, info: info, error: error, className: className, disabled: inputProps.disabled, children: _jsxs("div", { className: 'relative flex items-center', children: [_jsx("input", { ...inputProps, id: name, name: name, type: 'checkbox', className: `
+    const { name, label, error, info, description, className, ...inputProps } = props;
+    return (_jsx(SelectionWrapper, { label: label, name: name, required: inputProps.required, info: info, description: description, error: error, className: className, disabled: inputProps.disabled, children: _jsxs("div", { className: 'relative flex items-center', children: [_jsx("input", { ...inputProps, id: name, name: name, type: 'checkbox', className: `
                         peer appearance-none h-5 w-5 rounded border border-login-500 bg-login-500/50
                         checked:bg-login checked:border-login
                         focus:outline-none focus:ring-2 focus:ring-login/50
