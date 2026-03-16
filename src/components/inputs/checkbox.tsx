@@ -1,5 +1,5 @@
 import { Check } from 'lucide-react'
-import { SelectionWrapper, FieldWrapper } from './shared'
+import { FieldWrapper, InputLabel } from './shared'
 
 export type CheckboxOption = {
     label: string
@@ -70,32 +70,24 @@ export default function Checkbox(props: CheckboxProps) {
 }
 
 function CheckboxItem(props: CheckboxItemProps) {
-    const { name, label, error, info, description, className, ...inputProps } = props
+    const { name, label, error, ...inputProps } = props
     const id = inputProps.value ? `${name}-${inputProps.value}` : name
 
     return (
-        <SelectionWrapper
-            label={label}
-            name={id}
-            required={inputProps.required}
-            info={info}
-            description={description}
-            error={error}
-            className={className}
-            disabled={inputProps.disabled}
-        >
-            <div className='relative flex items-center'>
+        <div className='flex items-center gap-2'>
+            <div className='relative w-5 h-5 shrink-0'>
                 <input
                     {...inputProps}
                     id={id}
                     name={name}
                     type='checkbox'
                     className={`
-                        peer appearance-none h-5 w-5 rounded border border-login-500 bg-login-500/50
+                        peer appearance-none rounded border border-login-500 bg-login-500/50
                         checked:bg-login checked:border-login
                         focus:outline-none focus:ring-2 focus:ring-login/50
                         disabled:opacity-50 disabled:cursor-not-allowed
                         cursor-pointer transition-all duration-200
+                        w-5 h-5 absolute inset-0
                         ${error ? 'border-red-500' : ''}
                     `}
                 />
@@ -107,6 +99,13 @@ function CheckboxItem(props: CheckboxItemProps) {
                     `}
                 />
             </div>
-        </SelectionWrapper>
+            {label && (
+                <InputLabel
+                    label={label}
+                    name={name}
+                    className='select-none cursor-pointer'
+                />
+            )}
+        </div>
     )
 }

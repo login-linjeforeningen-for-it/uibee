@@ -1,4 +1,4 @@
-import { SelectionWrapper } from './shared'
+import { FieldWrapper } from './shared'
 
 export type SwitchProps = Omit<React.ComponentProps<'input'>, 'name'> & {
     name: string
@@ -14,16 +14,14 @@ export default function Switch(props: SwitchProps) {
     const { name, label, error, info, description, className, switchOnly, ...inputProps } = props
 
     return (
-        <SelectionWrapper
+        <FieldWrapper
             label={label}
             name={name}
             required={inputProps.required}
             info={info}
-            description={description}
             error={error}
-            hideError={switchOnly}
+            description={description}
             className={className}
-            disabled={inputProps.disabled}
         >
             <label className={`relative inline-flex items-center cursor-pointer ${switchOnly ? 'h-fit' : 'h-10.5'}`}>
                 <input
@@ -41,8 +39,8 @@ export default function Switch(props: SwitchProps) {
                     after:h-5 after:w-5 after:transition-all peer-checked:bg-login
                     ${inputProps.disabled ? 'opacity-50 cursor-not-allowed' : ''}
                     ${error ? 'ring-1 ring-red-500' : ''}
-                `}></div>
+                `} />
             </label>
-        </SelectionWrapper>
+        </FieldWrapper>
     )
 }

@@ -1,4 +1,4 @@
-import { SelectionWrapper, FieldWrapper } from './shared'
+import { FieldWrapper, InputLabel } from './shared'
 
 export type RadioOption = {
     label: string
@@ -60,33 +60,25 @@ export default function Radio(props: RadioProps) {
 }
 
 function RadioItem(props: RadioItemProps) {
-    const { name, label, error, info, description, className, ...inputProps } = props
+    const { name, label, error, ...inputProps } = props
     const { value } = inputProps
     const id = `${name}-${value}`
 
     return (
-        <SelectionWrapper
-            label={label}
-            name={id}
-            required={inputProps.required}
-            info={info}
-            description={description}
-            error={error}
-            className={className}
-            disabled={inputProps.disabled}
-        >
-            <div className='relative flex items-center'>
+        <div className='flex items-center gap-2'>
+            <div className='relative w-5 h-5 shrink-0'>
                 <input
                     {...inputProps}
                     id={id}
                     name={name}
                     type='radio'
                     className={`
-                        peer appearance-none h-5 w-5 rounded-full border border-login-500 bg-login-500/50
+                        peer appearance-none rounded-full border border-login-500 bg-login-500/50
                         checked:bg-login checked:border-login
                         focus:outline-none focus:ring-2 focus:ring-login/50
                         disabled:opacity-50 disabled:cursor-not-allowed
                         cursor-pointer transition-all duration-200
+                        w-5 h-5 absolute inset-0
                         ${error ? 'border-red-500' : ''}
                     `}
                 />
@@ -94,8 +86,15 @@ function RadioItem(props: RadioItemProps) {
                     absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
                     w-2 h-2 rounded-full bg-white pointer-events-none opacity-0
                     peer-checked:opacity-100 transition-opacity duration-200
-                `}></div>
+                `}/>
             </div>
-        </SelectionWrapper>
+            {label && (
+                <InputLabel
+                    label={label}
+                    name={name}
+                    className='select-none cursor-pointer'
+                />
+            )}
+        </div>
     )
 }

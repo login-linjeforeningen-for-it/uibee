@@ -1,6 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { Check } from 'lucide-react';
-import { SelectionWrapper, FieldWrapper } from './shared';
+import { FieldWrapper, InputLabel } from './shared';
 export default function Checkbox(props) {
     const { options, onChange, value, label, description, error, info, name, className, ...rest } = props;
     const selectedValues = Array.isArray(value) ? value : [];
@@ -19,18 +19,19 @@ export default function Checkbox(props) {
                 }, className: 'mb-0' }, option.value))) }) }));
 }
 function CheckboxItem(props) {
-    const { name, label, error, info, description, className, ...inputProps } = props;
+    const { name, label, error, ...inputProps } = props;
     const id = inputProps.value ? `${name}-${inputProps.value}` : name;
-    return (_jsx(SelectionWrapper, { label: label, name: id, required: inputProps.required, info: info, description: description, error: error, className: className, disabled: inputProps.disabled, children: _jsxs("div", { className: 'relative flex items-center', children: [_jsx("input", { ...inputProps, id: id, name: name, type: 'checkbox', className: `
-                        peer appearance-none h-5 w-5 rounded border border-login-500 bg-login-500/50
+    return (_jsxs("div", { className: 'flex items-center gap-2', children: [_jsxs("div", { className: 'relative w-5 h-5 shrink-0', children: [_jsx("input", { ...inputProps, id: id, name: name, type: 'checkbox', className: `
+                        peer appearance-none rounded border border-login-500 bg-login-500/50
                         checked:bg-login checked:border-login
                         focus:outline-none focus:ring-2 focus:ring-login/50
                         disabled:opacity-50 disabled:cursor-not-allowed
                         cursor-pointer transition-all duration-200
+                        w-5 h-5 absolute inset-0
                         ${error ? 'border-red-500' : ''}
                     ` }), _jsx(Check, { className: `
                         absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
                         w-3.5 h-3.5 pointer-events-none text-white opacity-0
                         peer-checked:opacity-100 transition-opacity duration-200
-                    ` })] }) }));
+                    ` })] }), label && (_jsx(InputLabel, { label: label, name: name, className: 'select-none cursor-pointer' }))] }));
 }
