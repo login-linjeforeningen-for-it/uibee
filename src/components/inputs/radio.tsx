@@ -92,6 +92,7 @@ function RadioItem(props: RadioItemProps) {
                 <InputLabel
                     label={label}
                     name={name}
+                    disabled={inputProps.disabled}
                     className='select-none cursor-pointer'
                 />
             )}

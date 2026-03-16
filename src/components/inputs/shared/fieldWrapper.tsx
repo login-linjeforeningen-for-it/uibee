@@ -10,6 +10,7 @@ interface FieldWrapperProps {
     info?: string
     error?: string
     description?: string
+    textSize?: 'sm' | 'md'
     children: ReactNode
     className?: string
 }
@@ -21,6 +22,7 @@ export default function FieldWrapper({
     info,
     error,
     description,
+    textSize = 'sm',
     children,
     className,
 }: FieldWrapperProps) {
@@ -33,7 +35,7 @@ export default function FieldWrapper({
                             label={label}
                             name={name}
                             required={required}
-                            className='ml-1'
+                            className={`ml-1 ${textSize === 'sm' ? 'text-sm!' : 'text-base!'}`}
                         />
                     )}
                     {info && <InputInfo info={info} />}
