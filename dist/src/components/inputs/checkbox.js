@@ -1,9 +1,27 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { Check } from 'lucide-react';
-import { SelectionWrapper } from './shared';
+import { SelectionWrapper, FieldWrapper } from './shared';
 export default function Checkbox(props) {
+    const { options, onChange, value, label, description, error, info, name, className, ...rest } = props;
+    const selectedValues = Array.isArray(value) ? value : [];
+    return (_jsx(FieldWrapper, { label: label, name: name, required: rest.required, info: info, description: description, error: error, className: className, children: _jsx("div", { className: 'flex flex-col gap-2', children: options.map((option) => (_jsx(CheckboxItem, { name: name, value: option.value, label: option.label, checked: selectedValues.includes(option.value), disabled: rest.disabled, onChange: (e) => {
+                    if (!onChange)
+                        return;
+                    const isChecked = e.target.checked;
+                    let newValues = [...selectedValues];
+                    if (isChecked) {
+                        newValues.push(option.value);
+                    }
+                    else {
+                        newValues = newValues.filter((v) => v !== option.value);
+                    }
+                    onChange(newValues);
+                }, className: 'mb-0' }, option.value))) }) }));
+}
+function CheckboxItem(props) {
     const { name, label, error, info, description, className, ...inputProps } = props;
-    return (_jsx(SelectionWrapper, { label: label, name: name, required: inputProps.required, info: info, description: description, error: error, className: className, disabled: inputProps.disabled, children: _jsxs("div", { className: 'relative flex items-center', children: [_jsx("input", { ...inputProps, id: name, name: name, type: 'checkbox', className: `
+    const id = inputProps.value ? `${name}-${inputProps.value}` : name;
+    return (_jsx(SelectionWrapper, { label: label, name: id, required: inputProps.required, info: info, description: description, error: error, className: className, disabled: inputProps.disabled, children: _jsxs("div", { className: 'relative flex items-center', children: [_jsx("input", { ...inputProps, id: id, name: name, type: 'checkbox', className: `
                         peer appearance-none h-5 w-5 rounded border border-login-500 bg-login-500/50
                         checked:bg-login checked:border-login
                         focus:outline-none focus:ring-2 focus:ring-login/50

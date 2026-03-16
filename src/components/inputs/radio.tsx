@@ -1,6 +1,11 @@
-import { SelectionWrapper } from './shared'
+import { SelectionWrapper, FieldWrapper } from './shared'
 
-export type RadioProps = Omit<React.ComponentProps<'input'>, 'name'> & {
+export type RadioOption = {
+    label: string
+    value: string | number
+}
+
+type RadioItemProps = Omit<React.ComponentProps<'input'>, 'name'> & {
     name: string
     label?: string
     error?: string
@@ -9,7 +14,52 @@ export type RadioProps = Omit<React.ComponentProps<'input'>, 'name'> & {
     className?: string
 }
 
+export type RadioProps = Omit<React.ComponentProps<'input'>, 'name' | 'onChange' | 'value'> & {
+    name: string
+    label?: string
+    error?: string
+    info?: string
+    description?: string
+    className?: string
+    options: RadioOption[]
+    value?: string | number | null
+    onChange?: (value: string | number) => void
+}
+
 export default function Radio(props: RadioProps) {
+    const { options, onChange, value, label, description, error, info, name, className, ...rest } = props
+
+    return (
+        <FieldWrapper
+            label={label}
+            name={name}
+            required={rest.required}
+            info={info}
+            description={description}
+            error={error}
+            className={className}
+        >
+            <div className='flex flex-col gap-2'>
+                {options.map((option) => (
+                    <RadioItem
+                        key={option.value}
+                        name={name}
+                        value={option.value}
+                        label={option.label}
+                        checked={value === option.value}
+                        disabled={rest.disabled}
+                        onChange={() => {
+                            if (onChange) onChange(option.value)
+                        }}
+                        className='mb-0'
+                    />
+                ))}
+            </div>
+        </FieldWrapper>
+    )
+}
+
+function RadioItem(props: RadioItemProps) {
     const { name, label, error, info, description, className, ...inputProps } = props
     const { value } = inputProps
     const id = `${name}-${value}`

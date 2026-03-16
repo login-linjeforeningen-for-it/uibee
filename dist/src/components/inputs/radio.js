@@ -1,6 +1,13 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { SelectionWrapper } from './shared';
+import { SelectionWrapper, FieldWrapper } from './shared';
 export default function Radio(props) {
+    const { options, onChange, value, label, description, error, info, name, className, ...rest } = props;
+    return (_jsx(FieldWrapper, { label: label, name: name, required: rest.required, info: info, description: description, error: error, className: className, children: _jsx("div", { className: 'flex flex-col gap-2', children: options.map((option) => (_jsx(RadioItem, { name: name, value: option.value, label: option.label, checked: value === option.value, disabled: rest.disabled, onChange: () => {
+                    if (onChange)
+                        onChange(option.value);
+                }, className: 'mb-0' }, option.value))) }) }));
+}
+function RadioItem(props) {
     const { name, label, error, info, description, className, ...inputProps } = props;
     const { value } = inputProps;
     const id = `${name}-${value}`;

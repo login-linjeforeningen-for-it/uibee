@@ -1043,6 +1043,9 @@
   .mr-\[0\.3rem\] {
     margin-right: 0.3rem;
   }
+  .mb-0 {
+    margin-bottom: calc(var(--spacing) * 0);
+  }
   .mb-1 {
     margin-bottom: calc(var(--spacing) * 1);
   }
