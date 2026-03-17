@@ -130,12 +130,12 @@ export default function Body({ list, columns, menuItems, redirectPath, variant =
                                 <td
                                     key={col.key}
                                     className={`
-                                        flex-1 px-6 py-4 whitespace-nowrap text-sm min-w-40 flex items-center text-login-100
+                                        flex-1 min-w-0 px-6 py-4 whitespace-nowrap text-sm flex items-center text-login-100
                                         ${variant === 'minimal' ? 'px-4! py-2!' : ''}
                                     `}
                                 >
-                                    <div className='relative'>
-                                        <h1 className={badgeClass}>
+                                    <div className='relative w-full min-w-0'>
+                                        <h1 className={`block max-w-full truncate ${badgeClass}`}>
                                             {formatValue(col.key, value as string | number)}
                                         </h1>
                                     </div>

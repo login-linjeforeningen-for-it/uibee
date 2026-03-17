@@ -20,7 +20,7 @@ export default function Table({ data, columns, menuItems, redirectPath, variant 
 
     return (
         <div className={`
-            flex-1 flex flex-col min-h-0 overflow-x-auto h-full w-full
+            flex-1 flex flex-col min-h-0 overflow-x-auto overflow-y-hidden h-full w-full
             ${variant === 'default' ? 'bg-login-500/50 rounded-lg shadow border border-login-600' : ''}
             ${variant === 'minimal' ? 'bg-transparent' : ''}
         `}>

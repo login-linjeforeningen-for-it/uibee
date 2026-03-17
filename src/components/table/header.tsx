@@ -53,16 +53,16 @@ export default function Header({ columns, hideMenu, variant = 'default' }: Heade
                         <th
                             key={key}
                             className={`
-                                flex-1 px-6 py-3 text-xs font-medium uppercase tracking-wider text-left
+                                flex-1 min-w-0 px-6 py-3 text-xs font-medium uppercase tracking-wider text-left
                                 ${variant === 'default' ? 'text-login-200' : 'text-login-100'}
-                                ${variant === 'minimal' ? 'px-4!!' : ''}
+                                ${variant === 'minimal' ? 'px-4!' : ''}
                             `}
                         >
                             <button
-                                className='flex flex-row items-center gap-2 group uppercase'
+                                className='flex w-full min-w-0 flex-row items-center gap-2 group uppercase whitespace-nowrap'
                                 onClick={() => handleChange(key)}
                             >
-                                {value}
+                                <span className='min-w-0 truncate'>{value}</span>
                                 <span className='flex flex-col'>
                                     {column === key ? (
                                         order === 'asc' ? (
