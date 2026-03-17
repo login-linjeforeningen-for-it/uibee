@@ -1,4 +1,5 @@
 export { default as Input } from './inputs/input';
+export { default as SearchInput } from './inputs/searchInput';
 export { default as Textarea } from './inputs/textarea';
 export { default as Checkbox } from './inputs/checkbox';
 export { default as Select } from './inputs/select';
