@@ -2,9 +2,9 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 import React, { useState } from 'react';
 import Link from 'next/link';
-import LogoSmall from '../logo/logoSmall';
-import LanguageToggle from '../toggle/language';
-import ThemeToggle from '../toggle/theme';
+import LogoSmall from '@components/logo/logoSmall';
+import LanguageToggle from '@components/toggle/language';
+import ThemeToggle from '@components/toggle/theme';
 import { LogOut, User } from 'lucide-react';
 function hamburgerStyle(isOpen, isSecond) {
     return `bg-login-50 h-0.5 absolute w-8 transition-all duration-[400ms] left-2 ${isOpen

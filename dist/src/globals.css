@@ -1236,6 +1236,9 @@
   .max-w-200 {
     max-width: calc(var(--spacing) * 200);
   }
+  .max-w-full {
+    max-width: 100%;
+  }
   .max-w-md {
     max-width: var(--container-md);
   }
@@ -1256,9 +1259,6 @@
   }
   .min-w-30 {
     min-width: calc(var(--spacing) * 30);
-  }
-  .min-w-40 {
-    min-width: calc(var(--spacing) * 40);
   }
   .min-w-70 {
     min-width: calc(var(--spacing) * 70);
@@ -1450,6 +1450,9 @@
   }
   .overflow-y-auto {
     overflow-y: auto;
+  }
+  .overflow-y-hidden {
+    overflow-y: hidden;
   }
   .rounded {
     border-radius: 0.25rem;

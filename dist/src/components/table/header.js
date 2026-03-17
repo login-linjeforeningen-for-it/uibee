@@ -33,9 +33,9 @@ export default function Header({ columns, hideMenu, variant = 'default' }) {
                             .slice(1)
                             .replaceAll('_', ' ')}`);
                     return (_jsx("th", { className: `
-                                flex-1 px-6 py-3 text-xs font-medium uppercase tracking-wider text-left
+                                flex-1 min-w-0 px-6 py-3 text-xs font-medium uppercase tracking-wider text-left
                                 ${variant === 'default' ? 'text-login-200' : 'text-login-100'}
-                                ${variant === 'minimal' ? 'px-4!!' : ''}
-                            `, children: _jsxs("button", { className: 'flex flex-row items-center gap-2 group uppercase', onClick: () => handleChange(key), children: [value, _jsx("span", { className: 'flex flex-col', children: column === key ? (order === 'asc' ? (_jsx(ChevronUp, { className: 'h-4 w-4' })) : (_jsx(ChevronDown, { className: 'h-4 w-4' }))) : (_jsx(ChevronUp, { className: 'h-4 w-4 stroke-login-200 opacity-0 group-hover:opacity-100' })) })] }) }, key));
+                                ${variant === 'minimal' ? 'px-4!' : ''}
+                            `, children: _jsxs("button", { className: 'flex w-full min-w-0 flex-row items-center gap-2 group uppercase whitespace-nowrap', onClick: () => handleChange(key), children: [_jsx("span", { className: 'min-w-0 truncate', children: value }), _jsx("span", { className: 'flex flex-col', children: column === key ? (order === 'asc' ? (_jsx(ChevronUp, { className: 'h-4 w-4' })) : (_jsx(ChevronDown, { className: 'h-4 w-4' }))) : (_jsx(ChevronUp, { className: 'h-4 w-4 stroke-login-200 opacity-0 group-hover:opacity-100' })) })] }) }, key));
                 }), !hideMenu && _jsx("th", { className: 'shrink-0 w-16 px-6 py-3' })] }) }));
 }
