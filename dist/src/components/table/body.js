@@ -2,7 +2,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { EllipsisVertical } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState, useRef, useEffect } from 'react';
-import useClickOutside from '@hooks/useClickOutside';
+import useClickOutside from '../../hooks/useClickOutside';
 import Menu from './menu';
 import { formatValue } from './format';
 export default function Body({ list, columns, menuItems, redirectPath, variant = 'default', idKey }) {

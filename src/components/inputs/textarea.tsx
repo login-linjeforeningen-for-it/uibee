@@ -56,40 +56,41 @@ export default function Textarea(props: TextareaProps) {
                     </div>
                 )}
 
-                {type === 'markdown' && preview ? (
+                {type === 'markdown' && preview && (
                     <div
                         className={`
-                        w-full rounded-md bg-login-500/50 border border-login-500 
-                        text-login-text 
-                        p-3
-                        prose prose-invert prose-sm max-w-none overflow-y-auto
-                        ${error ? 'border-red-500' : ''}
-                    `}
+                            w-full rounded-md bg-login-500/50 border border-login-500 
+                            text-login-text 
+                            p-3
+                            prose prose-invert prose-base max-w-none overflow-y-auto
+                            ${error ? 'border-red-500' : ''}
+                        `}
                         style={{ minHeight: `${rows * 1.5}rem` }}
                     >
                         <ReactMarkdown>{String(value || '')}</ReactMarkdown>
                     </div>
-                ) : (
-                    <textarea
-                        {...textareaProps}
-                        id={name}
-                        name={name}
-                        rows={rows}
-                        title={label}
-                        aria-invalid={!!error}
-                        aria-describedby={error ? `${name}-error` : undefined}
-                        className={`
+                )}
+
+                <textarea
+                    {...textareaProps}
+                    id={name}
+                    name={name}
+                    rows={rows}
+                    title={label}
+                    aria-invalid={!!error}
+                    aria-describedby={error ? `${name}-error` : undefined}
+                    className={`
+                        ${type === 'markdown' && preview ? 'hidden' : ''}
                         w-full rounded-md bg-login-500/50 border border-login-500 
                         text-login-text placeholder-login-200
                         focus:outline-none focus:border-login focus:ring-1 focus:ring-login
                         disabled:opacity-50 disabled:cursor-not-allowed
-                        p-3
+                        p-3 pr-10
                         transition-all duration-200
                         resize-y
                         ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}
                     `}
-                    />
-                )}
+                />
             </div>
         </FieldWrapper>
     )
