@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 import InputLabel from './inputLabel'
 import InputInfo from './inputInfo'
 import InputError from './inputError'
+import ReactMarkdown from 'react-markdown'
 
 interface FieldWrapperProps {
     label?: string
@@ -43,7 +44,7 @@ export default function FieldWrapper({
             )}
             {description && (
                 <p className='text-sm text-login-100 ml-1 mb-1'>
-                    {description}
+                    <ReactMarkdown>{String(description || '')}</ReactMarkdown>
                 </p>
             )}
             {children}
