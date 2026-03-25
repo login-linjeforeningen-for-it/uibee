@@ -44,5 +44,8 @@ export { MenuButton } from './table/menu'
 export { default as Table } from './table/table'
 export { default as Pagination } from './table/pagination'
 
+// Markdown
+export { default as MarkdownRender } from './markdownrender/markdownRender'
+
 // Confirm
 export { default as ConfirmPopup } from './confirm/confirmPopup'

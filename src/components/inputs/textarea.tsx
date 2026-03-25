@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import ReactMarkdown from 'react-markdown'
 import { Eye, Pencil } from 'lucide-react'
 import { FieldWrapper } from './shared'
+import MarkdownRender from '@components/markdownrender/markdownRender'
 
 export type TextareaProps = Omit<React.ComponentProps<'textarea'>, 'name'> & {
     name: string
@@ -30,6 +30,8 @@ export default function Textarea(props: TextareaProps) {
 
     const jsonError = type === 'json' && value ? isValidJson(value as string) : undefined
     const displayError = jsonError || error
+
+    console.log(value)
 
     return (
         <FieldWrapper
@@ -60,14 +62,10 @@ export default function Textarea(props: TextareaProps) {
                     <div
                         className={`
                             w-full rounded-md bg-login-500/50 border border-login-500 
-                            text-login-text 
-                            p-3
-                            prose prose-invert prose-base max-w-none overflow-y-auto
-                            ${error ? 'border-red-500' : ''}
+                            p-3 overflow-y-auto ${error ? 'border-red-500' : ''}
                         `}
-                        style={{ minHeight: `${rows * 1.5}rem` }}
                     >
-                        <ReactMarkdown>{String(value || '')}</ReactMarkdown>
+                        <MarkdownRender MDstr={String(value || '')} />
                     </div>
                 )}
 

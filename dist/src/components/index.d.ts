@@ -24,4 +24,5 @@ export { default as Alert } from './alert/alert';
 export { MenuButton } from './table/menu';
 export { default as Table } from './table/table';
 export { default as Pagination } from './table/pagination';
+export { default as MarkdownRender } from './markdownrender/markdownRender';
 export { default as ConfirmPopup } from './confirm/confirmPopup';
