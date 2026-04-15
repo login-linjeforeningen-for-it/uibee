@@ -27,4 +27,4 @@ export { default as Pagination } from './table/pagination';
 export { default as MarkdownRender } from './markdownrender/markdownRender';
 export { default as ConfirmPopup } from './confirm/confirmPopup';
 export { default as SeverityPill } from './vulnerability/severityPill';
-export { default as Toggle } from './layout/toggle';
+export { default as Toggle } from './inputs/toggle';
