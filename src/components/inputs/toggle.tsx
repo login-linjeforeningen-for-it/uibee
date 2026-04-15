@@ -20,9 +20,7 @@ export default function Toggle<T>({
 }: ToggleProps<T>) {
     const active = 'bg-login-200 text-login-950 shadow'
     const idle = 'text-login-200 hover:bg-login-50/10 hover:text-login-50'
-
-    const base =
-        'flex items-center justify-center rounded-full transition gap-1'
+    const base = 'flex items-center justify-center rounded-lg transition gap-1'
 
     function renderContent(opt: ToggleOption<T>) {
         return (
@@ -37,7 +35,7 @@ export default function Toggle<T>({
     const isRightActive = value === right.value
 
     return (
-        <div className='flex items-center rounded-full border border-login-100/10 bg-login-50/5 p-1'>
+        <div className='flex items-center rounded-lg border border-login-100/10 bg-login-50/5 p-1'>
             <button
                 type='button'
                 onClick={() => onChange(left.value)}
