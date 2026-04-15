@@ -8,6 +8,7 @@
     "rootDir": ".",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "noUncheckedSideEffectImports": false,
     "strict": true,
     "skipLibCheck": true,
     "jsx": "react-jsx",

@@ -49,3 +49,9 @@ export { default as MarkdownRender } from './markdownrender/markdownRender'
 
 // Confirm
 export { default as ConfirmPopup } from './confirm/confirmPopup'
+
+// Vulnerability
+export { default as SeverityPill } from './vulnerability/severityPill'
+
+// Layout
+export { default as Toggle } from './layout/toggle'

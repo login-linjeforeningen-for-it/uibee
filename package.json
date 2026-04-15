@@ -1,6 +1,6 @@
 {
   "name": "uibee",
-  "version": "2.15.0",
+  "version": "2.16.0",
   "description": "Shared components, functions and hooks for reuse across Login projects",
   "homepage": "https://github.com/Login-Linjeforening-for-IT/uibee#readme",
   "bugs": {
@@ -24,7 +24,7 @@
   },
   "scripts": {
     "build:clean": "rm -rf dist",
-    "build:css": "node --loader ts-node/esm src/scripts/buildCss.ts",
+    "build:css": "node src/scripts/buildCss.ts",
     "build:rewrite": "node dist/src/scripts/rewriteAlias.js",
     "build:ts": "tsc --declaration",
     "build": "npm run build:clean && npm run build:css && npm run build:ts && npm run build:rewrite",
@@ -32,27 +32,27 @@
     "lint:fix": "eslint --fix ./src"
   },
   "peerDependencies": {
-    "next": "^16.1.6",
+    "next": "^16.2.1",
     "react": "^19.2.4"
   },
   "devDependencies": {
     "@stylistic/eslint-plugin": "^5.10.0",
-    "@tailwindcss/postcss": "^4.2.1",
+    "@tailwindcss/postcss": "^4.2.2",
     "@tailwindcss/typography": "^0.5.19",
-    "@types/node": "^25.5.0",
+    "@types/node": "^25.6.0",
     "@types/react": "19.2.14",
     "@types/react-dom": "^19.2.3",
-    "eslint": "^10.0.3",
+    "eslint": "^10.2.0",
     "glob": "^13.0.6",
-    "postcss": "^8.5.8",
-    "tailwindcss": "^4.2.1",
+    "postcss": "^8.5.10",
+    "tailwindcss": "^4.2.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.57.0"
+    "typescript": "^6.0.2",
+    "typescript-eslint": "^8.58.2"
   },
   "dependencies": {
-    "lucide-react": "^0.577.0",
-    "react-dom": "19.2.4",
+    "lucide-react": "^1.8.0",
+    "react-dom": "19.2.5",
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1",
     "utilbee": "^1.4.1"
