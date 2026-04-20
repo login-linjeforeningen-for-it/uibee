@@ -86,43 +86,49 @@ export default function Navbar({
 
                         {/* Controls */}
                         <nav className='flex w-[calc(100vw-8rem)] justify-end h-12 800px:w-fit'>
-                            {!disableThemeToggle &&
-                                <ThemeToggle />
-                            }
-                            {bubble?.theme?.condition && <Bubble
-                                href={bubble.theme.href}
-                                className={bubble.theme.className}
-                                text={bubble.theme.text}
-                                fill={bubble.theme.fill}
-                                stroke={bubble.theme.stroke}
-                            />}
-                            {!disableLanguageToggle &&
-                                <LanguageToggle
-                                    language={lang}
-                                />
-                            }
-                            {bubble?.lang?.condition && <Bubble
-                                href={bubble.lang.href}
-                                className={bubble.lang.className}
-                                text={bubble.lang.text}
-                                fill={bubble.lang.fill}
-                                stroke={bubble.lang.stroke}
-                            />}
-                            {loginPath && logoutPath &&
-                                <AuthButton
-                                    profilePath={profilePath}
-                                    token={token}
-                                    loginPath={loginPath}
-                                    logoutPath={logoutPath}
-                                />
-                            }
-                            {bubble?.login?.condition && <Bubble
-                                href={bubble.login.href}
-                                className={bubble.login.className}
-                                text={bubble.login.text}
-                                fill={bubble.login.fill}
-                                stroke={bubble.login.stroke}
-                            />}
+                            <div className='grid gap-2'>
+                                {!disableThemeToggle &&
+                                    <ThemeToggle />
+                                }
+                                {bubble?.theme?.condition && <Bubble
+                                    href={bubble.theme.href}
+                                    className={bubble.theme.className}
+                                    text={bubble.theme.text}
+                                    fill={bubble.theme.fill}
+                                    stroke={bubble.theme.stroke}
+                                />}
+                            </div>
+                            <div className='grid gap-2'>
+                                {!disableLanguageToggle &&
+                                    <LanguageToggle
+                                        language={lang}
+                                    />
+                                }
+                                {bubble?.lang?.condition && <Bubble
+                                    href={bubble.lang.href}
+                                    className={bubble.lang.className}
+                                    text={bubble.lang.text}
+                                    fill={bubble.lang.fill}
+                                    stroke={bubble.lang.stroke}
+                                />}
+                            </div>
+                            <div className='grid gap-2'>
+                                {loginPath && logoutPath &&
+                                    <AuthButton
+                                        profilePath={profilePath}
+                                        token={token}
+                                        loginPath={loginPath}
+                                        logoutPath={logoutPath}
+                                    />
+                                }
+                                {bubble?.login?.condition && <Bubble
+                                    href={bubble.login.href}
+                                    className={bubble.login.className}
+                                    text={bubble.login.text}
+                                    fill={bubble.login.fill}
+                                    stroke={bubble.login.stroke}
+                                />}
+                            </div>
                         </nav>
 
                         {/* Mobile Menu Button */}
