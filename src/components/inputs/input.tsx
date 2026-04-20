@@ -157,7 +157,6 @@ export default function Input(props: InputProps) {
                     value={isDateType ? getDateDisplayValue() : value}
                     readOnly={isClickableType}
                     onClick={() => isClickableType && !inputProps.disabled && setIsOpen(true)}
-                    onSubmit={() => console.log('den her onSubmit')}
                     title={label}
                     aria-invalid={!!error}
                     aria-describedby={error ? `${name}-error` : undefined}
