@@ -19,7 +19,7 @@ export default function Bubble({ bubble }: { bubble: BubbleText }) {
     return (
         <a
             href={bubble.href}
-            className={`absolute ${bubble.className}`}
+            className={`absolute top-5 min-w-10 ${bubble.className}`}
         >
             <svg
                 viewBox='0 0 24 12'
