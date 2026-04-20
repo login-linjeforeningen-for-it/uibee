@@ -39,7 +39,7 @@ export default function Bubble({ bubble }: { bubble: BubbleText }) {
                 />
             </svg>
             <div className='flex justify-between'>
-                <span>{bubble.text}</span>
+                <span className='min-w-30'>{bubble.text}</span>
                 <X onClick={bubble.handleHide} className={bubble.x} />
             </div>
         </a>
