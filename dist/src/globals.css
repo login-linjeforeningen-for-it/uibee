@@ -333,6 +333,9 @@
   .end {
     inset-inline-end: var(--spacing);
   }
+  .-top-3 {
+    top: calc(var(--spacing) * -3);
+  }
   .top-0 {
     top: calc(var(--spacing) * 0);
   }
