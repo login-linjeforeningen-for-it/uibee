@@ -38,8 +38,10 @@ export default function Bubble({ bubble }: { bubble: BubbleText }) {
                     fill={bubble.fill}
                 />
             </svg>
-            <span>{bubble.text}</span>
-            <X onClick={bubble.handleHide} className={bubble.x} />
+            <div className='flex justify-between'>
+                <span>{bubble.text}</span>
+                <X onClick={bubble.handleHide} className={bubble.x} />
+            </div>
         </a>
     )
 }
