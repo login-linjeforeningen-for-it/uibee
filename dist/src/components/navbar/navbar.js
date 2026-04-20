@@ -12,7 +12,7 @@ function hamburgerStyle(isOpen, isSecond) {
         ? `top-6 ${isSecond ? 'rotate-45' : '-rotate-45'}`
         : isSecond ? 'top-7' : 'top-4'}`;
 }
-export default function Navbar({ lang, onlyLogo, disableLanguageToggle, disableThemeToggle, token, profilePath, loginPath, logoutPath, className, innerClassName, children, bubble }) {
+export default function Navbar({ children, bubble, className, disableLanguageToggle, disableThemeToggle, innerClassName, lang, loginPath, logoutPath, onlyLogo, profilePath, token }) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     return (_jsx("div", { className: `${isMobileMenuOpen ? 'bg-[#181818f0]' : 'bg-[#18181899]'} backdrop-blur-xl fixed top-0 z-900 w-full ${className}`, children: _jsxs("div", { className: `flex w-full max-w-6xl m-auto p-2 transition duration-500 800px:justify-between 800px:p-4 ${isMobileMenuOpen ? 'h-screen bg-login-900/20 800px:h-20' : ''} ${innerClassName}
             `, children: [_jsx("div", { className: 'block h-12 p-1 800px:p-0', children: _jsx(Link, { href: '/', onClick: () => setIsMobileMenuOpen(false), children: _jsx(LogoSmall, {}) }) }), onlyLogo ? null : (_jsxs(_Fragment, { children: [_jsx("nav", { className: 'hidden 800px:flex 800px:justify-between 800px:items-center 800px:w-fill max-w-200', children: children }), _jsxs("nav", { className: 'flex w-[calc(100vw-8rem)] justify-end h-12 800px:w-fit', children: [!disableThemeToggle &&

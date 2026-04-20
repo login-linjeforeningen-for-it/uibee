@@ -9,12 +9,12 @@ type BubbleContent = {
     stroke: string;
 };
 export type NavbarProps = {
+    children: React.ReactNode;
     bubble?: {
         lang?: BubbleContent;
         theme?: BubbleContent;
         login?: BubbleContent;
     };
-    children: React.ReactNode;
     className?: string;
     disableLanguageToggle?: boolean;
     disableThemeToggle?: boolean;
@@ -27,5 +27,5 @@ export type NavbarProps = {
     theme?: string;
     token?: string | null;
 };
-export default function Navbar({ lang, onlyLogo, disableLanguageToggle, disableThemeToggle, token, profilePath, loginPath, logoutPath, className, innerClassName, children, bubble }: NavbarProps): import("react/jsx-runtime").JSX.Element;
+export default function Navbar({ children, bubble, className, disableLanguageToggle, disableThemeToggle, innerClassName, lang, loginPath, logoutPath, onlyLogo, profilePath, token }: NavbarProps): import("react/jsx-runtime").JSX.Element;
 export {};

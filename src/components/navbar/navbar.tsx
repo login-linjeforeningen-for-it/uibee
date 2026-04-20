@@ -27,12 +27,12 @@ function hamburgerStyle (isOpen: boolean, isSecond?: boolean) {
 }
 
 export type NavbarProps = {
+    children: React.ReactNode
     bubble?: {
         lang?: BubbleContent
         theme?: BubbleContent
         login?: BubbleContent
     }
-    children: React.ReactNode
     className?: string
     disableLanguageToggle?: boolean
     disableThemeToggle?: boolean
@@ -47,18 +47,18 @@ export type NavbarProps = {
 }
 
 export default function Navbar({
-    lang,
-    onlyLogo,
+    children,
+    bubble,
+    className,
     disableLanguageToggle,
     disableThemeToggle,
-    token,
-    profilePath,
+    innerClassName,
+    lang,
     loginPath,
     logoutPath,
-    className,
-    innerClassName,
-    children,
-    bubble
+    onlyLogo,
+    profilePath,
+    token
 }: NavbarProps) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
