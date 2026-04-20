@@ -9,26 +9,6 @@ import { Language } from 'uibee/components'
 import { LogOut, User } from 'lucide-react'
 import Bubble from './bubble'
 
-type BubbleContent = {
-    condition: boolean
-    href: string
-    className: string
-    text: string
-    fill: string
-    stroke: string
-    x: string
-    hide: boolean
-    handleHide: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => void
-}
-
-function hamburgerStyle (isOpen: boolean, isSecond?: boolean) {
-    return `bg-login-50 h-0.5 absolute w-8 transition-all duration-[400ms] left-2 ${
-        isOpen
-            ? `top-6 ${isSecond ? 'rotate-45' : '-rotate-45'}`
-            : isSecond ? 'top-7' : 'top-4'
-    }`
-}
-
 export type NavbarProps = {
     children: React.ReactNode
     bubble?: {
@@ -46,6 +26,25 @@ export type NavbarProps = {
     onlyLogo?: boolean
     profilePath?: string
     theme?: string
+    token?: string | null
+}
+
+type BubbleContent = {
+    condition: boolean
+    href: string
+    className: string
+    text: string
+    fill: string
+    stroke: string
+    x: string
+    hide: boolean
+    handleHide: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => void
+}
+
+type AuthButtonProps = {
+    profilePath?: string
+    logoutPath: string
+    loginPath: string
     token?: string | null
 }
 
@@ -153,13 +152,6 @@ export default function Navbar({
     )
 }
 
-type AuthButtonProps = {
-    profilePath?: string
-    logoutPath: string
-    loginPath: string
-    token?: string | null
-}
-
 function AuthButton({ profilePath, logoutPath, loginPath, token }: AuthButtonProps) {
     return (
         <div className='rounded-[0.3rem] hover:bg-login-300/20 h-12 w-12'>
@@ -197,4 +189,12 @@ function AuthButton({ profilePath, logoutPath, loginPath, token }: AuthButtonPro
             )}
         </div>
     )
+}
+
+function hamburgerStyle (isOpen: boolean, isSecond?: boolean) {
+    return `bg-login-50 h-0.5 absolute w-8 transition-all duration-[400ms] left-2 ${
+        isOpen
+            ? `top-6 ${isSecond ? 'rotate-45' : '-rotate-45'}`
+            : isSecond ? 'top-7' : 'top-4'
+    }`
 }
