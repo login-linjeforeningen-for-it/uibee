@@ -170,7 +170,6 @@ type AuthButtonProps = {
 }
 
 function AuthButton({ profilePath, logoutPath, loginPath, token }: AuthButtonProps) {
-
     return (
         <div className='rounded-[0.3rem] hover:bg-login-300/20 h-12 w-12'>
             {token ? (
