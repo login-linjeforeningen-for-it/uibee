@@ -27,23 +27,23 @@ function hamburgerStyle (isOpen: boolean, isSecond?: boolean) {
 }
 
 export type NavbarProps = {
-    lang?: Language
-    disableLanguageToggle?: boolean
-    onlyLogo?: boolean
-    theme?: string
-    disableThemeToggle?: boolean
-    token?: string | null
-    profilePath?: string
-    loginPath: string
-    logoutPath: string
-    className?: string
-    innerClassName?: string
-    children: React.ReactNode
-    bubble: {
+    bubble?: {
         lang?: BubbleContent
         theme?: BubbleContent
         login?: BubbleContent
     }
+    children: React.ReactNode
+    className?: string
+    disableLanguageToggle?: boolean
+    disableThemeToggle?: boolean
+    innerClassName?: string
+    lang?: Language
+    loginPath: string
+    logoutPath: string
+    onlyLogo?: boolean
+    profilePath?: string
+    theme?: string
+    token?: string | null
 }
 
 export default function Navbar({
@@ -89,7 +89,7 @@ export default function Navbar({
                             {!disableThemeToggle &&
                                 <ThemeToggle />
                             }
-                            {bubble.theme?.condition && <Bubble
+                            {bubble?.theme?.condition && <Bubble
                                 href={bubble.theme.href}
                                 className={bubble.theme.className}
                                 text={bubble.theme.text}
@@ -101,7 +101,7 @@ export default function Navbar({
                                     language={lang}
                                 />
                             }
-                            {bubble.lang?.condition && <Bubble
+                            {bubble?.lang?.condition && <Bubble
                                 href={bubble.lang.href}
                                 className={bubble.lang.className}
                                 text={bubble.lang.text}
@@ -116,7 +116,7 @@ export default function Navbar({
                                     logoutPath={logoutPath}
                                 />
                             }
-                            {bubble.login?.condition && <Bubble
+                            {bubble?.login?.condition && <Bubble
                                 href={bubble.login.href}
                                 className={bubble.login.className}
                                 text={bubble.login.text}

@@ -9,23 +9,23 @@ type BubbleContent = {
     stroke: string;
 };
 export type NavbarProps = {
-    lang?: Language;
-    disableLanguageToggle?: boolean;
-    onlyLogo?: boolean;
-    theme?: string;
-    disableThemeToggle?: boolean;
-    token?: string | null;
-    profilePath?: string;
-    loginPath: string;
-    logoutPath: string;
-    className?: string;
-    innerClassName?: string;
-    children: React.ReactNode;
-    bubble: {
+    bubble?: {
         lang?: BubbleContent;
         theme?: BubbleContent;
         login?: BubbleContent;
     };
+    children: React.ReactNode;
+    className?: string;
+    disableLanguageToggle?: boolean;
+    disableThemeToggle?: boolean;
+    innerClassName?: string;
+    lang?: Language;
+    loginPath: string;
+    logoutPath: string;
+    onlyLogo?: boolean;
+    profilePath?: string;
+    theme?: string;
+    token?: string | null;
 };
 export default function Navbar({ lang, onlyLogo, disableLanguageToggle, disableThemeToggle, token, profilePath, loginPath, logoutPath, className, innerClassName, children, bubble }: NavbarProps): import("react/jsx-runtime").JSX.Element;
 export {};

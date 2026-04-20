@@ -1,6 +1,6 @@
 {
   "name": "uibee",
-  "version": "2.16.9",
+  "version": "2.16.10",
   "description": "Shared components, functions and hooks for reuse across Login projects",
   "homepage": "https://github.com/Login-Linjeforening-for-IT/uibee#readme",
   "bugs": {
@@ -42,12 +42,12 @@
     "@types/node": "^25.6.0",
     "@types/react": "19.2.14",
     "@types/react-dom": "^19.2.3",
-    "eslint": "^10.2.0",
+    "eslint": "^10.2.1",
     "glob": "^13.0.6",
     "postcss": "^8.5.10",
     "tailwindcss": "^4.2.2",
     "ts-node": "^10.9.2",
-    "typescript": "^6.0.2",
+    "typescript": "^6.0.3",
     "typescript-eslint": "^8.58.2"
   },
   "dependencies": {
@@ -55,6 +55,6 @@
     "react-dom": "19.2.5",
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1",
-    "utilbee": "^1.4.1"
+    "utilbee": "^1.4.5"
   }
 }
