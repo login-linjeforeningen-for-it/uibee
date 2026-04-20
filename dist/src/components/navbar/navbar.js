@@ -7,17 +7,12 @@ import LanguageToggle from '../toggle/language';
 import ThemeToggle from '../toggle/theme';
 import { LogOut, User } from 'lucide-react';
 import Bubble from './bubble';
-function hamburgerStyle(isOpen, isSecond) {
-    return `bg-login-50 h-0.5 absolute w-8 transition-all duration-[400ms] left-2 ${isOpen
-        ? `top-6 ${isSecond ? 'rotate-45' : '-rotate-45'}`
-        : isSecond ? 'top-7' : 'top-4'}`;
-}
 export default function Navbar({ children, bubble, className, disableLanguageToggle, disableThemeToggle, innerClassName, lang, loginPath, logoutPath, onlyLogo, profilePath, token }) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     return (_jsx("div", { className: `${isMobileMenuOpen ? 'bg-[#181818f0]' : 'bg-[#18181899]'} backdrop-blur-xl fixed top-0 z-900 w-full ${className}`, children: _jsxs("div", { className: `flex w-full max-w-6xl m-auto p-2 transition duration-500 800px:justify-between 800px:p-4 ${isMobileMenuOpen ? 'h-screen bg-login-900/20 800px:h-20' : ''} ${innerClassName}
-            `, children: [_jsx("div", { className: 'block h-12 p-1 800px:p-0', children: _jsx(Link, { href: '/', onClick: () => setIsMobileMenuOpen(false), children: _jsx(LogoSmall, {}) }) }), onlyLogo ? null : (_jsxs(_Fragment, { children: [_jsx("nav", { className: 'hidden 800px:flex 800px:justify-between 800px:items-center 800px:w-fill max-w-200', children: children }), _jsxs("nav", { className: 'flex w-[calc(100vw-8rem)] justify-end h-12 800px:w-fit', children: [_jsxs("div", { className: 'grid gap-2', children: [!disableThemeToggle &&
-                                            _jsx(ThemeToggle, {}), bubble?.theme?.condition && _jsx(Bubble, { bubble: bubble.theme })] }), _jsxs("div", { className: 'grid gap-2', children: [!disableLanguageToggle &&
-                                            _jsx(LanguageToggle, { language: lang }), bubble?.lang?.condition && _jsx(Bubble, { bubble: bubble.lang })] }), _jsxs("div", { className: 'grid gap-2', children: [loginPath && logoutPath &&
+            `, children: [_jsx("div", { className: 'block h-12 p-1 800px:p-0', children: _jsx(Link, { href: '/', onClick: () => setIsMobileMenuOpen(false), children: _jsx(LogoSmall, {}) }) }), onlyLogo ? null : (_jsxs(_Fragment, { children: [_jsx("nav", { className: 'hidden 800px:flex 800px:justify-between 800px:items-center 800px:w-fill max-w-200', children: children }), _jsxs("nav", { className: 'flex w-[calc(100vw-8rem)] justify-end h-12 800px:w-fit', children: [_jsxs("div", { className: 'relative grid gap-2', children: [!disableThemeToggle &&
+                                            _jsx(ThemeToggle, {}), bubble?.theme?.condition && _jsx(Bubble, { bubble: bubble.theme })] }), _jsxs("div", { className: 'relative grid gap-2', children: [!disableLanguageToggle &&
+                                            _jsx(LanguageToggle, { language: lang }), bubble?.lang?.condition && _jsx(Bubble, { bubble: bubble.lang })] }), _jsxs("div", { className: 'relative grid gap-2', children: [loginPath && logoutPath &&
                                             _jsx(AuthButton, { profilePath: profilePath, token: token, loginPath: loginPath, logoutPath: logoutPath }), bubble?.login?.condition && _jsx(Bubble, { bubble: bubble.login })] })] }), _jsxs("button", { className: 'w-12 h-12 relative cursor-pointer bg-none border-none 800px:hidden', onClick: () => setIsMobileMenuOpen(!isMobileMenuOpen), children: [_jsx("div", { className: hamburgerStyle(isMobileMenuOpen) }), _jsx("div", { className: hamburgerStyle(isMobileMenuOpen, true) })] }), _jsx("nav", { className: `fixed top-16 w-[calc(100%-2rem)] max-w-140 mx-auto left-0 right-0 800px:hidden
                             transition-all duration-500 ease-in-out overflow-hidden 
                             ${isMobileMenuOpen ? 'max-h-[calc(100vh-4rem)] opacity-100' : 'max-h-0 opacity-0'}`, onClick: () => setIsMobileMenuOpen(false), children: React.Children.map(children, (child, index) => (_jsx("div", { className: `transition-all duration-500 ease-out ${isMobileMenuOpen
@@ -33,4 +28,9 @@ function AuthButton({ profilePath, logoutPath, loginPath, token }) {
                             window.location.href = logoutPath;
                         }, className: 'grid items-center justify-center h-full w-full', children: _jsx(LogOut, { size: 24 }) }), profilePath &&
                     _jsx(Link, { href: profilePath, className: 'grid items-center justify-center h-full w-full', children: _jsx(User, { size: 24 }) })] })) : (_jsx(Link, { href: loginPath, className: 'grid items-center justify-center h-full w-full', children: _jsx(User, { size: 24 }) })) }));
+}
+function hamburgerStyle(isOpen, isSecond) {
+    return `bg-login-50 h-0.5 absolute w-8 transition-all duration-[400ms] left-2 ${isOpen
+        ? `top-6 ${isSecond ? 'rotate-45' : '-rotate-45'}`
+        : isSecond ? 'top-7' : 'top-4'}`;
 }

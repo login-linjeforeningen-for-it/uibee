@@ -1,16 +1,5 @@
 import React from 'react';
 import { Language } from 'uibee/components';
-type BubbleContent = {
-    condition: boolean;
-    href: string;
-    className: string;
-    text: string;
-    fill: string;
-    stroke: string;
-    x: string;
-    hide: boolean;
-    handleHide: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => void;
-};
 export type NavbarProps = {
     children: React.ReactNode;
     bubble?: {
@@ -29,6 +18,17 @@ export type NavbarProps = {
     profilePath?: string;
     theme?: string;
     token?: string | null;
+};
+type BubbleContent = {
+    condition: boolean;
+    href: string;
+    className: string;
+    text: string;
+    fill: string;
+    stroke: string;
+    x: string;
+    hide: boolean;
+    handleHide: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => void;
 };
 export default function Navbar({ children, bubble, className, disableLanguageToggle, disableThemeToggle, innerClassName, lang, loginPath, logoutPath, onlyLogo, profilePath, token }: NavbarProps): import("react/jsx-runtime").JSX.Element;
 export {};

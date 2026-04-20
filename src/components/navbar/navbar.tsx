@@ -88,13 +88,13 @@ export default function Navbar({
 
                         {/* Controls */}
                         <nav className='flex w-[calc(100vw-8rem)] justify-end h-12 800px:w-fit'>
-                            <div className='grid gap-2'>
+                            <div className='relative grid gap-2'>
                                 {!disableThemeToggle &&
                                     <ThemeToggle />
                                 }
                                 {bubble?.theme?.condition && <Bubble bubble={bubble.theme} />}
                             </div>
-                            <div className='grid gap-2'>
+                            <div className='relative grid gap-2'>
                                 {!disableLanguageToggle &&
                                     <LanguageToggle
                                         language={lang}
@@ -102,7 +102,7 @@ export default function Navbar({
                                 }
                                 {bubble?.lang?.condition && <Bubble bubble={bubble.lang} />}
                             </div>
-                            <div className='grid gap-2'>
+                            <div className='relative grid gap-2'>
                                 {loginPath && logoutPath &&
                                     <AuthButton
                                         profilePath={profilePath}
