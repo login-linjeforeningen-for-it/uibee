@@ -19,7 +19,7 @@ export default function Bubble({ bubble }: { bubble: BubbleText }) {
     return (
         <a
             href={bubble.href}
-            className={`absolute top-15 min-w-30 ${bubble.className}`}
+            className={`absolute top-13 min-w-40 ${bubble.className}`}
         >
             <svg
                 viewBox='0 0 24 12'
@@ -39,7 +39,7 @@ export default function Bubble({ bubble }: { bubble: BubbleText }) {
                 />
             </svg>
             <div className='flex justify-between'>
-                <span className='min-w-30'>{bubble.text}</span>
+                <span className='min-w-40'>{bubble.text}</span>
                 <X onClick={bubble.handleHide} className={bubble.x} />
             </div>
         </a>

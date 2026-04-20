@@ -354,8 +354,8 @@
   .top-7 {
     top: calc(var(--spacing) * 7);
   }
-  .top-15 {
-    top: calc(var(--spacing) * 15);
+  .top-13 {
+    top: calc(var(--spacing) * 13);
   }
   .top-16 {
     top: calc(var(--spacing) * 16);
@@ -1278,6 +1278,9 @@
   }
   .min-w-30 {
     min-width: calc(var(--spacing) * 30);
+  }
+  .min-w-40 {
+    min-width: calc(var(--spacing) * 40);
   }
   .min-w-70 {
     min-width: calc(var(--spacing) * 70);
