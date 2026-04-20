@@ -7,6 +7,9 @@ type BubbleContent = {
     text: string;
     fill: string;
     stroke: string;
+    x: string;
+    hide: boolean;
+    handleHide: () => void;
 };
 export type NavbarProps = {
     children: React.ReactNode;

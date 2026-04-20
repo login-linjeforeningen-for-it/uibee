@@ -16,6 +16,9 @@ type BubbleContent = {
     text: string
     fill: string
     stroke: string
+    x: string
+    hide: boolean
+    handleHide: () => void
 }
 
 function hamburgerStyle (isOpen: boolean, isSecond?: boolean) {
@@ -90,13 +93,7 @@ export default function Navbar({
                                 {!disableThemeToggle &&
                                     <ThemeToggle />
                                 }
-                                {bubble?.theme?.condition && <Bubble
-                                    href={bubble.theme.href}
-                                    className={bubble.theme.className}
-                                    text={bubble.theme.text}
-                                    fill={bubble.theme.fill}
-                                    stroke={bubble.theme.stroke}
-                                />}
+                                {bubble?.theme?.condition && <Bubble bubble={bubble.theme} />}
                             </div>
                             <div className='grid gap-2'>
                                 {!disableLanguageToggle &&
@@ -104,13 +101,7 @@ export default function Navbar({
                                         language={lang}
                                     />
                                 }
-                                {bubble?.lang?.condition && <Bubble
-                                    href={bubble.lang.href}
-                                    className={bubble.lang.className}
-                                    text={bubble.lang.text}
-                                    fill={bubble.lang.fill}
-                                    stroke={bubble.lang.stroke}
-                                />}
+                                {bubble?.lang?.condition && <Bubble bubble={bubble.lang} />}
                             </div>
                             <div className='grid gap-2'>
                                 {loginPath && logoutPath &&
@@ -121,13 +112,7 @@ export default function Navbar({
                                         logoutPath={logoutPath}
                                     />
                                 }
-                                {bubble?.login?.condition && <Bubble
-                                    href={bubble.login.href}
-                                    className={bubble.login.className}
-                                    text={bubble.login.text}
-                                    fill={bubble.login.fill}
-                                    stroke={bubble.login.stroke}
-                                />}
+                                {bubble?.login?.condition && <Bubble bubble={bubble.login} />}
                             </div>
                         </nav>
 

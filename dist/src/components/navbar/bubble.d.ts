@@ -4,6 +4,11 @@ type BubbleText = {
     fill: string;
     stroke: string;
     text: string;
+    x: string;
+    hide: boolean;
+    handleHide: () => void;
 };
-export default function Bubble({ href, className, fill, stroke, text }: BubbleText): import("react/jsx-runtime").JSX.Element;
+export default function Bubble({ bubble }: {
+    bubble: BubbleText;
+}): import("react/jsx-runtime").JSX.Element | null;
 export {};

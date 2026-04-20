@@ -1,16 +1,25 @@
+import { X } from 'lucide-react'
+
 type BubbleText = {
     href: string
     className: string
     fill: string
     stroke: string
     text: string
+    x: string
+    hide: boolean
+    handleHide: () => void
 }
 
-export default function Bubble({ href, className, fill, stroke, text }: BubbleText) {
+export default function Bubble({ bubble }: { bubble: BubbleText }) {
+    if (bubble.hide) {
+        return null
+    }
+
     return (
         <a
-            href={href}
-            className={`relative ${className}`}
+            href={bubble.href}
+            className={`relative ${bubble.className}`}
         >
             <svg
                 viewBox='0 0 24 12'
@@ -19,17 +28,18 @@ export default function Bubble({ href, className, fill, stroke, text }: BubbleTe
             >
                 <path
                     d='M12 0 24 12H0Z'
-                    fill={fill}
-                    stroke={stroke}
+                    fill={bubble.fill}
+                    stroke={bubble.stroke}
                     strokeWidth='1.5'
                     strokeLinejoin='round'
                 />
                 <path
                     d='M12 0 24 12H0Z'
-                    fill={fill}
+                    fill={bubble.fill}
                 />
             </svg>
-            <span>{text}</span>
+            <span>{bubble.text}</span>
+            <X onClick={bubble.handleHide} className={bubble.x} />
         </a>
     )
 }
