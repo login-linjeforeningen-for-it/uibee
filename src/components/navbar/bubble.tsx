@@ -10,11 +10,11 @@ export default function Bubble({ href, className, fill, stroke, text }: BubbleTe
     return (
         <a
             href={href}
-            className={className}
+            className={`relative ${className}`}
         >
             <svg
                 viewBox='0 0 24 12'
-                className='relative -top-5 h-3 w-6'
+                className='absolute -top-5 h-3 w-6'
                 aria-hidden='true'
             >
                 <path
