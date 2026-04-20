@@ -8,7 +8,7 @@ type BubbleText = {
     text: string
     x: string
     hide: boolean
-    handleHide: () => void
+    handleHide: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => void
 }
 
 export default function Bubble({ bubble }: { bubble: BubbleText }) {
