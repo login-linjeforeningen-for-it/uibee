@@ -7,7 +7,16 @@ import LanguageToggle from '@components/toggle/language'
 import ThemeToggle from '@components/toggle/theme'
 import { Language } from 'uibee/components'
 import { LogOut, User } from 'lucide-react'
+import Bubble from './bubble'
 
+type BubbleContent = {
+    condition: boolean
+    href: string
+    className: string
+    text: string
+    fill: string
+    stroke: string
+}
 
 function hamburgerStyle (isOpen: boolean, isSecond?: boolean) {
     return `bg-login-50 h-0.5 absolute w-8 transition-all duration-[400ms] left-2 ${
@@ -30,6 +39,11 @@ export type NavbarProps = {
     className?: string
     innerClassName?: string
     children: React.ReactNode
+    bubble: {
+        lang?: BubbleContent
+        theme?: BubbleContent
+        login?: BubbleContent
+    }
 }
 
 export default function Navbar({
@@ -44,6 +58,7 @@ export default function Navbar({
     className,
     innerClassName,
     children,
+    bubble
 }: NavbarProps) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
@@ -74,11 +89,25 @@ export default function Navbar({
                             {!disableThemeToggle &&
                                 <ThemeToggle />
                             }
+                            {bubble.theme?.condition && <Bubble
+                                href={bubble.theme.href}
+                                className={bubble.theme.className}
+                                text={bubble.theme.text}
+                                fill={bubble.theme.fill}
+                                stroke={bubble.theme.stroke}
+                            />}
                             {!disableLanguageToggle &&
                                 <LanguageToggle
                                     language={lang}
                                 />
                             }
+                            {bubble.lang?.condition && <Bubble
+                                href={bubble.lang.href}
+                                className={bubble.lang.className}
+                                text={bubble.lang.text}
+                                fill={bubble.lang.fill}
+                                stroke={bubble.lang.stroke}
+                            />}
                             {loginPath && logoutPath &&
                                 <AuthButton
                                     profilePath={profilePath}
@@ -87,6 +116,13 @@ export default function Navbar({
                                     logoutPath={logoutPath}
                                 />
                             }
+                            {bubble.login?.condition && <Bubble
+                                href={bubble.login.href}
+                                className={bubble.login.className}
+                                text={bubble.login.text}
+                                fill={bubble.login.fill}
+                                stroke={bubble.login.stroke}
+                            />}
                         </nav>
 
                         {/* Mobile Menu Button */}

@@ -1,5 +1,13 @@
 import React from 'react';
 import { Language } from 'uibee/components';
+type BubbleContent = {
+    condition: boolean;
+    href: string;
+    className: string;
+    text: string;
+    fill: string;
+    stroke: string;
+};
 export type NavbarProps = {
     lang?: Language;
     disableLanguageToggle?: boolean;
@@ -13,5 +21,11 @@ export type NavbarProps = {
     className?: string;
     innerClassName?: string;
     children: React.ReactNode;
+    bubble: {
+        lang?: BubbleContent;
+        theme?: BubbleContent;
+        login?: BubbleContent;
+    };
 };
-export default function Navbar({ lang, onlyLogo, disableLanguageToggle, disableThemeToggle, token, profilePath, loginPath, logoutPath, className, innerClassName, children, }: NavbarProps): import("react/jsx-runtime").JSX.Element;
+export default function Navbar({ lang, onlyLogo, disableLanguageToggle, disableThemeToggle, token, profilePath, loginPath, logoutPath, className, innerClassName, children, bubble }: NavbarProps): import("react/jsx-runtime").JSX.Element;
+export {};
