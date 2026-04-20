@@ -14,7 +14,7 @@ export default function Bubble({ href, className, fill, stroke, text }: BubbleTe
         >
             <svg
                 viewBox='0 0 24 12'
-                className='relative -top-5 right-6 h-3 w-6'
+                className='relative -top-4.5 h-3 w-6'
                 aria-hidden='true'
             >
                 <path
