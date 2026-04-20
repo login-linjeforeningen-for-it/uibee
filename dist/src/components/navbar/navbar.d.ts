@@ -9,7 +9,7 @@ type BubbleContent = {
     stroke: string;
     x: string;
     hide: boolean;
-    handleHide: () => void;
+    handleHide: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => void;
 };
 export type NavbarProps = {
     children: React.ReactNode;

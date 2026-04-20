@@ -18,7 +18,7 @@ type BubbleContent = {
     stroke: string
     x: string
     hide: boolean
-    handleHide: () => void
+    handleHide: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => void
 }
 
 function hamburgerStyle (isOpen: boolean, isSecond?: boolean) {
