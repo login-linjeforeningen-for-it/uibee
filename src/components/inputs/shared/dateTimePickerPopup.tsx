@@ -6,6 +6,7 @@ type DateTimePickerPopupProps = {
     onChange: (date: Date) => void
     type: 'date' | 'time' | 'datetime-local'
     onClose?: () => void
+    anchorName?: string
 }
 
 const DAYS = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
@@ -19,6 +20,7 @@ export default function DateTimePickerPopup({
     onChange,
     type,
     onClose,
+    anchorName,
 }: DateTimePickerPopupProps) {
     const [currentDate, setCurrentDate] = useState(new Date())
     const [timeInput, setTimeInput] = useState({
@@ -218,7 +220,16 @@ export default function DateTimePickerPopup({
     }
 
     return (
-        <div className='absolute top-full left-0 z-50 mt-1 bg-login-600 border border-login-500 rounded-md shadow-lg p-1 min-w-70'>
+        <div 
+            className='fixed z-50 bg-login-600 border border-login-500 rounded-md shadow-lg p-1 min-w-70 anchor-popup'
+            style={{
+                positionAnchor: anchorName,
+                positionArea: 'bottom span-right',
+                insetArea: 'bottom span-right',
+                positionTryFallbacks: 'flip-block',
+                margin: '0.25rem 0',
+            } as React.CSSProperties}
+        >
             {type !== 'time' && renderCalendar()}
             {(type === 'time' || type === 'datetime-local') && renderTimePicker()}
         </div>

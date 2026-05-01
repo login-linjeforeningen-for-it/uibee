@@ -142,7 +142,7 @@ function HuePicker({ hue, onChange }) {
                     top-1/2 pointer-events-none
                 `, style: { left: `${(hue / 360) * 100}%` } }) }));
 }
-export default function ColorPickerPopup({ value, onChange, onClose }) {
+export default function ColorPickerPopup({ value, onChange, onClose, anchorName }) {
     const [hsv, setHsv] = useState(() => hexToHsv(value || '#000000'));
     const [hexInput, setHexInput] = useState(value || '#000000');
     useEffect(() => {
@@ -168,7 +168,13 @@ export default function ColorPickerPopup({ value, onChange, onClose }) {
             onChange(val);
         }
     }
-    return (_jsxs("div", { className: 'absolute top-full left-0 mt-1 z-50 bg-login-600 border border-login-500 rounded-md shadow-lg p-3 w-64 select-none', children: [_jsx(SaturationPicker, { hsv: hsv, onChange: handleSaturationChange }), _jsx(HuePicker, { hue: hsv.h, onChange: handleHueChange }), _jsxs("div", { className: 'flex items-center gap-2 mb-3', children: [_jsx("div", { className: 'text-xs text-login-200 font-mono', children: "HEX" }), _jsx("input", { type: 'text', value: hexInput, onChange: manualHexChange, className: `
+    return (_jsxs("div", { className: 'fixed z-50 bg-login-600 border border-login-500 rounded-md shadow-lg p-3 w-64 select-none anchor-popup', style: {
+            positionAnchor: anchorName,
+            positionArea: 'bottom span-right',
+            insetArea: 'bottom span-right',
+            positionTryFallbacks: 'flip-block',
+            margin: '0.25rem 0',
+        }, children: [_jsx(SaturationPicker, { hsv: hsv, onChange: handleSaturationChange }), _jsx(HuePicker, { hue: hsv.h, onChange: handleHueChange }), _jsxs("div", { className: 'flex items-center gap-2 mb-3', children: [_jsx("div", { className: 'text-xs text-login-200 font-mono', children: "HEX" }), _jsx("input", { type: 'text', value: hexInput, onChange: manualHexChange, className: `
                         flex-1 min-w-0 bg-login-500 border border-login-500 rounded
                         px-2 py-1 text-sm text-login-text focus:outline-none
                         focus:border-login focus:ring-1 focus:ring-login

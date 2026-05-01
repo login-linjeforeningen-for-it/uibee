@@ -333,6 +333,14 @@
   .end {
     inset-inline-end: var(--spacing);
   }
+  .anchor-popup {
+    top: 100%;
+    left: 0;
+    @supports (position-anchor: --foo) {
+      top: auto;
+      left: auto;
+    }
+  }
   .-top-3 {
     top: calc(var(--spacing) * -3);
   }
@@ -359,9 +367,6 @@
   }
   .top-16 {
     top: calc(var(--spacing) * 16);
-  }
-  .top-full {
-    top: 100%;
   }
   .right-0 {
     right: calc(var(--spacing) * 0);

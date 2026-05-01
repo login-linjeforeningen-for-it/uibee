@@ -6,7 +6,7 @@ const MONTHS = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
 ];
-export default function DateTimePickerPopup({ value, onChange, type, onClose, }) {
+export default function DateTimePickerPopup({ value, onChange, type, onClose, anchorName, }) {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [timeInput, setTimeInput] = useState({
         hours: value ? value.getHours().toString() : '0',
@@ -118,5 +118,11 @@ export default function DateTimePickerPopup({ value, onChange, type, onClose, })
                             border border-login-500 focus:border-login outline-none
                         ` })] })] }));
     }
-    return (_jsxs("div", { className: 'absolute top-full left-0 z-50 mt-1 bg-login-600 border border-login-500 rounded-md shadow-lg p-1 min-w-70', children: [type !== 'time' && renderCalendar(), (type === 'time' || type === 'datetime-local') && renderTimePicker()] }));
+    return (_jsxs("div", { className: 'fixed z-50 bg-login-600 border border-login-500 rounded-md shadow-lg p-1 min-w-70 anchor-popup', style: {
+            positionAnchor: anchorName,
+            positionArea: 'bottom span-right',
+            insetArea: 'bottom span-right',
+            positionTryFallbacks: 'flip-block',
+            margin: '0.25rem 0',
+        }, children: [type !== 'time' && renderCalendar(), (type === 'time' || type === 'datetime-local') && renderTimePicker()] }));
 }

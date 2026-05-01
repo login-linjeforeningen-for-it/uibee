@@ -205,6 +205,16 @@
     font-weight: 500;
 }
 
+@utility anchor-popup {
+    top: 100%;
+    left: 0;
+    
+    @supports (position-anchor: --foo) {
+        top: auto;
+        left: auto;
+    }
+}
+
 /* Hide default browser icons/buttons for inputs */
 input::-webkit-calendar-picker-indicator {
     display: none !important;

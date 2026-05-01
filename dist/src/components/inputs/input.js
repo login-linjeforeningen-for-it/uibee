@@ -1,5 +1,5 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { useRef, useState } from 'react';
+import { useRef, useState, useId } from 'react';
 import { Calendar, Clock } from 'lucide-react';
 import { FieldWrapper } from './shared';
 import DateTimePickerPopup from './shared/dateTimePickerPopup';
@@ -10,6 +10,8 @@ export default function Input(props) {
     const { type = 'text', value } = inputProps;
     const localRef = useRef(null);
     const [isOpen, setIsOpen] = useState(false);
+    const id = useId();
+    const anchorName = `--input-${id.replace(/:/g, '')}`;
     const containerRef = useClickOutside(() => setIsOpen(false));
     const isDateType = ['date', 'datetime-local', 'time'].includes(type);
     const isColorType = type === 'color';
@@ -108,7 +110,7 @@ export default function Input(props) {
     return (_jsx(FieldWrapper, { label: label, name: name, required: inputProps.required, info: info, error: error, description: description, textSize: textSize, className: className, children: _jsxs("div", { className: 'relative flex items-center', ref: containerRef, children: [displayIcon && (_jsx("div", { className: `
                             absolute left-3 text-login-200
                             ${isClickableType && !inputProps.disabled ? 'cursor-pointer hover:text-login-text' : 'pointer-events-none'}
-                        `, onClick: handleIconClick, children: displayIcon })), _jsx("input", { ...inputProps, ref: localRef, id: name, name: isClickableType ? undefined : name, type: isClickableType ? 'text' : type, value: isDateType ? getDateDisplayValue() : value, readOnly: isClickableType, onClick: () => isClickableType && !inputProps.disabled && setIsOpen(true), title: label, "aria-invalid": !!error, "aria-describedby": error ? `${name}-error` : undefined, className: `
+                        `, onClick: handleIconClick, children: displayIcon })), _jsx("input", { ...inputProps, ref: localRef, id: name, name: isClickableType ? undefined : name, type: isClickableType ? 'text' : type, value: isDateType ? getDateDisplayValue() : value, readOnly: isClickableType, onClick: () => isClickableType && !inputProps.disabled && setIsOpen(true), "aria-describedby": error ? `${name}-error` : undefined, style: { anchorName }, className: `
                         w-full rounded-md bg-login-500/50 border border-login-500 
                         text-login-text placeholder-login-200
                         focus:outline-none focus:border-login focus:ring-1 focus:ring-login
@@ -118,5 +120,5 @@ export default function Input(props) {
                         input-reset
                         ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}
                         ${isClickableType && !inputProps.disabled ? 'cursor-pointer' : ''}
-                    ` }), isClickableType && (_jsx("input", { type: 'hidden', name: name, value: value })), isOpen && isDateType && !inputProps.disabled && (_jsx(DateTimePickerPopup, { value: getDateValue(), onChange: handleDateChange, type: type, onClose: () => setIsOpen(false) })), isOpen && isColorType && !inputProps.disabled && (_jsx(ColorPickerPopup, { value: value || '', onChange: handleColorChange, onClose: () => setIsOpen(false) }))] }) }));
+                    ` }), isClickableType && (_jsx("input", { type: 'hidden', name: name, value: value })), isOpen && isDateType && !inputProps.disabled && (_jsx(DateTimePickerPopup, { value: getDateValue(), onChange: handleDateChange, type: type, onClose: () => setIsOpen(false), anchorName: anchorName })), isOpen && isColorType && !inputProps.disabled && (_jsx(ColorPickerPopup, { value: value || '', onChange: handleColorChange, onClose: () => setIsOpen(false), anchorName: anchorName }))] }) }));
 }

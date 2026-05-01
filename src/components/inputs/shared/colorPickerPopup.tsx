@@ -4,6 +4,7 @@ export type ColorPickerPopupProps = {
     value: string
     onChange: (color: string) => void
     onClose: () => void
+    anchorName?: string
 }
 
 function hexToHsv(hex: string): { h: number; s: number; v: number } {
@@ -159,7 +160,7 @@ function HuePicker({ hue, onChange }: { hue: number, onChange: (h: number) => vo
     )
 }
 
-export default function ColorPickerPopup({ value, onChange, onClose }: ColorPickerPopupProps): JSX.Element {
+export default function ColorPickerPopup({ value, onChange, onClose, anchorName }: ColorPickerPopupProps): JSX.Element {
     const [hsv, setHsv] = useState(() => hexToHsv(value || '#000000'))
     const [hexInput, setHexInput] = useState(value || '#000000')
 
@@ -191,7 +192,16 @@ export default function ColorPickerPopup({ value, onChange, onClose }: ColorPick
     }
 
     return (
-        <div className='absolute top-full left-0 mt-1 z-50 bg-login-600 border border-login-500 rounded-md shadow-lg p-3 w-64 select-none'>
+        <div 
+            className='fixed z-50 bg-login-600 border border-login-500 rounded-md shadow-lg p-3 w-64 select-none anchor-popup'
+            style={{
+                positionAnchor: anchorName,
+                positionArea: 'bottom span-right',
+                insetArea: 'bottom span-right',
+                positionTryFallbacks: 'flip-block',
+                margin: '0.25rem 0',
+            } as React.CSSProperties}
+        >
             <SaturationPicker hsv={hsv} onChange={handleSaturationChange} />
             <HuePicker hue={hsv.h} onChange={handleHueChange} />
 

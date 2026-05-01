@@ -1,4 +1,4 @@
-import { type ChangeEvent, type JSX, useRef, useState } from 'react'
+import { type ChangeEvent, type JSX, useRef, useState, useId } from 'react'
 import { Calendar, Clock } from 'lucide-react'
 import { FieldWrapper } from './shared'
 import DateTimePickerPopup from './shared/dateTimePickerPopup'
@@ -21,6 +21,8 @@ export default function Input(props: InputProps) {
     const { type = 'text', value } = inputProps
     const localRef = useRef<HTMLInputElement>(null)
     const [isOpen, setIsOpen] = useState(false)
+    const id = useId()
+    const anchorName = `--input-${id.replace(/:/g, '')}`
 
     const containerRef = useClickOutside<HTMLDivElement>(() => setIsOpen(false))
 
@@ -157,9 +159,8 @@ export default function Input(props: InputProps) {
                     value={isDateType ? getDateDisplayValue() : value}
                     readOnly={isClickableType}
                     onClick={() => isClickableType && !inputProps.disabled && setIsOpen(true)}
-                    title={label}
-                    aria-invalid={!!error}
                     aria-describedby={error ? `${name}-error` : undefined}
+                    style={{ anchorName } as any}
                     className={`
                         w-full rounded-md bg-login-500/50 border border-login-500 
                         text-login-text placeholder-login-200
@@ -181,6 +182,7 @@ export default function Input(props: InputProps) {
                         onChange={handleDateChange}
                         type={type as 'date' | 'time' | 'datetime-local'}
                         onClose={() => setIsOpen(false)}
+                        anchorName={anchorName}
                     />
                 )}
                 {isOpen && isColorType && !inputProps.disabled && (
@@ -188,6 +190,7 @@ export default function Input(props: InputProps) {
                         value={value as string || ''}
                         onChange={handleColorChange}
                         onClose={() => setIsOpen(false)}
+                        anchorName={anchorName}
                     />
                 )}
             </div>
