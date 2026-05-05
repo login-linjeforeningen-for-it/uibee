@@ -2,13 +2,19 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+function parseOrder(value) {
+    return value === 'asc' || value === 'desc' ? value : undefined;
+}
 export default function Header({ columns, hideMenu, variant = 'default' }) {
-    const [column, setColumn] = useState(columns[0]?.key || '');
-    const [order, setOrder] = useState('asc');
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
+    const [column, setColumn] = useState(searchParams.get('column') ?? '');
+    const [order, setOrder] = useState(parseOrder(searchParams.get('order')));
     useEffect(() => {
+        if (!column || !order) {
+            return;
+        }
         const params = new URLSearchParams(searchParams.toString());
         if (searchParams.get('order') !== order ||
             searchParams.get('column') !== column) {

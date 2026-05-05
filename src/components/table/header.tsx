@@ -9,14 +9,22 @@ type HeaderProps = {
     variant?: 'default' | 'minimal'
 }
 
+function parseOrder(value: string | null) {
+    return value === 'asc' || value === 'desc' ? value : undefined
+}
+
 export default function Header({ columns, hideMenu, variant = 'default' }: HeaderProps) {
-    const [column, setColumn] = useState(columns[0]?.key || '')
-    const [order, setOrder] = useState<'asc' | 'desc'>('asc')
     const router = useRouter()
     const pathname = usePathname()
     const searchParams = useSearchParams()
+    const [column, setColumn] = useState(searchParams.get('column') ?? '')
+    const [order, setOrder] = useState<'asc' | 'desc' | undefined>(parseOrder(searchParams.get('order')))
 
     useEffect(() => {
+        if (!column || !order) {
+            return
+        }
+
         const params = new URLSearchParams(searchParams.toString())
         if (
             searchParams.get('order') !== order ||
