@@ -46,7 +46,6 @@
     "glob": "^13.0.6",
     "postcss": "^8.5.10",
     "tailwindcss": "^4.2.2",
-    "ts-node": "^10.9.2",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.58.2"
   },
