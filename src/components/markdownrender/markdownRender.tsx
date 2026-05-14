@@ -1,14 +1,20 @@
-import Markdown from 'react-markdown'
+import Markdown, { Components } from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
-export default function MarkdownRender({MDstr}: {MDstr: string}) {
+const defaultComponents: Components = {
+    h1: ({...props}) => <h2 {...props} />,
+}
+
+export default function MarkdownRender({ MDstr, components, className }: {
+    MDstr: string
+    components?: Components
+    className?: string
+}) {
     return (
-        <div className='prose prose-sm prose-custom max-w-none'>
+        <div className={className ?? 'prose prose-sm prose-custom max-w-none'}>
             <Markdown
-                components={{ h1: ({...props}) => <h2 {...props} /> }}
-                remarkPlugins={
-                    [remarkGfm]
-                }
+                components={{ ...defaultComponents, ...components }}
+                remarkPlugins={[remarkGfm]}
             >
                 {MDstr.replace(/\\n/g, '\n')}
             </Markdown>
