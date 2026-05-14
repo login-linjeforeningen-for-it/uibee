@@ -1,6 +1,6 @@
 {
   "name": "uibee",
-  "version": "2.17.1",
+  "version": "2.17.2",
   "description": "Shared components, functions and hooks for reuse across Login projects",
   "homepage": "https://github.com/Login-Linjeforening-for-IT/uibee#readme",
   "bugs": {
@@ -53,6 +53,7 @@
     "lucide-react": "^1.8.0",
     "react-dom": "19.2.5",
     "react-markdown": "^10.1.0",
+    "rehype-highlight": "^7.0.2",
     "remark-gfm": "^4.0.1",
     "utilbee": "^1.4.5"
   }
