@@ -44,13 +44,15 @@ function makeDefaultComponents(): Components {
         },
     }}
 
-export default function MarkdownRender({ MDstr, components, className }: {
+export default function MarkdownRender({ MDstr, components, className, size }: {
     MDstr: string
     components?: Components
     className?: string
+    size?: 'sm' | 'base' | 'lg' | 'xl'
 }) {
+    const sizeClass = size === 'sm' ? 'prose-sm' : size === 'lg' ? 'prose-lg' : size === 'xl' ? 'prose-xl' : ''
     return (
-        <div className={className ?? 'prose prose-sm prose-custom max-w-none'}>
+        <div className={className ?? `prose ${sizeClass} prose-custom max-w-none`}>
             <Markdown
                 components={{ ...makeDefaultComponents(), ...components }}
                 remarkPlugins={[remarkGfm]}

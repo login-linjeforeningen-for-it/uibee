@@ -100,11 +100,12 @@
 }
 
 @utility prose-custom {
+    line-height: 24px;
     --tw-prose-body: var(--color-login-text);
     --tw-prose-headings: var(--color-login-text);
     --tw-prose-lead: var(--color-login-300);
     --tw-prose-links: var(--color-login);
-    --tw-prose-bold: var(--color-login-text);
+    --tw-prose-bold: #fff;
     --tw-prose-counters: var(--color-login);
     --tw-prose-bullets: var(--color-login);
     --tw-prose-hr: var(--color-login-300);
@@ -116,6 +117,16 @@
     --tw-prose-pre-bg: var(--color-login-900);
     --tw-prose-th-borders: var(--color-login-500);
     --tw-prose-td-borders: var(--color-login-500);
+
+    & p {
+        margin-top: 0.25rem;
+        margin-bottom: 0.75rem;
+    }
+
+    & li {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
 
     & ul:has(> li > span[data-task-checkbox]) {
         padding-left: 0;

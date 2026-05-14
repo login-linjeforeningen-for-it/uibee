@@ -20,6 +20,7 @@ function makeDefaultComponents() {
         },
     };
 }
-export default function MarkdownRender({ MDstr, components, className }) {
-    return (_jsx("div", { className: className ?? 'prose prose-sm prose-custom max-w-none', children: _jsx(Markdown, { components: { ...makeDefaultComponents(), ...components }, remarkPlugins: [remarkGfm], rehypePlugins: [rehypeHighlight], children: MDstr.replace(/\\n/g, '\n') }) }));
+export default function MarkdownRender({ MDstr, components, className, size }) {
+    const sizeClass = size === 'sm' ? 'prose-sm' : size === 'lg' ? 'prose-lg' : size === 'xl' ? 'prose-xl' : '';
+    return (_jsx("div", { className: className ?? `prose ${sizeClass} prose-custom max-w-none`, children: _jsx(Markdown, { components: { ...makeDefaultComponents(), ...components }, remarkPlugins: [remarkGfm], rehypePlugins: [rehypeHighlight], children: MDstr.replace(/\\n/g, '\n') }) }));
 }
