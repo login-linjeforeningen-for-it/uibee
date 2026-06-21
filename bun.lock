@@ -6,7 +6,7 @@
       "name": "uibee",
       "dependencies": {
         "lucide-react": "^1.21.0",
-        "react-dom": "19.2.5",
+        "react-dom": "^19.2.5",
         "react-markdown": "^10.1.0",
         "rehype-highlight": "^7.0.2",
         "remark-gfm": "^4.0.1",
@@ -17,7 +17,7 @@
         "@tailwindcss/postcss": "^4.3.1",
         "@tailwindcss/typography": "^0.5.20",
         "@types/node": "^25.9.3",
-        "@types/react": "19.2.14",
+        "@types/react": "^19.2.14",
         "@types/react-dom": "^19.2.3",
         "eslint": "^10.5.0",
         "glob": "^13.0.6",
