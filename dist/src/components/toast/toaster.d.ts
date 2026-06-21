@@ -6,4 +6,4 @@ export declare namespace toast {
     var warning: (message: string, duration?: number) => void;
     var error: (message: string, duration?: number) => void;
 }
-export default function Toaster(): import("react/jsx-runtime").JSX.Element;
+export default function Toaster(): import("react").JSX.Element;

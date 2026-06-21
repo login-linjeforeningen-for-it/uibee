@@ -10,5 +10,5 @@ type ToggleProps<T> = {
     left: ToggleOption<T>;
     right: ToggleOption<T>;
 };
-export default function Toggle<T>({ value, onChange, left, right, }: ToggleProps<T>): import("react/jsx-runtime").JSX.Element;
+export default function Toggle<T>({ value, onChange, left, right, }: ToggleProps<T>): import("react").JSX.Element;
 export {};

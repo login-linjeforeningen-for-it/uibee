@@ -9,4 +9,4 @@ export type InputProps = Omit<React.ComponentProps<'input'>, 'name'> & {
     description?: string;
     textSize?: 'sm' | 'md';
 };
-export default function Input(props: InputProps): import("react/jsx-runtime").JSX.Element;
+export default function Input(props: InputProps): JSX.Element;

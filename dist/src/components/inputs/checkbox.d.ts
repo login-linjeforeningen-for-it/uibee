@@ -14,4 +14,4 @@ export type CheckboxProps = Omit<React.ComponentProps<'input'>, 'name' | 'onChan
     onChange?: (value: (string | number)[]) => void;
     textSize?: 'sm' | 'md';
 };
-export default function Checkbox(props: CheckboxProps): import("react/jsx-runtime").JSX.Element;
+export default function Checkbox(props: CheckboxProps): import("react").JSX.Element;

@@ -4,5 +4,5 @@ type HeaderProps = {
     hideMenu?: boolean;
     variant?: 'default' | 'minimal';
 };
-export default function Header({ columns, hideMenu, variant }: HeaderProps): import("react/jsx-runtime").JSX.Element;
+export default function Header({ columns, hideMenu, variant }: HeaderProps): import("react").JSX.Element;
 export {};

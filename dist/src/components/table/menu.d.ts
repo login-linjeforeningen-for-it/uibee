@@ -14,4 +14,4 @@ export declare function MenuButton({ icon, text, hotKey, onClick, className, }: 
     hotKey?: string;
     onClick: () => void;
     className?: string;
-}): import("react/jsx-runtime").JSX.Element;
+}): React.JSX.Element;

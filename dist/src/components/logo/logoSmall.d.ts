@@ -1,1 +1,1 @@
-export default function LogoSmall(): import("react/jsx-runtime").JSX.Element;
+export default function LogoSmall(): import("react").JSX.Element;

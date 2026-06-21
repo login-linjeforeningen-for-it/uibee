@@ -1,5 +1,5 @@
 interface InputInfoProps {
     info: string;
 }
-export default function InputInfo({ info }: InputInfoProps): import("react/jsx-runtime").JSX.Element;
+export default function InputInfo({ info }: InputInfoProps): import("react").JSX.Element;
 export {};

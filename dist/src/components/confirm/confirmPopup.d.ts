@@ -8,5 +8,5 @@ type ConfirmPopupProps = {
     onCancel: () => void;
     variant?: 'danger' | 'warning' | 'default';
 };
-export default function ConfirmPopup({ isOpen, header, description, confirmText, cancelText, onConfirm, onCancel, variant, }: ConfirmPopupProps): import("react/jsx-runtime").JSX.Element | null;
+export default function ConfirmPopup({ isOpen, header, description, confirmText, cancelText, onConfirm, onCancel, variant, }: ConfirmPopupProps): import("react").JSX.Element | null;
 export {};

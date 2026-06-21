@@ -9,5 +9,5 @@ type ButtonProps = {
     onClick?: (_: object | string) => void;
     disabled?: boolean;
 };
-export default function Button({ text, className, icon, path, variant, type, onClick, disabled }: ButtonProps): import("react/jsx-runtime").JSX.Element;
+export default function Button({ text, className, icon, path, variant, type, onClick, disabled }: ButtonProps): JSX.Element;
 export {};

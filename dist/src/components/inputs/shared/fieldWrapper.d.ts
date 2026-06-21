@@ -10,5 +10,5 @@ interface FieldWrapperProps {
     children: ReactNode;
     className?: string;
 }
-export default function FieldWrapper({ label, name, required, info, error, description, textSize, children, className, }: FieldWrapperProps): import("react/jsx-runtime").JSX.Element;
+export default function FieldWrapper({ label, name, required, info, error, description, textSize, children, className, }: FieldWrapperProps): import("react").JSX.Element;
 export {};

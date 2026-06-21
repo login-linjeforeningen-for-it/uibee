@@ -11,5 +11,5 @@ type BodyProps = {
     variant?: 'default' | 'minimal';
     idKey?: string;
 };
-export default function Body({ list, columns, menuItems, redirectPath, variant, idKey }: BodyProps): import("react/jsx-runtime").JSX.Element;
+export default function Body({ list, columns, menuItems, redirectPath, variant, idKey }: BodyProps): React.JSX.Element;
 export {};

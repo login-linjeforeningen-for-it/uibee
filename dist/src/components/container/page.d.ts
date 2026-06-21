@@ -4,5 +4,5 @@ type PageContainerProps = {
     className?: string;
     innerClassName?: string;
 };
-export default function PageContainer({ title, children, className, innerClassName }: PageContainerProps): import("react/jsx-runtime").JSX.Element;
+export default function PageContainer({ title, children, className, innerClassName }: PageContainerProps): import("react").JSX.Element;
 export {};

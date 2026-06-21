@@ -10,5 +10,5 @@ type TableProps = {
     variant?: 'default' | 'minimal';
     idKey?: string;
 };
-export default function Table({ data, columns, menuItems, redirectPath, variant, idKey }: TableProps): import("react/jsx-runtime").JSX.Element;
+export default function Table({ data, columns, menuItems, redirectPath, variant, idKey }: TableProps): import("react").JSX.Element;
 export {};

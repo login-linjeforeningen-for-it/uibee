@@ -30,5 +30,5 @@ type BubbleContent = {
     hide: boolean;
     handleHide: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => void;
 };
-export default function Navbar({ children, bubble, className, disableLanguageToggle, disableThemeToggle, innerClassName, lang, loginPath, logoutPath, onlyLogo, profilePath, token }: NavbarProps): import("react/jsx-runtime").JSX.Element;
+export default function Navbar({ children, bubble, className, disableLanguageToggle, disableThemeToggle, innerClassName, lang, loginPath, logoutPath, onlyLogo, profilePath, token }: NavbarProps): React.JSX.Element;
 export {};

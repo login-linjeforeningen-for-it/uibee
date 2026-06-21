@@ -8,4 +8,4 @@ export type NavItemProps = {
     title?: string;
     icon?: ReactNode;
 };
-export default function NavItem({ href, children, external, target, rel, title, icon }: NavItemProps): import("react/jsx-runtime").JSX.Element;
+export default function NavItem({ href, children, external, target, rel, title, icon }: NavItemProps): import("react").JSX.Element;

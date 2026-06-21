@@ -10,5 +10,5 @@ type BubbleText = {
 };
 export default function Bubble({ bubble }: {
     bubble: BubbleText;
-}): import("react/jsx-runtime").JSX.Element | null;
+}): import("react").JSX.Element | null;
 export {};

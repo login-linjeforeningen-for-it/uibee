@@ -5,5 +5,5 @@ interface InputLabelProps {
     disabled?: boolean;
     className?: string;
 }
-export default function InputLabel({ label, name, required, disabled, className }: InputLabelProps): import("react/jsx-runtime").JSX.Element;
+export default function InputLabel({ label, name, required, disabled, className }: InputLabelProps): import("react").JSX.Element;
 export {};

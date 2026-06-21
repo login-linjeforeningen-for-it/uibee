@@ -5,5 +5,5 @@ type DateTimePickerPopupProps = {
     onClose?: () => void;
     anchorName?: string;
 };
-export default function DateTimePickerPopup({ value, onChange, type, onClose, anchorName, }: DateTimePickerPopupProps): import("react/jsx-runtime").JSX.Element;
+export default function DateTimePickerPopup({ value, onChange, type, onClose, anchorName, }: DateTimePickerPopupProps): import("react").JSX.Element;
 export {};

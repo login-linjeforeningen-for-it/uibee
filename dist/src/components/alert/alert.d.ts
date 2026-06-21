@@ -4,5 +4,5 @@ type AlertProps = {
     variant?: 'warning' | 'info';
     className?: string;
 };
-export default function Alert({ children, variant, className, }: AlertProps): import("react/jsx-runtime").JSX.Element;
+export default function Alert({ children, variant, className, }: AlertProps): import("react").JSX.Element;
 export {};

@@ -4,4 +4,4 @@ export default function MarkdownRender({ MDstr, components, className, size }: {
     components?: Components;
     className?: string;
     size?: 'sm' | 'base' | 'lg' | 'xl';
-}): import("react/jsx-runtime").JSX.Element;
+}): import("react").JSX.Element;

@@ -8,4 +8,4 @@ export type TextareaProps = Omit<React.ComponentProps<'textarea'>, 'name'> & {
     type?: 'markdown' | 'json' | 'text';
     textSize?: 'sm' | 'md';
 };
-export default function Textarea(props: TextareaProps): import("react/jsx-runtime").JSX.Element;
+export default function Textarea(props: TextareaProps): import("react").JSX.Element;
