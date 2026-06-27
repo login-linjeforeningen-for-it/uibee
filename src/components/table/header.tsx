@@ -47,7 +47,7 @@ export default function Header({ columns, hideMenu, variant = 'default' }: Heade
             block w-full
             ${variant === 'default' ? 'bg-login-700' : 'bg-transparent border-b border-login-600'}
         `}>
-            <tr className='flex w-full divide-x divide-transparent'>
+            <tr className='flex w-full'>
                 {columns.map((col) => {
                     const key = col.key
                     const value = col.label || (

@@ -13,13 +13,14 @@ export type RangeProps = Omit<React.ComponentProps<'input'>, 'name'> & {
 
 export default function Range(props: RangeProps) {
     const { name, label, error, className, info, description, showValue = true, textSize = 'sm', ...inputProps } = props
-    const { min = 0, max = 100, step = 1, value = 0 } = inputProps
+    const { min = 0, max = 100, step = 1, value, defaultValue, onChange, ...restInputProps } = inputProps
+    const displayValue = value ?? defaultValue ?? 0
 
     return (
         <FieldWrapper
             label={label}
             name={name}
-            required={inputProps.required}
+            required={restInputProps.required}
             info={info}
             description={description}
             error={error}
@@ -28,14 +29,14 @@ export default function Range(props: RangeProps) {
         >
             <div className='flex items-center gap-4'>
                 <input
-                    {...inputProps}
+                    {...restInputProps}
                     id={name}
                     name={name}
                     type='range'
                     min={min}
                     max={max}
                     step={step}
-                    value={value}
+                    {...(onChange ? { value, onChange } : { defaultValue: value ?? defaultValue ?? 0 })}
                     title={label}
                     aria-invalid={!!error}
                     aria-describedby={error ? `${name}-error` : undefined}
@@ -58,7 +59,7 @@ export default function Range(props: RangeProps) {
                 />
                 {showValue && (
                     <span className='text-login-text text-sm font-medium min-w-10 text-right'>
-                        {value}
+                        {displayValue}
                     </span>
                 )}
             </div>

@@ -21,10 +21,10 @@ export default function Table({ data, columns, menuItems, redirectPath, variant 
     return (
         <div className={`
             flex-1 flex flex-col min-h-0 overflow-x-auto overflow-y-hidden h-full w-full
-            ${variant === 'default' ? 'bg-login-500/50 rounded-lg shadow border border-login-600' : ''}
+            ${variant === 'default' ? 'bg-login-800 rounded-lg border border-login-600/30' : ''}
             ${variant === 'minimal' ? 'bg-transparent' : ''}
         `}>
-            <table className='min-w-full w-max divide-y divide-login-600 flex flex-col flex-1 min-h-0'>
+            <table className='min-w-full w-max divide-y divide-login-600/30 flex flex-col flex-1 min-h-0'>
                 <Header
                     columns={columns}
                     hideMenu={!menuItems}

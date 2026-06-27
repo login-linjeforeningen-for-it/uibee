@@ -10,7 +10,7 @@ export default function InputError({ error, id }: InputErrorProps) {
         <div className='h-4'>
             <span
                 id={id}
-                className='text-xs text-red-500 ml-1 truncate block'
+                className='text-xs text-red-400 ml-1 truncate block'
                 role='alert'
                 title={error}
             >

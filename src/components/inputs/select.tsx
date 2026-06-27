@@ -107,14 +107,14 @@ export default function Select({
                     aria-expanded={isOpen}
                     aria-labelledby={label ? undefined : name}
                     className={`
-                        w-full rounded-md bg-login-500/50 border border-login-500 
-                        text-login-text text-left
-                        focus:outline-none focus:border-login focus:ring-1 focus:ring-login
-                        disabled:opacity-50 disabled:cursor-not-allowed
-                        h-10.5 py-2 pl-3 pr-10
-                        transition-all duration-200
+                        w-full rounded-md bg-login-700 border border-login-500
+                        text-login-text text-left text-sm
+                        focus:outline-none focus:border-login/60 focus:ring-1 focus:ring-login/30
+                        disabled:opacity-40 disabled:cursor-not-allowed
+                        h-10 py-2 pl-3 pr-10
+                        transition-all duration-150
                         flex items-center justify-between
-                        ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}
+                        ${error ? 'border-red-500/70 focus:border-red-500/70 focus:ring-red-500/30' : ''}
                         ${!selectedOption ? 'text-login-200' : ''}
                     `}
                     title={label}
@@ -159,11 +159,11 @@ export default function Select({
 
                 {isOpen && (
                     <div className={`
-                        absolute z-50 w-full mt-1 bg-login-600 border border-login-500
-                        rounded-md shadow-lg max-h-60 overflow-hidden flex flex-col
+                        absolute z-50 w-full mt-1 bg-login-700 border border-login-500/50
+                        rounded-md shadow-xl max-h-60 overflow-hidden flex flex-col
                     `}>
                         {searchable && (
-                            <div className='p-2 sticky top-0 bg-login-600 border-b border-login-500 z-10'>
+                            <div className='p-2 sticky top-0 bg-login-700 border-b border-login-500/20 z-10'>
                                 <div className='relative'>
                                     <Search className='absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-login-200' />
                                     <input
@@ -173,9 +173,9 @@ export default function Select({
                                         placeholder='Search...'
                                         autoFocus
                                         className={`
-                                            w-full bg-login-500/50 border border-login-500 rounded-md 
-                                            py-1.5 pl-9 pr-3 text-sm text-login-text 
-                                            focus:outline-none focus:border-login focus:ring-1 focus:ring-login
+                                            w-full bg-login-600 border border-login-500/50 rounded-md
+                                            py-1.5 pl-9 pr-3 text-sm text-login-text
+                                            focus:outline-none focus:border-login/60 focus:ring-1 focus:ring-login/30
                                         `}
                                     />
                                 </div>
@@ -191,9 +191,9 @@ export default function Select({
                                                 onClick={() => handleSelect(option)}
                                                 className={`
                                                     w-full text-left px-3 py-2 text-sm
-                                                    hover:bg-login-500 transition-colors duration-150
+                                                    hover:bg-login-600 transition-colors duration-150
                                                     flex items-center gap-2
-                                                    ${selectedOption?.value === option.value ? 'bg-login-500 text-login': 'text-login-text'}
+                                                    ${selectedOption?.value === option.value ? 'bg-login/15 text-login' : 'text-login-text'}
                                                 `}
                                             >
                                                 {option.image && (

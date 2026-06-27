@@ -193,7 +193,7 @@ export default function ColorPickerPopup({ value, onChange, onClose, anchorName 
 
     return (
         <div 
-            className='fixed z-50 bg-login-600 border border-login-500 rounded-md shadow-lg p-3 w-64 select-none anchor-popup'
+            className='fixed z-50 bg-login-700 border border-login-500/50 rounded-md shadow-xl p-3 w-64 select-none anchor-popup'
             style={{
                 positionAnchor: anchorName,
                 positionArea: 'bottom span-right',
@@ -212,19 +212,19 @@ export default function ColorPickerPopup({ value, onChange, onClose, anchorName 
                     value={hexInput}
                     onChange={manualHexChange}
                     className={`
-                        flex-1 min-w-0 bg-login-500 border border-login-500 rounded
+                        flex-1 min-w-0 bg-login-600 border border-login-500/50 rounded
                         px-2 py-1 text-sm text-login-text focus:outline-none
-                        focus:border-login focus:ring-1 focus:ring-login
+                        focus:border-login/60 focus:ring-1 focus:ring-login/30
                     `}
                     spellCheck={false}
                 />
                 <div
-                    className='w-8 h-8 rounded border border-login-500 shrink-0'
+                    className='w-8 h-8 rounded border border-login-500/50 shrink-0'
                     style={{ backgroundColor: hexInput }}
                 />
             </div>
 
-            <div className='grid grid-cols-8 gap-1.5 pt-3 border-t border-login-500'>
+            <div className='grid grid-cols-8 gap-1.5 pt-3 border-t border-login-500/25'>
                 {PRESET_COLORS.map(color => (
                     <button
                         key={color}

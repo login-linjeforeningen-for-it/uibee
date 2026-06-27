@@ -85,13 +85,13 @@ function CheckboxItem(props: CheckboxItemProps) {
                     name={name}
                     type='checkbox'
                     className={`
-                        peer appearance-none rounded border border-login-500 bg-login-500/50
+                        peer appearance-none rounded border border-login-500 bg-login-700
                         checked:bg-login checked:border-login
-                        focus:outline-none focus:ring-2 focus:ring-login/50
-                        disabled:opacity-50 disabled:cursor-not-allowed
-                        cursor-pointer transition-all duration-200
+                        focus:outline-none focus:ring-1 focus:ring-login/30
+                        disabled:opacity-40 disabled:cursor-not-allowed
+                        cursor-pointer transition-all duration-150
                         w-5 h-5 absolute inset-0
-                        ${error ? 'border-red-500' : ''}
+                        ${error ? 'border-red-500/70' : ''}
                     `}
                 />
                 <Check

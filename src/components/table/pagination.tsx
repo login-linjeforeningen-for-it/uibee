@@ -121,8 +121,8 @@ export default function Pagination({
                     disabled={current <= 1}
                     className={`
                         flex items-center gap-2 p-1 rounded-lg
-                        bg-login-50/5 hover:bg-login-500 disabled:opacity-50
-                        border-[0.10rem] border-login-200 text-sm
+                        bg-login-700 hover:bg-login-600 disabled:opacity-40
+                        border border-login-500/50 text-sm transition-colors duration-150
                     `}
                 >
                     <ChevronLeft className='h-5 w-5' />
@@ -146,13 +146,11 @@ export default function Pagination({
                                     p === current ? 'page' : undefined
                                 }
                                 className={`
-                                    px-3 py-1 rounded-lg text-sm
-                                    border-[0.10rem] ${
-                            p === current
-                                ? 'bg-login-50/5 border-login-50'
-                                : `bg-login-50/0 border-login-200
-                                    'hover:bg-login-400`
-                            }
+                                    px-3 py-1 rounded-lg text-sm border transition-colors duration-150
+                                    ${p === current
+                                        ? 'bg-login text-white border-login'
+                                        : 'bg-login-700 border-login-500/50 hover:bg-login-600'
+                                    }
                                 `}
                             >
                                 {p}
@@ -166,9 +164,9 @@ export default function Pagination({
                     onClick={goNext}
                     disabled={current >= totalPages}
                     className={`
-                        flex items-center gap-2 p-1 rounded-lg bg-login-50/5
-                        hover:bg-login-500 disabled:opacity-50 select-none
-                        border-[0.10rem] border-login-200 text-sm
+                        flex items-center gap-2 p-1 rounded-lg select-none
+                        bg-login-700 hover:bg-login-600 disabled:opacity-40
+                        border border-login-500/50 text-sm transition-colors duration-150
                     `}
                 >
                     <ChevronRight className='h-5 w-5' />

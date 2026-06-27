@@ -18,16 +18,13 @@
   "exports": {
     "./hooks": "./dist/src/hooks/index.js",
     "./components": "./dist/src/components/index.js",
-    "./scripts": "./dist/src/scripts/index.js",
     "./utils": "./dist/src/utils/index.js",
     "./styles": "./dist/src/styles/index.js"
   },
   "scripts": {
-    "build:clean": "rm -rf dist",
-    "build:css": "node src/scripts/buildCss.ts",
-    "build:rewrite": "node dist/src/scripts/rewriteAlias.js",
-    "build:ts": "tsc --declaration",
-    "build": "npm run build:clean && npm run build:css && npm run build:ts && npm run build:rewrite",
+    "build:css": "bun src/scripts/buildCss.ts && mkdir -p dist/src/styles && echo \"import '../globals.css';\" > dist/src/styles/index.js && echo \"export {};\" > dist/src/styles/index.d.ts",
+    "build": "tsdown && bun run build:css",
+    "dev": "tsdown --watch",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src"
   },
@@ -37,8 +34,10 @@
   },
   "devDependencies": {
     "@stylistic/eslint-plugin": "^5.10.0",
+    "@tailwindcss/cli": "^4.3.1",
     "@tailwindcss/postcss": "^4.3.1",
     "@tailwindcss/typography": "^0.5.20",
+    "@tsdown/css": "^0.22.3",
     "@types/node": "^25.9.3",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
@@ -46,6 +45,7 @@
     "glob": "^13.0.6",
     "postcss": "^8.5.15",
     "tailwindcss": "^4.3.1",
+    "tsdown": "^0.22.3",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.61.1"
   },

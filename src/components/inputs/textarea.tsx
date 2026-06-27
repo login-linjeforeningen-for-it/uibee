@@ -31,8 +31,6 @@ export default function Textarea(props: TextareaProps) {
     const jsonError = type === 'json' && value ? isValidJson(value as string) : undefined
     const displayError = jsonError || error
 
-    console.log(value)
-
     return (
         <FieldWrapper
             label={label}
@@ -61,8 +59,8 @@ export default function Textarea(props: TextareaProps) {
                 {type === 'markdown' && preview && (
                     <div
                         className={`
-                            w-full rounded-md bg-login-500/50 border border-login-500 
-                            p-3 overflow-y-auto ${error ? 'border-red-500' : ''}
+                            w-full rounded-md bg-login-700 border border-login-500
+                            p-3 overflow-y-auto ${error ? 'border-red-500/70' : ''}
                         `}
                     >
                         <MarkdownRender MDstr={String(value || '')} />
@@ -79,14 +77,14 @@ export default function Textarea(props: TextareaProps) {
                     aria-describedby={error ? `${name}-error` : undefined}
                     className={`
                         ${type === 'markdown' && preview ? 'hidden' : ''}
-                        w-full rounded-md bg-login-500/50 border border-login-500 
-                        text-login-text placeholder-login-200
-                        focus:outline-none focus:border-login focus:ring-1 focus:ring-login
-                        disabled:opacity-50 disabled:cursor-not-allowed
+                        w-full rounded-md bg-login-700 border border-login-500
+                        text-login-text placeholder-login-200 text-sm
+                        focus:outline-none focus:border-login/60 focus:ring-1 focus:ring-login/30
+                        disabled:opacity-40 disabled:cursor-not-allowed
                         p-3 pr-10
-                        transition-all duration-200
+                        transition-all duration-150
                         resize-y
-                        ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}
+                        ${error ? 'border-red-500/70 focus:border-red-500/70 focus:ring-red-500/30' : ''}
                     `}
                 />
             </div>

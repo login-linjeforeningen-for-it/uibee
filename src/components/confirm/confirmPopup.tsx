@@ -25,12 +25,12 @@ export default function ConfirmPopup({
 }: ConfirmPopupProps) {
     if (!isOpen) return null
 
-    const confirmBg =
+    const confirmClass =
         variant === 'danger'
-            ? 'bg-red-700/80 outline-red-700 hover:bg-red-700'
+            ? 'bg-red-600 hover:brightness-110 text-white'
             : variant === 'warning'
-                ? 'bg-yellow-600/80 outline-yellow-600 hover:bg-yellow-600'
-                : 'bg-login/70 outline-login hover:bg-login/90'
+                ? 'bg-yellow-500 hover:brightness-110 text-black'
+                : 'bg-login hover:brightness-110 text-white'
 
     return (
         <div
@@ -40,7 +40,7 @@ export default function ConfirmPopup({
             className='fixed inset-0 z-50 flex items-center justify-center'
             onClick={onCancel}
         >
-            <div className='absolute inset-0 bg-black/60 backdrop-blur-sm' />
+            <div className='absolute inset-0 bg-black/50 backdrop-blur-sm' />
 
             <div
                 className='
@@ -50,35 +50,34 @@ export default function ConfirmPopup({
                 '
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className='flex items-center gap-3'>
+                <div className='flex items-start gap-3'>
                     {variant !== 'default' && (
                         <TriangleAlert
-                            className={`w-6 h-6 shrink-0 ${variant === 'danger' ? 'stroke-red-400' : 'stroke-yellow-400'}`}
+                            className={`w-5 h-5 shrink-0 mt-0.5 ${variant === 'danger' ? 'stroke-red-400' : 'stroke-yellow-400'}`}
                         />
                     )}
                     <h2
                         id='confirm-popup-header'
-                        className='text-login-50 text-lg font-bold leading-snug'
+                        className='text-login-50 text-base font-semibold leading-snug'
                     >
                         {header}
                     </h2>
                 </div>
 
                 {description && (
-                    <p className='text-login-100 text-sm leading-relaxed'>
+                    <p className='text-login-200 text-sm leading-relaxed'>
                         {description}
                     </p>
                 )}
 
-                <div className='flex justify-end gap-3 mt-1'>
+                <div className='flex justify-end gap-2 mt-1'>
                     <button
                         type='button'
                         onClick={onCancel}
                         className='
                             cursor-pointer px-4 py-1.5 rounded-md text-sm font-medium
-                            bg-login-500/60 text-login-50 outline outline-login-500/60
-                            hover:bg-login-500/90 focus:outline-none select-none
-                            transition-colors duration-150
+                            bg-login-600 hover:bg-login-500 text-login-100
+                            transition-colors duration-150 select-none
                         '
                     >
                         {cancelText}
@@ -88,10 +87,9 @@ export default function ConfirmPopup({
                         type='button'
                         onClick={onConfirm}
                         className={`
-                            cursor-pointer px-4 py-1.5 rounded-md text-sm font-bold
-                            text-white outline focus:outline-none select-none
-                            transition-colors duration-150
-                            ${confirmBg}
+                            cursor-pointer px-4 py-1.5 rounded-md text-sm font-medium
+                            transition-all duration-150 select-none
+                            ${confirmClass}
                         `}
                     >
                         {confirmText}

@@ -69,18 +69,17 @@ export default function TagInput({
         >
             <div
                 className={`
-                    flex flex-wrap gap-2 p-2 rounded-md bg-login-500/50 border border-login-500 
-                    text-login-text min-h-10.5
-                    focus-within:border-login focus-within:ring-1 focus-within:ring-login
-                    disabled:opacity-50 disabled:cursor-not-allowed
-                    transition-all duration-200
-                    ${error ? 'border-red-500 focus-within:border-red-500 focus-within:ring-red-500' : ''}
+                    flex flex-wrap gap-2 p-2 rounded-md bg-login-700 border border-login-500
+                    text-login-text min-h-10
+                    focus-within:border-login/60 focus-within:ring-1 focus-within:ring-login/30
+                    transition-all duration-150
+                    ${error ? 'border-red-500/70 focus-within:border-red-500/70 focus-within:ring-red-500/30' : ''}
                 `}
             >
                 {value.map((tag, index) => (
                     <span
                         key={index}
-                        className='flex items-center gap-1 px-2 py-1 bg-login rounded text-sm text-white'
+                        className='flex items-center gap-1 px-2 py-0.5 bg-login-600 text-login-100 border border-login-500 rounded text-sm'
                     >
                         {tag}
                         {!disabled && (

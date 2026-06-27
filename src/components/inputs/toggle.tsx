@@ -18,9 +18,9 @@ export default function Toggle<T>({
     left,
     right,
 }: ToggleProps<T>) {
-    const active = 'bg-login-200 text-login-950 shadow'
-    const idle = 'text-login-200 hover:bg-login-50/10 hover:text-login-50'
-    const base = 'flex items-center justify-center rounded-lg transition gap-1'
+    const active = 'bg-login text-white shadow-sm'
+    const idle = 'text-login-200 hover:text-login-50 hover:bg-login-500/50'
+    const base = 'flex items-center justify-center rounded-md px-3 h-7 transition-all duration-150 gap-1.5 text-sm'
 
     function renderContent(opt: ToggleOption<T>) {
         return (
@@ -35,13 +35,13 @@ export default function Toggle<T>({
     const isRightActive = value === right.value
 
     return (
-        <div className='flex items-center border rounded-lg border-login-100/10 bg-login-50/5 p-1'>
+        <div className='flex items-center bg-login-600/40 rounded-lg p-1 gap-0.5'>
             <button
                 type='button'
                 onClick={() => onChange(left.value)}
                 aria-label={left.label ?? left.text}
                 aria-pressed={isLeftActive}
-                className={`${base} px-2 h-7 ${isLeftActive ? active : idle}`}
+                className={`${base} ${isLeftActive ? active : idle}`}
             >
                 {renderContent(left)}
             </button>
@@ -51,7 +51,7 @@ export default function Toggle<T>({
                 onClick={() => onChange(right.value)}
                 aria-label={right.label ?? right.text}
                 aria-pressed={isRightActive}
-                className={`${base} px-2 h-7 ${isRightActive ? active : idle}`}
+                className={`${base} ${isRightActive ? active : idle}`}
             >
                 {renderContent(right)}
             </button>

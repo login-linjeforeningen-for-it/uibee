@@ -162,14 +162,14 @@ export default function Input(props: InputProps) {
                     aria-describedby={error ? `${name}-error` : undefined}
                     style={{ anchorName } as any}
                     className={`
-                        w-full rounded-md bg-login-500/50 border border-login-500 
-                        text-login-text placeholder-login-200
-                        focus:outline-none focus:border-login focus:ring-1 focus:ring-login
-                        disabled:opacity-50 disabled:cursor-not-allowed
-                        h-10.5 py-2 ${displayIcon ? 'pl-10 pr-3' : 'px-3'}
-                        transition-all duration-200
+                        w-full rounded-md bg-login-700 border border-login-500
+                        text-login-text placeholder-login-200 text-sm
+                        focus:outline-none focus:border-login/60 focus:ring-1 focus:ring-login/30
+                        disabled:opacity-40 disabled:cursor-not-allowed
+                        h-10 py-2 ${displayIcon ? 'pl-10 pr-3' : 'px-3'}
+                        transition-all duration-150
                         input-reset
-                        ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}
+                        ${error ? 'border-red-500/70 focus:border-red-500/70 focus:ring-red-500/30' : ''}
                         ${isClickableType && !inputProps.disabled ? 'cursor-pointer' : ''}
                     `}
                 />

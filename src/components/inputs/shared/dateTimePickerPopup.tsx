@@ -137,7 +137,7 @@ export default function DateTimePickerPopup({
                     onClick={() => handleDateSelect(i)}
                     className={`
                         w-8 h-8 flex items-center justify-center rounded-full text-sm
-                        hover:bg-login-500 transition-colors
+                        hover:bg-login-600 transition-colors
                         ${isSelected ? 'bg-login! text-white! hover:bg-login!' : ''}
                         ${!isSelected && isToday ? 'text-login! font-bold' : ''}
                         ${!isSelected && !isToday ? 'text-login-text!' : ''}
@@ -154,7 +154,7 @@ export default function DateTimePickerPopup({
                     <button
                         type='button'
                         onClick={() => setCurrentDate(new Date(year, month - 1))}
-                        className='p-1 hover:bg-login-500 rounded-full text-login-text'
+                        className='p-1 hover:bg-login-600 rounded-full text-login-text transition-colors'
                     >
                         <ChevronLeft className='w-4 h-4' />
                     </button>
@@ -164,7 +164,7 @@ export default function DateTimePickerPopup({
                     <button
                         type='button'
                         onClick={() => setCurrentDate(new Date(year, month + 1))}
-                        className='p-1 hover:bg-login-500 rounded-full text-login-text'
+                        className='p-1 hover:bg-login-600 rounded-full text-login-text transition-colors'
                     >
                         <ChevronRight className='w-4 h-4' />
                     </button>
@@ -185,7 +185,7 @@ export default function DateTimePickerPopup({
 
     function renderTimePicker() {
         return (
-            <div className='p-2 border-t border-login-500 flex justify-center gap-2'>
+            <div className='p-2 border-t border-login-500/25 flex justify-center gap-2'>
                 <div className='flex flex-col items-center'>
                     <label className='text-xs text-login-200 mb-1'>Hour</label>
                     <input
@@ -195,8 +195,8 @@ export default function DateTimePickerPopup({
                         onChange={(e) => onTimeInputChange('hours', e.target.value)}
                         onBlur={() => onTimeInputBlur('hours')}
                         className={`
-                            w-16 p-1 bg-login-500 rounded text-center text-login-text 
-                            border border-login-500 focus:border-login outline-none
+                            w-16 p-1 bg-login-600 rounded text-center text-login-text text-sm
+                            border border-login-500/50 focus:border-login/60 focus:ring-1 focus:ring-login/30 outline-none
                         `}
                     />
                 </div>
@@ -210,8 +210,8 @@ export default function DateTimePickerPopup({
                         onChange={(e) => onTimeInputChange('minutes', e.target.value)}
                         onBlur={() => onTimeInputBlur('minutes')}
                         className={`
-                            w-16 p-1 bg-login-500 rounded text-center text-login-text 
-                            border border-login-500 focus:border-login outline-none
+                            w-16 p-1 bg-login-600 rounded text-center text-login-text text-sm
+                            border border-login-500/50 focus:border-login/60 focus:ring-1 focus:ring-login/30 outline-none
                         `}
                     />
                 </div>
@@ -221,7 +221,7 @@ export default function DateTimePickerPopup({
 
     return (
         <div 
-            className='fixed z-50 bg-login-600 border border-login-500 rounded-md shadow-lg p-1 min-w-70 anchor-popup'
+            className='fixed z-50 bg-login-700 border border-login-500/50 rounded-md shadow-xl p-1 min-w-70 anchor-popup'
             style={{
                 positionAnchor: anchorName,
                 positionArea: 'bottom span-right',

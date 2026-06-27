@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
-import { CircleAlert, TriangleAlert, Info } from 'lucide-react'
+import { CircleAlert, Info } from 'lucide-react'
+import LeftBarPanel from '@components/container/leftBarPanel'
 
 type AlertProps = {
     children: ReactNode
@@ -7,29 +8,30 @@ type AlertProps = {
     className?: string
 }
 
+const styles = {
+    warning: {
+        color: 'border-l-red-500',
+        iconClass: 'w-4 h-4 shrink-0 stroke-red-400 mr-3 mt-0.5',
+        Icon: CircleAlert,
+    },
+    info: {
+        color: 'border-l-blue-500',
+        iconClass: 'w-4 h-4 shrink-0 stroke-blue-400 mr-3 mt-0.5',
+        Icon: Info,
+    },
+}
+
 export default function Alert({
     children,
     variant = 'warning',
     className = '',
 }: AlertProps) {
-    const color = variant === 'warning' ? 'bg-red-900'
-        : variant === 'info' ? 'bg-blue-600' :
-            'bg-gray-900'
-
-    const Icon = variant === 'warning' ? CircleAlert
-        : variant === 'info' ? Info :
-            TriangleAlert
+    const { color, iconClass, Icon } = styles[variant] ?? styles.warning
 
     return (
-        <div
-            className={`
-                grid grid-cols-[min-content_auto] rounded-lg
-                p-[0.5em_1em_0.5em_0.8em] items-start w-fit text-white
-                ${color} ${className}
-            `}
-        >
-            <Icon className='w-8 h-8 mr-[0.3rem] stroke-login-50' />
-            <div className='self-center'>{children}</div>
-        </div>
+        <LeftBarPanel color={color} className={`flex items-start px-4 py-3 text-sm text-login-100 ${className}`}>
+            <Icon className={iconClass} />
+            <div className='leading-relaxed'>{children}</div>
+        </LeftBarPanel>
     )
 }

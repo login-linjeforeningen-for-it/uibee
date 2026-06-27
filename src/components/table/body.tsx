@@ -38,8 +38,8 @@ export default function Body({ list, columns, menuItems, redirectPath, variant =
         <tbody
             ref={tbodyRef}
             className={`
-                divide-login-600 block overflow-y-auto flex-1 min-h-0
-                ${variant === 'default' ? 'bg-login-500/50 divide-y' : 'bg-transparent divide-y'}
+                block overflow-y-auto flex-1 min-h-0 divide-y
+                ${variant === 'default' ? 'bg-login-800 divide-login-600/25' : 'bg-transparent divide-login-600/20'}
             `}
         >
             {list.map((item, index) => {
@@ -76,8 +76,8 @@ export default function Body({ list, columns, menuItems, redirectPath, variant =
                         className={`
                             flex w-full group/row transition-colors 
                             ${redirectConfig.path ? 'cursor-pointer' : ''}
-                            ${variant === 'default' && redirectConfig.path ? 'hover:bg-login-600/30' : ''}
-                            ${variant === 'minimal' ? 'hover:bg-white/5 border-b border-login-600/50 last:border-0' : ''}
+                            ${variant === 'default' && redirectConfig.path ? 'hover:bg-login-700/60' : ''}
+                            ${variant === 'minimal' ? 'hover:bg-login-700/40 border-b border-login-600/20 last:border-0' : ''}
                         `}
                         onMouseDown={() => {
                             menuWasOpenOnMouseDown.current = openMenuId !== null
@@ -135,9 +135,9 @@ export default function Body({ list, columns, menuItems, redirectPath, variant =
                                     `}
                                 >
                                     <div className='relative w-full min-w-0'>
-                                        <h1 className={`block max-w-full truncate ${badgeClass}`}>
+                                        <span className={`block max-w-full truncate ${badgeClass}`}>
                                             {formatValue(col.key, value as string | number)}
-                                        </h1>
+                                        </span>
                                     </div>
                                 </td>
                             )
