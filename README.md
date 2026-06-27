@@ -30,4 +30,5 @@ bun run build
 - `src/hooks/` - Custom React hooks
 - `src/utils/` - Utility functions
 - `src/types/` - Shared TypeScript type definitions
-- `src/globals.css` - Global styles
+- `src/styles/` - Global styles
+- `src/scripts/` - Build and utility scripts
