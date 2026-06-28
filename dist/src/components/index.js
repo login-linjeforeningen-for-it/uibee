@@ -1297,22 +1297,22 @@ function Switch(props) {
 		textSize,
 		className,
 		children: /* @__PURE__ */ jsxs("label", {
-			className: `relative inline-flex items-center cursor-pointer ${switchOnly ? "h-fit" : "h-10"}`,
+			className: `group/sw inline-flex items-center cursor-pointer ${switchOnly ? "h-fit" : "h-10"}`,
 			children: [/* @__PURE__ */ jsx("input", {
 				...inputProps,
 				type: "checkbox",
 				id: name,
 				name,
-				className: "sr-only peer"
-			}), /* @__PURE__ */ jsx("div", { className: `
-                    w-11 h-6 bg-login-600 rounded-full peer
-                    peer-checked:after:translate-x-full peer-checked:after:border-white
-                    after:content-[''] after:absolute ${switchOnly ? "after:top-0.5" : "after:top-2.75"} after:left-0.5
-                    after:bg-white after:border-gray-300 after:border after:rounded-full
-                    after:h-5 after:w-5 after:transition-all peer-checked:bg-login
+				className: "sr-only"
+			}), /* @__PURE__ */ jsx("div", {
+				className: `
+                    relative flex items-center w-11 h-6 rounded-full transition-colors
+                    bg-login-600 group-has-[input:checked]/sw:bg-login
                     ${inputProps.disabled ? "opacity-40 cursor-not-allowed" : ""}
                     ${error ? "ring-1 ring-red-500/60" : ""}
-                ` })]
+                `,
+				children: /* @__PURE__ */ jsx("span", { className: "absolute inset-y-0 my-auto left-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-all group-has-[input:checked]/sw:translate-x-full" })
+			})]
 		})
 	});
 }
@@ -2063,7 +2063,8 @@ function Footer({ logo, sponsor, columns, socialLinks, copyright, version, lang 
 					children: /* @__PURE__ */ jsx("div", {
 						className: "mx-auto mt-20 mb-12 flex w-fit flex-wrap justify-center gap-6",
 						children: socialLinks.map((link, i) => /* @__PURE__ */ jsx("a", {
-							className: `block size-8 text-login-100 transition-all duration-200 group ${link.hoverClass ?? "hover:text-login-50"}`,
+							className: `block size-8 text-login-100 transition-all duration-200 group
+                                        ${link.hoverClass ?? "hover:text-login-50"}`,
 							title: link.title,
 							href: link.href,
 							target: "_blank",
