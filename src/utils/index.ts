@@ -1,4 +1,4 @@
-export { LogoConsoleOutput } from './LogoConsoleOutput/LogoConsoleOutput'
+export { LogoConsoleOutput } from './logoConsoleOutput/logoConsoleOutput'
 
 // Auth
 export { default as authLogin } from './auth/login'

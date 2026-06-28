@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server.js";
 import { AuthCallbackProps, AuthLoginProps, AuthLogoutProps, AuthTokenProps } from "uibee/utils";
 
-//#region src/utils/LogoConsoleOutput/LogoConsoleOutput.d.ts
+//#region src/utils/logoConsoleOutput/logoConsoleOutput.d.ts
 declare function LogoConsoleOutput(): void;
 //#endregion
 //#region src/utils/auth/login.d.ts

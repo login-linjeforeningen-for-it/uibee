@@ -1,6 +1,6 @@
 {
   "name": "uibee",
-  "version": "2.17.5",
+  "version": "3.0.0",
   "description": "Shared components, functions and hooks for reuse across Login projects",
   "homepage": "https://github.com/Login-Linjeforening-for-IT/uibee#readme",
   "bugs": {
@@ -19,7 +19,8 @@
     "./hooks": "./dist/src/hooks/index.js",
     "./components": "./dist/src/components/index.js",
     "./utils": "./dist/src/utils/index.js",
-    "./styles": "./dist/src/styles/index.js"
+    "./styles": "./dist/src/styles/index.js",
+    "./icons": "./dist/src/icons/index.js"
   },
   "scripts": {
     "build:css": "bun src/scripts/buildCss.ts && mkdir -p dist/src/styles && echo \"import '../globals.css';\" > dist/src/styles/index.js && echo \"export {};\" > dist/src/styles/index.d.ts",

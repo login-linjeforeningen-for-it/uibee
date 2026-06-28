@@ -1,6 +1,6 @@
 'use client';
 import { NextResponse } from "next/server.js";
-//#region src/utils/LogoConsoleOutput/LogoConsoleOutput.ts
+//#region src/utils/logoConsoleOutput/logoConsoleOutput.ts
 function LogoConsoleOutput() {
 	const chromeStr = "%c███████╗                              ███████╗\n██╔════╝                              ╚════██║\n██║%c ██╗     ██████╗  ██████╗ ██╗███╗   ██╗ %c██║\n╚═╝%c ██║    ██╔═══██╗██╔════╝ ██║████╗  ██║ %c╚═╝%c\n    ██║    ██║   ██║██║  ███╗██║██╔██╗ ██║\n    ██║    ██║   ██║██║   ██║██║██║╚██╗██║\n%c██╗%c ██████╗╚██████╔╝╚██████╔╝██║██║ ╚████║ %c██╗\n██║%c ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═══╝ %c██║\n███████╗%c                              %c███████║\n╚══════╝                              ╚══════╝%c\n\n       - Laget av TekKom med 🍕 og ❤️";
 	const safariStr = "\n%c███████╗																											  ███████╗\n██╔═════╝																												╚════██║\n██║%c   ██╗				  ██████╗	 	 ╔██████╗	  ██╗    	 ███╗ 		   ██╗%c	  ██║\n  ╚═╝%c 	██║			  ██╔════██╗	 ██╔════╝	  ██║    	 ████╗	   ██║%c	   ╚═╝%c\n    		██║			  ██║			   ██║	 ██║	  ███╗    ██║		 ██╔██╗    ██║\n    		██║			  ██║			   ██║	 ██║		 ██║    ██║		 ██║╚██╗  ██║\n%c██╗%c   ██████╗	╚██████╝		 ╚██████╝	  ██║      ██║		 ╚███║ 	  %c██╗\n██║%c	  ╚═════╝		  ╚════╝				╚═════╝		   ╚═╝		 ╚═╝		  ╚═══╝		  %c██║\n███████╗%c																											 %c███████║\n   ╚══════╝																												╚══════╝%c\n\n													- Laget av TekKom med 🍕 og ❤️";
