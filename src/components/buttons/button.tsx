@@ -21,7 +21,9 @@ const variants = {
     info:      'bg-blue-600 text-white hover:brightness-110',
 }
 
-const base = 'cursor-pointer px-4 rounded-md h-9 flex items-center justify-center gap-2 select-none text-sm font-medium transition-all duration-150 w-fit'
+const base = 'cursor-pointer rounded-md h-9 flex items-center justify-center gap-2 select-none text-sm font-medium transition-all duration-150'
+const withText = 'px-4 w-fit'
+const iconOnly = 'w-9'
 const disabledCls = 'opacity-40 cursor-not-allowed pointer-events-none'
 
 const iconWrap = (icon: ButtonProps['icon']) =>
@@ -38,7 +40,8 @@ export default function Button({
     disabled,
 }: ButtonProps) {
     const color = variants[variant]
-    const cls = `${base} ${color} ${disabled ? disabledCls : ''} ${className || ''}`
+    const sizing = icon && !text ? iconOnly : withText
+    const cls = `${base} ${sizing} ${color} ${disabled ? disabledCls : ''} ${className || ''}`
 
     if (!path) {
         return (
@@ -65,7 +68,7 @@ export default function Button({
     }
 
     return (
-        <Link href={path} className={`${base} ${color} ${className || ''}`}>
+        <Link href={path} className={`${base} ${sizing} ${color} ${className || ''}`}>
             {iconWrap(icon)}
             {text}
         </Link>

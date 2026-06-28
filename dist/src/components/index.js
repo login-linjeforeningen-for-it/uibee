@@ -2649,7 +2649,9 @@ const variants = {
 	success: "bg-green-600 text-white hover:brightness-110",
 	info: "bg-blue-600 text-white hover:brightness-110"
 };
-const base = "cursor-pointer px-4 rounded-md h-9 flex items-center justify-center gap-2 select-none text-sm font-medium transition-all duration-150 w-fit";
+const base = "cursor-pointer rounded-md h-9 flex items-center justify-center gap-2 select-none text-sm font-medium transition-all duration-150";
+const withText = "px-4 w-fit";
+const iconOnly = "w-9";
 const disabledCls = "opacity-40 cursor-not-allowed pointer-events-none";
 const iconWrap = (icon) => icon ? /* @__PURE__ */ jsx("span", {
 	className: "[&>svg]:w-4 [&>svg]:h-4 flex items-center",
@@ -2657,7 +2659,8 @@ const iconWrap = (icon) => icon ? /* @__PURE__ */ jsx("span", {
 }) : null;
 function Button({ text, className, icon, path, variant = "primary", type, onClick, disabled }) {
 	const color = variants[variant];
-	const cls = `${base} ${color} ${disabled ? disabledCls : ""} ${className || ""}`;
+	const sizing = icon && !text ? iconOnly : withText;
+	const cls = `${base} ${sizing} ${color} ${disabled ? disabledCls : ""} ${className || ""}`;
 	if (!path) return /* @__PURE__ */ jsxs("button", {
 		type: type || "button",
 		disabled,
@@ -2672,7 +2675,7 @@ function Button({ text, className, icon, path, variant = "primary", type, onClic
 	});
 	return /* @__PURE__ */ jsxs(Link, {
 		href: path,
-		className: `${base} ${color} ${className || ""}`,
+		className: `${base} ${sizing} ${color} ${className || ""}`,
 		children: [iconWrap(icon), text]
 	});
 }
