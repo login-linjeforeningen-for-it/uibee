@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
-import { useClickOutside } from '../../hooks'
+import useClickOutside from '../../hooks/useClickOutside'
 import { ChevronDown, X, Search } from 'lucide-react'
 import { FieldWrapper } from './shared'
 
@@ -63,7 +63,8 @@ export default function Select({
         setSelectedOption(options.find(opt => opt.value === value))
     }, [value, options])
 
-    const containerRef = useClickOutside<HTMLDivElement>(() => setIsOpen(false))
+    const containerRef = useRef<HTMLDivElement>(null)
+    useClickOutside(containerRef, () => setIsOpen(false))
 
     function handleSelect(option: Option) {
         if (disabled) return

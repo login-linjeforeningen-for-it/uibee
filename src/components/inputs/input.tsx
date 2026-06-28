@@ -24,7 +24,8 @@ export default function Input(props: InputProps) {
     const id = useId()
     const anchorName = `--input-${id.replace(/:/g, '')}`
 
-    const containerRef = useClickOutside<HTMLDivElement>(() => setIsOpen(false))
+    const containerRef = useRef<HTMLDivElement>(null)
+    useClickOutside(containerRef, () => setIsOpen(false))
 
     const isDateType = ['date', 'datetime-local', 'time'].includes(type as string)
     const isColorType = type === 'color'
@@ -38,11 +39,12 @@ export default function Input(props: InputProps) {
         }
     }
 
+    function pad(n: number) { return n.toString().padStart(2, '0') }
+
     function handleDateChange(date: Date) {
         const onChange = inputProps.onChange
         if (!onChange) return
 
-        const pad = (n: number) => n.toString().padStart(2, '0')
         const yyyy = date.getFullYear()
         const MM = pad(date.getMonth() + 1)
         const dd = pad(date.getDate())
@@ -109,10 +111,6 @@ export default function Input(props: InputProps) {
 
         const date = getDateValue()
         if (!date) return value as string
-
-        function pad(n: number) {
-            return n.toString().padStart(2, '0')
-        }
 
         const yyyy = date.getFullYear()
         const MM = pad(date.getMonth() + 1)

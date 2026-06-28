@@ -4,7 +4,7 @@ const ISODateTimeReg = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/
 const ISODateReg = /^\d{4}-\d{2}-\d{2}$/
 const ISOTimeReg = /^\d{2}:\d{2}(:\d{2})?$/
 
-const OsloTZ = { timeZone: 'Europe/Oslo', second: undefined } as const
+const OsloTZ = { timeZone: 'Europe/Oslo' } as const
 const OsloTime: Intl.DateTimeFormatOptions = { ...OsloTZ, hour: '2-digit', minute: '2-digit' }
 const OsloDateTime: Intl.DateTimeFormatOptions = { ...OsloTime, year: 'numeric', month: '2-digit', day: '2-digit' }
 

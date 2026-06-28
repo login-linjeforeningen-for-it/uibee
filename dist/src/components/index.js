@@ -1,5 +1,5 @@
-'use client';
-import { r as useClickOutside } from "../../hooks-Bdmy_ynD.js";
+"use client";
+import { t as useClickOutside } from "../../useClickOutside-Cmp-RsP3.js";
 import React, { createContext, useContext, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { AlertCircle, AlertTriangle, ArrowUpRight, Calendar, Check, CheckCircle, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, CircleAlert, CircleHelp, Clock, EllipsisVertical, ExternalLink, Eye, Globe, Info, LogIn, LogOut, Pencil, Search, TriangleAlert, User, X } from "lucide-react";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
@@ -649,7 +649,8 @@ function Input(props) {
 	const localRef = useRef(null);
 	const [isOpen, setIsOpen] = useState(false);
 	const anchorName = `--input-${useId().replace(/:/g, "")}`;
-	const containerRef = useClickOutside(() => setIsOpen(false));
+	const containerRef = useRef(null);
+	useClickOutside(containerRef, () => setIsOpen(false));
 	const isDateType = [
 		"date",
 		"datetime-local",
@@ -661,10 +662,12 @@ function Input(props) {
 		if (isClickableType && !inputProps.disabled) setIsOpen(!isOpen);
 		else if (localRef.current && !inputProps.disabled) localRef.current.focus();
 	}
+	function pad(n) {
+		return n.toString().padStart(2, "0");
+	}
 	function handleDateChange(date) {
 		const onChange = inputProps.onChange;
 		if (!onChange) return;
-		const pad = (n) => n.toString().padStart(2, "0");
 		const yyyy = date.getFullYear();
 		const MM = pad(date.getMonth() + 1);
 		const dd = pad(date.getDate());
@@ -709,9 +712,6 @@ function Input(props) {
 		if (!value || !isDateType) return value;
 		const date = getDateValue();
 		if (!date) return value;
-		function pad(n) {
-			return n.toString().padStart(2, "0");
-		}
 		const yyyy = date.getFullYear();
 		const MM = pad(date.getMonth() + 1);
 		const dd = pad(date.getDate());
@@ -971,7 +971,8 @@ function Select({ label, name, value, onChange, options, error, className, disab
 	useEffect(() => {
 		setSelectedOption(options.find((opt) => opt.value === value));
 	}, [value, options]);
-	const containerRef = useClickOutside(() => setIsOpen(false));
+	const containerRef = useRef(null);
+	useClickOutside(containerRef, () => setIsOpen(false));
 	function handleSelect(option) {
 		if (disabled) return;
 		setSelectedOption(option);
@@ -1183,6 +1184,7 @@ function TagInput({ label, name, value = [], onChange, placeholder = "Add...", e
 function MultiSelect({ label, name, options, value = [], onChange, placeholder = "Select…", error, className, disabled, required, info, description, textSize = "sm" }) {
 	const [open, setOpen] = useState(false);
 	const containerRef = useRef(null);
+	useClickOutside(containerRef, () => setOpen(false));
 	function toggleOption(optionValue) {
 		if (!onChange) return;
 		if (value.includes(optionValue)) onChange(value.filter((v) => v !== optionValue));
@@ -1192,13 +1194,6 @@ function MultiSelect({ label, name, options, value = [], onChange, placeholder =
 		if (!onChange) return;
 		onChange(value.filter((v) => v !== optionValue));
 	}
-	useEffect(() => {
-		function handleClickOutside(e) {
-			if (containerRef.current && !containerRef.current.contains(e.target)) setOpen(false);
-		}
-		document.addEventListener("mousedown", handleClickOutside);
-		return () => document.removeEventListener("mousedown", handleClickOutside);
-	}, []);
 	return /* @__PURE__ */ jsx(FieldWrapper, {
 		label,
 		name,
@@ -2683,10 +2678,7 @@ const nullableTimeKeys = [
 const ISODateTimeReg = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/;
 const ISODateReg = /^\d{4}-\d{2}-\d{2}$/;
 const ISOTimeReg = /^\d{2}:\d{2}(:\d{2})?$/;
-const OsloTZ = {
-	timeZone: "Europe/Oslo",
-	second: void 0
-};
+const OsloTZ = { timeZone: "Europe/Oslo" };
 const OsloTime = {
 	...OsloTZ,
 	hour: "2-digit",
@@ -2951,16 +2943,11 @@ function Pagination({ pageSize = 10, totalRows }) {
 	const searchParams = useSearchParams();
 	const rawPage = parseInt(searchParams.get("page") || "1", 10);
 	const [current, setCurrent] = useState(Math.max(1, Number.isNaN(rawPage) ? 1 : rawPage));
+	const totalPages = Math.max(1, Math.ceil(totalRows !== void 0 && pageSize > 0 ? totalRows / pageSize : 1));
 	useEffect(() => {
 		const raw = parseInt(searchParams.get("page") || "1", 10);
-		const p = Math.max(1, Number.isNaN(raw) ? 1 : raw);
-		const computedTotalPages = Math.max(1, Math.ceil(totalRows !== void 0 && pageSize > 0 ? totalRows / pageSize : 1));
-		setCurrent(Math.max(1, Math.min(computedTotalPages, p)));
-	}, [
-		searchParams,
-		totalRows,
-		pageSize
-	]);
+		setCurrent(Math.max(1, Math.min(totalPages, Math.max(1, Number.isNaN(raw) ? 1 : raw))));
+	}, [searchParams, totalPages]);
 	function updateQuery(p) {
 		const params = new URLSearchParams(searchParams.toString());
 		params.set("page", String(p));
@@ -2972,7 +2959,6 @@ function Pagination({ pageSize = 10, totalRows }) {
 		setCurrent(next);
 		updateQuery(next);
 	}
-	const totalPages = Math.max(1, Math.ceil(totalRows !== void 0 && pageSize > 0 ? totalRows / pageSize : 1));
 	function goNext() {
 		if (current >= totalPages) return;
 		const next = current + 1;

@@ -21,19 +21,16 @@ export default function Pagination({
     const initialPage = Math.max(1, Number.isNaN(rawPage) ? 1 : rawPage)
     const [current, setCurrent] = useState<number>(initialPage)
 
+    const totalPages = Math.max(
+        1,
+        Math.ceil(totalRows !== undefined && pageSize > 0 ? totalRows / pageSize : 1)
+    )
+
     useEffect(() => {
         const raw = parseInt(searchParams.get('page') || '1', 10)
         const p = Math.max(1, Number.isNaN(raw) ? 1 : raw)
-        const computedTotalPages = Math.max(
-            1,
-            Math.ceil(
-                totalRows !== undefined && pageSize > 0
-                    ? totalRows / pageSize
-                    : 1
-            )
-        )
-        setCurrent(Math.max(1, Math.min(computedTotalPages, p)))
-    }, [searchParams, totalRows, pageSize])
+        setCurrent(Math.max(1, Math.min(totalPages, p)))
+    }, [searchParams, totalPages])
 
     function updateQuery(p: number) {
         const params = new URLSearchParams(searchParams.toString())
@@ -47,15 +44,6 @@ export default function Pagination({
         setCurrent(next)
         updateQuery(next)
     }
-
-    const totalPages = Math.max(
-        1,
-        Math.ceil(
-            totalRows !== undefined && pageSize > 0
-                ? totalRows / pageSize
-                : 1
-        )
-    )
 
     function goNext() {
         if (current >= totalPages) return

@@ -1,4 +1,3 @@
-
 import { NextResponse } from "next/server.js";
 import { AuthCallbackProps, AuthLoginProps, AuthLogoutProps, AuthTokenProps } from "uibee/utils";
 

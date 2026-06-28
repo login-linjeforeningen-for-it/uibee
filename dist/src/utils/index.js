@@ -1,15 +1,12 @@
-'use client';
 import { NextResponse } from "next/server.js";
 //#region src/utils/logoConsoleOutput/logoConsoleOutput.ts
 function LogoConsoleOutput() {
-	const chromeStr = "%c███████╗                              ███████╗\n██╔════╝                              ╚════██║\n██║%c ██╗     ██████╗  ██████╗ ██╗███╗   ██╗ %c██║\n╚═╝%c ██║    ██╔═══██╗██╔════╝ ██║████╗  ██║ %c╚═╝%c\n    ██║    ██║   ██║██║  ███╗██║██╔██╗ ██║\n    ██║    ██║   ██║██║   ██║██║██║╚██╗██║\n%c██╗%c ██████╗╚██████╔╝╚██████╔╝██║██║ ╚████║ %c██╗\n██║%c ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═══╝ %c██║\n███████╗%c                              %c███████║\n╚══════╝                              ╚══════╝%c\n\n       - Laget av TekKom med 🍕 og ❤️";
-	const safariStr = "\n%c███████╗																											  ███████╗\n██╔═════╝																												╚════██║\n██║%c   ██╗				  ██████╗	 	 ╔██████╗	  ██╗    	 ███╗ 		   ██╗%c	  ██║\n  ╚═╝%c 	██║			  ██╔════██╗	 ██╔════╝	  ██║    	 ████╗	   ██║%c	   ╚═╝%c\n    		██║			  ██║			   ██║	 ██║	  ███╗    ██║		 ██╔██╗    ██║\n    		██║			  ██║			   ██║	 ██║		 ██║    ██║		 ██║╚██╗  ██║\n%c██╗%c   ██████╗	╚██████╝		 ╚██████╝	  ██║      ██║		 ╚███║ 	  %c██╗\n██║%c	  ╚═════╝		  ╚════╝				╚═════╝		   ╚═╝		 ╚═╝		  ╚═══╝		  %c██║\n███████╗%c																											 %c███████║\n   ╚══════╝																												╚══════╝%c\n\n													- Laget av TekKom med 🍕 og ❤️";
-	let str = "";
-	if (navigator.userAgent.indexOf("Chrome") != -1) str = chromeStr;
-	else if (navigator.userAgent.indexOf("Firefox") != -1) str = chromeStr;
-	else if (navigator.userAgent.indexOf("Safari") != -1) str = safariStr;
-	else return console.log("Login - Linjeforeningen for IT");
-	console.log(str, "color: #fd8738", "", "color: #fd8738", "", "color: #fd8738", "", "color: #fd8738", "", "color: #fd8738", "", "color: #fd8738", "", "color: #fd8738", "");
+	const ua = navigator.userAgent;
+	if (!ua.includes("Chrome") && !ua.includes("Firefox") && !ua.includes("Safari")) {
+		console.log("Login - Linjeforeningen for IT");
+		return;
+	}
+	console.log("%c███████╗                              ███████╗\n██╔════╝                              ╚════██║\n██║%c ██╗     ██████╗  ██████╗ ██╗███╗   ██╗ %c██║\n╚═╝%c ██║    ██╔═══██╗██╔════╝ ██║████╗  ██║ %c╚═╝%c\n    ██║    ██║   ██║██║  ███╗██║██╔██╗ ██║\n    ██║    ██║   ██║██║   ██║██║██║╚██╗██║\n%c██╗%c ██████╗╚██████╔╝╚██████╔╝██║██║ ╚████║ %c██╗\n██║%c ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═══╝ %c██║\n███████╗%c                              %c███████║\n╚══════╝                              ╚══════╝%c\n\n       - Laget av TekKom med 🍕 og ❤️", "color: #fd8738", "", "color: #fd8738", "", "color: #fd8738", "", "color: #fd8738", "", "color: #fd8738", "", "color: #fd8738", "", "color: #fd8738", "");
 }
 //#endregion
 //#region src/utils/auth/getDomain.ts

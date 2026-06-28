@@ -1,8 +1,9 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useState, useRef } from 'react'
 import { X, ChevronDown, Check } from 'lucide-react'
 import { FieldWrapper } from './shared'
+import useClickOutside from '../../hooks/useClickOutside'
 
 type Option = {
     label: string
@@ -42,6 +43,7 @@ export default function MultiSelect({
 }: MultiSelectProps) {
     const [open, setOpen] = useState(false)
     const containerRef = useRef<HTMLDivElement>(null)
+    useClickOutside(containerRef, () => setOpen(false))
 
     function toggleOption(optionValue: string) {
         if (!onChange) return
@@ -57,15 +59,6 @@ export default function MultiSelect({
         onChange(value.filter((v) => v !== optionValue))
     }
 
-    useEffect(() => {
-        function handleClickOutside(e: MouseEvent) {
-            if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-                setOpen(false)
-            }
-        }
-        document.addEventListener('mousedown', handleClickOutside)
-        return () => document.removeEventListener('mousedown', handleClickOutside)
-    }, [])
 
     return (
         <FieldWrapper
