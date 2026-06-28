@@ -59,7 +59,7 @@ export default function SearchInput({ placeholder = 'Search...', variant = 'defa
             </div>
         )
     } else {
-        <Input
+        return <Input
             name='search'
             icon={<Search className='w-5 h-5' />}
             value={searchValue}

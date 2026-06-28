@@ -23,7 +23,7 @@ interface SearchInputProps {
 declare function SearchInput({
   placeholder,
   variant
-}: SearchInputProps): import("react").JSX.Element | undefined;
+}: SearchInputProps): import("react").JSX.Element;
 //#endregion
 //#region src/components/inputs/textarea.d.ts
 type TextareaProps = Omit<React.ComponentProps<'textarea'>, 'name'> & {
@@ -672,8 +672,10 @@ declare function ConfirmPopup({
   variant
 }: ConfirmPopupProps): import("react").JSX.Element | null;
 //#endregion
-//#region src/components/vulnerability/severityPill.d.ts
+//#region src/components/vulnerability/constants.d.ts
 type SeverityLevel = 'critical' | 'high' | 'medium' | 'low' | 'unknown';
+//#endregion
+//#region src/components/vulnerability/severityPill.d.ts
 type SeverityPillProps = {
   severity: SeverityLevel;
   count: number;
