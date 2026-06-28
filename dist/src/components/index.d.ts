@@ -408,15 +408,15 @@ declare function LeftBarPanel({
   className
 }: LeftBarPanelProps): import("react").JSX.Element;
 //#endregion
-//#region src/components/container/glassCard.d.ts
-type GlassCardProps = {
+//#region src/components/container/card.d.ts
+type CardProps = {
   children: ReactNode;
   className?: string;
 };
-declare function GlassCard({
+declare function Card({
   children,
   className
-}: GlassCardProps): import("react").JSX.Element;
+}: CardProps): import("react").JSX.Element;
 //#endregion
 //#region src/components/container/iconBubble.d.ts
 declare const tones: {
@@ -703,4 +703,4 @@ declare function Toggle<T>({
   right
 }: ToggleProps<T>): import("react").JSX.Element;
 //#endregion
-export { Accordion, AccordionGroup, Alert, type BilingualString, Button, Checkbox, ConfirmPopup, Footer, type FooterColumn, type FooterProps, type FooterSocialLink, type FooterSocialLink as LoginSocialLinkData, GlassCard, Highlight, IconBubble, Input, type Lang, LanguageToggle, LeftBarPanel, LoginPage, Logo, LogoSmall, MarkdownRender, MenuButton, MultiSelect, NavDropdown, NavItem, Navbar, PageContainer, Pagination, PulseDot, Radio, Range, SearchInput, Select, SeverityPill, StatCard, Switch, TabPanel, Table, Tabs, TagInput, Textarea, ThemeToggle, Toaster, Toggle, VersionTag, loginAddress, loginCopyright, loginEmail, loginSocialLinks, loginSponsor, toast };
+export { Accordion, AccordionGroup, Alert, type BilingualString, Button, Card, Checkbox, ConfirmPopup, Footer, type FooterColumn, type FooterProps, type FooterSocialLink, type FooterSocialLink as LoginSocialLinkData, Highlight, IconBubble, Input, type Lang, LanguageToggle, LeftBarPanel, LoginPage, Logo, LogoSmall, MarkdownRender, MenuButton, MultiSelect, NavDropdown, NavItem, Navbar, PageContainer, Pagination, PulseDot, Radio, Range, SearchInput, Select, SeverityPill, StatCard, Switch, TabPanel, Table, Tabs, TagInput, Textarea, ThemeToggle, Toaster, Toggle, VersionTag, loginAddress, loginCopyright, loginEmail, loginSocialLinks, loginSponsor, toast };

@@ -2257,10 +2257,10 @@ function LeftBarPanel({ color, children, className = "" }) {
 	});
 }
 //#endregion
-//#region src/components/container/glassCard.tsx
-function GlassCard({ children, className = "" }) {
+//#region src/components/container/card.tsx
+function Card({ children, className = "" }) {
 	return /* @__PURE__ */ jsx("section", {
-		className: `rounded-xl border border-login-500/30 bg-login-800 ${className}`,
+		className: `rounded-xl border border-login-500/30 bg-login-500/50 ${className}`,
 		children
 	});
 }
@@ -2286,7 +2286,7 @@ function IconBubble({ icon: Icon, tone = "slate", size = "md" }) {
 //#endregion
 //#region src/components/container/statCard.tsx
 function StatCard({ label, value, icon, tone = "slate" }) {
-	return /* @__PURE__ */ jsxs(GlassCard, {
+	return /* @__PURE__ */ jsxs(Card, {
 		className: "p-4",
 		children: [/* @__PURE__ */ jsxs("div", {
 			className: "mb-3 flex items-center gap-3",
@@ -3241,4 +3241,4 @@ function Toggle({ value, onChange, left, right }) {
 	});
 }
 //#endregion
-export { Accordion, AccordionGroup, Alert, Button, Checkbox, ConfirmPopup, Footer, GlassCard, Highlight, IconBubble, Input, LanguageToggle, LeftBarPanel, LoginPage, Logo, LogoSmall, MarkdownRender, MenuButton, MultiSelect, NavDropdown, NavItem, Navbar, PageContainer, Pagination, PulseDot, Radio, Range, SearchInput, Select, SeverityPill, StatCard, Switch, TabPanel, Table, Tabs, TagInput, Textarea, ThemeToggle, Toaster, Toggle, VersionTag, loginAddress, loginCopyright, loginEmail, loginSocialLinks, loginSponsor, toast };
+export { Accordion, AccordionGroup, Alert, Button, Card, Checkbox, ConfirmPopup, Footer, Highlight, IconBubble, Input, LanguageToggle, LeftBarPanel, LoginPage, Logo, LogoSmall, MarkdownRender, MenuButton, MultiSelect, NavDropdown, NavItem, Navbar, PageContainer, Pagination, PulseDot, Radio, Range, SearchInput, Select, SeverityPill, StatCard, Switch, TabPanel, Table, Tabs, TagInput, Textarea, ThemeToggle, Toaster, Toggle, VersionTag, loginAddress, loginCopyright, loginEmail, loginSocialLinks, loginSponsor, toast };
