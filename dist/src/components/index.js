@@ -825,14 +825,17 @@ function SearchInput({ placeholder = "Search...", variant = "default" }) {
 			className: "pl-10 pr-4 py-2 border-b outline-none w-64"
 		})]
 	});
-	else return /* @__PURE__ */ jsx(Input, {
-		name: "search",
-		icon: /* @__PURE__ */ jsx(Search, { className: "w-5 h-5" }),
-		value: searchValue,
-		onChange: handleChange,
-		onKeyDown: handleKeyDown,
-		onBlur: () => handleSearch(searchValue),
-		placeholder
+	else return /* @__PURE__ */ jsx("div", {
+		className: "w-fit min-w-48",
+		children: /* @__PURE__ */ jsx(Input, {
+			name: "search",
+			icon: /* @__PURE__ */ jsx(Search, { className: "w-5 h-5" }),
+			value: searchValue,
+			onChange: handleChange,
+			onKeyDown: handleKeyDown,
+			onBlur: () => handleSearch(searchValue),
+			placeholder
+		})
 	});
 }
 //#endregion

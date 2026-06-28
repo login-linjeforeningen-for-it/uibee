@@ -59,14 +59,18 @@ export default function SearchInput({ placeholder = 'Search...', variant = 'defa
             </div>
         )
     } else {
-        return <Input
-            name='search'
-            icon={<Search className='w-5 h-5' />}
-            value={searchValue}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-            onBlur={() => handleSearch(searchValue)}
-            placeholder={placeholder}
-        />
+        return (
+            <div className='w-fit min-w-48'>
+                <Input
+                    name='search'
+                    icon={<Search className='w-5 h-5' />}
+                    value={searchValue}
+                    onChange={handleChange}
+                    onKeyDown={handleKeyDown}
+                    onBlur={() => handleSearch(searchValue)}
+                    placeholder={placeholder}
+                />
+            </div>
+        )
     }
 }
