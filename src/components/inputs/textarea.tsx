@@ -59,7 +59,7 @@ export default function Textarea(props: TextareaProps) {
                 {type === 'markdown' && preview && (
                     <div
                         className={`
-                            w-full rounded-md bg-login-700 border border-login-500
+                            w-full rounded-md bg-login-500/50 border border-login-500
                             p-3 overflow-y-auto ${error ? 'border-red-500/70' : ''}
                         `}
                     >
@@ -77,7 +77,7 @@ export default function Textarea(props: TextareaProps) {
                     aria-describedby={error ? `${name}-error` : undefined}
                     className={`
                         ${type === 'markdown' && preview ? 'hidden' : ''}
-                        w-full rounded-md bg-login-700 border border-login-500
+                        w-full rounded-md bg-login-500/50 border border-login-500
                         text-login-text placeholder-login-200 text-sm
                         focus:outline-none focus:border-login/60 focus:ring-1 focus:ring-login/30
                         disabled:opacity-40 disabled:cursor-not-allowed

@@ -23,7 +23,7 @@
     "./icons": "./dist/src/icons/index.js"
   },
   "scripts": {
-    "build": "tsdown",
+    "build": "tsc --noEmit && tsdown",
     "dev": "tsdown --watch",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src"

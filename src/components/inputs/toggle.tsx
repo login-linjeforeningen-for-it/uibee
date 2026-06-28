@@ -35,7 +35,7 @@ export default function Toggle<T>({
     const isRightActive = value === right.value
 
     return (
-        <div className='flex items-center bg-login-600/40 rounded-lg p-1 gap-0.5'>
+        <div className='flex items-center w-fit bg-login-500/50 border border-login-500 rounded-lg p-1 gap-0.5'>
             <button
                 type='button'
                 onClick={() => onChange(left.value)}

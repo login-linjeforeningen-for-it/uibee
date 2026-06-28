@@ -33,7 +33,7 @@ export function Tabs({ tabs, defaultTab, activeTab: controlledTab, onTabChange, 
 
     return (
         <div className={className}>
-            <div className='flex gap-1 rounded-md bg-login-800 border border-login-500/40 p-1 w-fit'>
+            <div className='flex gap-1 rounded-md bg-login-500/50 border border-login-500/40 p-1 w-fit'>
                 {tabs.map((tab) => (
                     <button
                         key={tab.id}

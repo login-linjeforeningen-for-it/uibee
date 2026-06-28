@@ -160,7 +160,7 @@ export default function Input(props: InputProps) {
                     aria-describedby={error ? `${name}-error` : undefined}
                     style={{ anchorName } as any}
                     className={`
-                        w-full rounded-md bg-login-700 border border-login-500
+                        w-full rounded-md bg-login-500/50 border border-login-500
                         text-login-text placeholder-login-200 text-sm
                         focus:outline-none focus:border-login/60 focus:ring-1 focus:ring-login/30
                         disabled:opacity-40 disabled:cursor-not-allowed

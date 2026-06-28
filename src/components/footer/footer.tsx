@@ -13,6 +13,7 @@ export type FooterSocialLink = {
     title: string
     href: string
     icon: ReactNode
+    hoverClass?: string
 }
 
 export type FooterProps = {
@@ -21,7 +22,7 @@ export type FooterProps = {
     columns?: FooterColumn[]
     socialLinks?: FooterSocialLink[]
     copyright: BilingualString
-    version?: { label: string; href: string }
+    version?: { tag: string; href: string }
     lang?: Lang
     className?: string
 }
@@ -93,7 +94,8 @@ export default function Footer({
                             {socialLinks.map((link, i) => (
                                 <a
                                     key={i}
-                                    className='block size-8'
+                                    className={`block size-8 text-login-100 transition-all duration-200 group
+                                        ${link.hoverClass ?? 'hover:text-login-50'}`}
                                     title={link.title}
                                     href={link.href}
                                     target='_blank'
@@ -113,7 +115,7 @@ export default function Footer({
                         Copyright © {year} {t(copyright, lang)}
                     </p>
                     {version && (
-                        <VersionTag version={version.label} url={version.href} />
+                        <VersionTag version={version.tag} url={version.href} />
                     )}
                 </div>
             </div>

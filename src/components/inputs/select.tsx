@@ -108,7 +108,7 @@ export default function Select({
                     aria-expanded={isOpen}
                     aria-labelledby={label ? undefined : name}
                     className={`
-                        w-full rounded-md bg-login-700 border border-login-500
+                        w-full rounded-md bg-login-500/50 border border-login-500
                         text-login-text text-left text-sm
                         focus:outline-none focus:border-login/60 focus:ring-1 focus:ring-login/30
                         disabled:opacity-40 disabled:cursor-not-allowed

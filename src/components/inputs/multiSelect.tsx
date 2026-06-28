@@ -76,7 +76,7 @@ export default function MultiSelect({
                     onClick={() => !disabled && setOpen((o) => !o)}
                     className={`
                         flex min-h-10 cursor-pointer items-center justify-between gap-2
-                        rounded-md bg-login-700 border border-login-500 px-3 py-1.5
+                        rounded-md bg-login-500/50 border border-login-500 px-3 py-1.5
                         transition-all duration-150 select-none
                         ${open ? 'border-login/60 ring-1 ring-login/30' : ''}
                         ${error ? 'border-red-500/70' : ''}

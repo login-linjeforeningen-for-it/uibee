@@ -329,6 +329,7 @@ type FooterSocialLink = {
   title: string;
   href: string;
   icon: ReactNode;
+  hoverClass?: string;
 };
 type FooterProps = {
   logo: ReactNode;
@@ -340,7 +341,7 @@ type FooterProps = {
   socialLinks?: FooterSocialLink[];
   copyright: BilingualString;
   version?: {
-    label: string;
+    tag: string;
     href: string;
   };
   lang?: Lang;
@@ -370,12 +371,7 @@ declare const loginSponsor: {
     readonly en: "Main partner";
   };
 };
-type LoginSocialLinkData = {
-  title: string;
-  href: string;
-  iconClass: string;
-};
-declare const loginSocialLinks: LoginSocialLinkData[];
+declare const loginSocialLinks: FooterSocialLink[];
 //#endregion
 //#region src/components/container/page.d.ts
 type PageContainerProps = {
@@ -707,4 +703,4 @@ declare function Toggle<T>({
   right
 }: ToggleProps<T>): import("react").JSX.Element;
 //#endregion
-export { Accordion, AccordionGroup, Alert, type BilingualString, Button, Checkbox, ConfirmPopup, Footer, type FooterColumn, type FooterProps, type FooterSocialLink, GlassCard, Highlight, IconBubble, Input, type Lang, LanguageToggle, LeftBarPanel, LoginPage, type LoginSocialLinkData, Logo, LogoSmall, MarkdownRender, MenuButton, MultiSelect, NavDropdown, NavItem, Navbar, PageContainer, Pagination, PulseDot, Radio, Range, SearchInput, Select, SeverityPill, StatCard, Switch, TabPanel, Table, Tabs, TagInput, Textarea, ThemeToggle, Toaster, Toggle, VersionTag, loginAddress, loginCopyright, loginEmail, loginSocialLinks, loginSponsor, toast };
+export { Accordion, AccordionGroup, Alert, type BilingualString, Button, Checkbox, ConfirmPopup, Footer, type FooterColumn, type FooterProps, type FooterSocialLink, type FooterSocialLink as LoginSocialLinkData, GlassCard, Highlight, IconBubble, Input, type Lang, LanguageToggle, LeftBarPanel, LoginPage, Logo, LogoSmall, MarkdownRender, MenuButton, MultiSelect, NavDropdown, NavItem, Navbar, PageContainer, Pagination, PulseDot, Radio, Range, SearchInput, Select, SeverityPill, StatCard, Switch, TabPanel, Table, Tabs, TagInput, Textarea, ThemeToggle, Toaster, Toggle, VersionTag, loginAddress, loginCopyright, loginEmail, loginSocialLinks, loginSponsor, toast };

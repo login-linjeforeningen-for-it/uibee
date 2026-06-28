@@ -76,7 +76,7 @@ function RadioItem(props: RadioItemProps) {
                     name={name}
                     type='radio'
                     className={`
-                        peer appearance-none rounded-full border border-login-500 bg-login-700
+                        peer appearance-none rounded-full border border-login-500 bg-login-500/50
                         checked:bg-login checked:border-login
                         focus:outline-none focus:ring-1 focus:ring-login/30
                         disabled:opacity-40 disabled:cursor-not-allowed

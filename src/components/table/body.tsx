@@ -76,8 +76,8 @@ export default function Body({ list, columns, menuItems, redirectPath, variant =
                         className={`
                             flex w-full group/row transition-colors 
                             ${redirectConfig.path ? 'cursor-pointer' : ''}
-                            ${variant === 'default' && redirectConfig.path ? 'hover:bg-login-700/60' : ''}
-                            ${variant === 'minimal' ? 'hover:bg-login-700/40 border-b border-login-600/20 last:border-0' : ''}
+                            ${variant === 'default' && redirectConfig.path ? 'hover:bg-login-600/80' : ''}
+                            ${variant === 'minimal' ? 'hover:bg-login-600/70 border-b border-login-600/20 last:border-0' : ''}
                         `}
                         onMouseDown={() => {
                             menuWasOpenOnMouseDown.current = openMenuId !== null
