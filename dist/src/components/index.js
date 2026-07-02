@@ -2735,7 +2735,7 @@ const VARIANT_THEAD = {
 };
 const VARIANT_HEAD_BG = {
 	original: "bg-login-700",
-	modern: "bg-login-900/95"
+	modern: ""
 };
 const VARIANT_HEAD_BORDER = {
 	original: "border-b border-login-600",

@@ -46,7 +46,6 @@ function Cell<T extends Record<string, unknown>>({
     variant: TableVariant
 }) {
     const value = row[col.key]
-    // Truncate: opt-in, only applied when col.truncate === true (needs an explicit col.width to bite).
     const shouldTruncate = col.truncate === true
     const align = col.align ?? 'left'
 
@@ -57,7 +56,6 @@ function Cell<T extends Record<string, unknown>>({
     let content: React.ReactNode
 
     if (col.render) {
-        // Custom renderer: caller is responsible for alignment
         content = col.render(value, row)
     } else if (col.highlight) {
         const colorName = col.highlight[String(value)] ?? col.highlight['default']
@@ -124,8 +122,6 @@ export default function Body<T extends Record<string, unknown>>({
 
     useEffect(() => {
         if (openMenuId === null) return
-        // The menu is anchored to viewport coords, so close it on any scroll (the scroll
-        // container is now an ancestor of the table). Capture phase since scroll doesn't bubble.
         document.addEventListener('scroll', closeMenu, true)
         return () => document.removeEventListener('scroll', closeMenu, true)
     }, [closeMenu, openMenuId])

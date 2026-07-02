@@ -459,72 +459,6 @@
   .col-start-3 {
     grid-column-start: 3;
   }
-  .container {
-    width: 100%;
-    @media (width >= 100px) {
-      max-width: 100px;
-    }
-    @media (width >= 200px) {
-      max-width: 200px;
-    }
-    @media (width >= 300px) {
-      max-width: 300px;
-    }
-    @media (width >= 350px) {
-      max-width: 350px;
-    }
-    @media (width >= 400px) {
-      max-width: 400px;
-    }
-    @media (width >= 432px) {
-      max-width: 432px;
-    }
-    @media (width >= 450px) {
-      max-width: 450px;
-    }
-    @media (width >= 500px) {
-      max-width: 500px;
-    }
-    @media (width >= 600px) {
-      max-width: 600px;
-    }
-    @media (width >= 700px) {
-      max-width: 700px;
-    }
-    @media (width >= 800px) {
-      max-width: 800px;
-    }
-    @media (width >= 900px) {
-      max-width: 900px;
-    }
-    @media (width >= 1000px) {
-      max-width: 1000px;
-    }
-    @media (width >= 1200px) {
-      max-width: 1200px;
-    }
-    @media (width >= 30rem) {
-      max-width: 30rem;
-    }
-    @media (width >= 40rem) {
-      max-width: 40rem;
-    }
-    @media (width >= 48rem) {
-      max-width: 48rem;
-    }
-    @media (width >= 64rem) {
-      max-width: 64rem;
-    }
-    @media (width >= 80rem) {
-      max-width: 80rem;
-    }
-    @media (width >= 100rem) {
-      max-width: 100rem;
-    }
-    @media (width >= 120rem) {
-      max-width: 120rem;
-    }
-  }
   .m-auto {
     margin: auto;
   }
@@ -2363,12 +2297,6 @@
     background-color: color-mix(in srgb, #121212 20%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-login-900) 20%, transparent);
-    }
-  }
-  .bg-login-900\/95 {
-    background-color: color-mix(in srgb, #121212 95%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-login-900) 95%, transparent);
     }
   }
   .bg-login-950 {

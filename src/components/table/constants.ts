@@ -34,11 +34,9 @@ export const VARIANT_THEAD: Record<TableVariant, string> = {
 
 export const VARIANT_HEAD_BG: Record<TableVariant, string> = {
     original: 'bg-login-700',
-    modern:   'bg-login-900/95',
+    modern:   '',
 }
 
-// Bottom border under the header cells (row dividers live on the cells, not the <tr>,
-// because native table rows don't render borders in border-separate mode).
 export const VARIANT_HEAD_BORDER: Record<TableVariant, string> = {
     original: 'border-b border-login-600',
     modern:   'border-b border-login-500/40',
