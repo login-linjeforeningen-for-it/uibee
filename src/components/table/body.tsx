@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect, useCallback, useMemo, type RefObjec
 import { useRouter } from 'next/navigation'
 import { EllipsisVertical, ChevronDown } from 'lucide-react'
 import type { Column, Density, TableVariant, MenuAnchor, TableShellProps } from './types'
-import { HIGHLIGHT, DENSITY_TD, VARIANT_TBODY, VARIANT_ROW_HOVER, VARIANT_ROW_STRIPED } from './constants'
+import { HIGHLIGHT, DENSITY_TD, VARIANT_TBODY, VARIANT_ROW_HOVER, VARIANT_ROW_STRIPED, VARIANT_ROW_BORDER } from './constants'
 import { formatValue } from './format'
 import { resolveId } from './utils'
 import Menu from './menu'
@@ -38,13 +38,15 @@ function Cell<T extends Record<string, unknown>>({
     col,
     row,
     density,
+    variant,
 }: {
     col: Column<T>
     row: T
     density: Density
+    variant: TableVariant
 }) {
     const value = row[col.key]
-    // Truncate: opt-in, only applied when col.truncate === true
+    // Truncate: opt-in, only applied when col.truncate === true (needs an explicit col.width to bite).
     const shouldTruncate = col.truncate === true
     const align = col.align ?? 'left'
 
@@ -84,16 +86,13 @@ function Cell<T extends Record<string, unknown>>({
 
     return (
         <td
-            style={col.width ? { width: col.width, flexShrink: 0 } : undefined}
+            style={col.width ? { width: col.width, maxWidth: col.width } : undefined}
             className={`
-                ${col.width ? '' : 'flex-1'} ${shouldTruncate ? 'min-w-0' : ''} flex items-center text-sm text-login-75
-                ${DENSITY_TD[density]}
+                align-middle text-sm text-login-75 ${wrapperAlign}
+                ${DENSITY_TD[density]} ${VARIANT_ROW_BORDER[variant]}
             `}
         >
-            {/* w-full fills the column; text-align handles alignment */}
-            <div className={`min-w-0 w-full ${wrapperAlign}`}>
-                {content}
-            </div>
+            {content}
         </td>
     )
 }
@@ -118,18 +117,18 @@ export default function Body<T extends Record<string, unknown>>({
     const [expandedId, setExpandedId] = useState<string | null>(null)
 
     const menuRef = useRef<HTMLDivElement>(null)
-    const tbodyRef = useRef<HTMLTableSectionElement>(null)
     const menuWasOpenOnMouseDown = useRef(false)
 
     const closeMenu = useCallback(() => setOpenMenuId(null), [])
     useClickOutside(menuRef as RefObject<HTMLElement>, closeMenu, openMenuId !== null)
 
     useEffect(() => {
-        const el = tbodyRef.current
-        if (!el) return
-        el.addEventListener('scroll', closeMenu)
-        return () => el.removeEventListener('scroll', closeMenu)
-    }, [closeMenu])
+        if (openMenuId === null) return
+        // The menu is anchored to viewport coords, so close it on any scroll (the scroll
+        // container is now an ancestor of the table). Capture phase since scroll doesn't bubble.
+        document.addEventListener('scroll', closeMenu, true)
+        return () => document.removeEventListener('scroll', closeMenu, true)
+    }, [closeMenu, openMenuId])
 
     function openMenu(id: string, coords: MenuAnchor) {
         setAnchor(coords)
@@ -149,10 +148,7 @@ export default function Body<T extends Record<string, unknown>>({
     const hasExpand = Boolean(renderExpandedRow)
 
     return (
-        <tbody
-            ref={tbodyRef}
-            className={`block overflow-y-auto flex-1 min-h-0 divide-y ${VARIANT_TBODY[variant]}`}
-        >
+        <tbody className={VARIANT_TBODY[variant]}>
             {data.map((row, rowIdx) => {
                 const id = resolveId(row as Record<string, unknown>, idKey as string | undefined, columns as Column<Record<string, unknown>>[])
                 const url = resolveRedirectUrl(redirectPath, row as Record<string, unknown>, id)
@@ -163,7 +159,7 @@ export default function Body<T extends Record<string, unknown>>({
                 const expandedContent = renderExpandedRow?.(row)
 
                 const rowClass = [
-                    'flex w-full transition-colors duration-100',
+                    'transition-colors duration-100',
                     isClickable ? 'cursor-pointer' : '',
                     VARIANT_ROW_HOVER[variant],
                     striped ? VARIANT_ROW_STRIPED[variant] : '',
@@ -197,8 +193,9 @@ export default function Body<T extends Record<string, unknown>>({
                             }}
                         >
                             {selectable && (
-                                <td className='flex items-center justify-center'
-                                    style={{ width: '3rem', minWidth: '3rem', flexShrink: 0 }}>
+                                <td className={`align-middle ${VARIANT_ROW_BORDER[variant]}`}
+                                    style={{ width: '3rem', minWidth: '3rem' }}>
+                                  <div className='flex items-center justify-center'>
                                     <button
                                         type='button'
                                         aria-label={isSelected ? 'Deselect row' : 'Select row'}
@@ -219,27 +216,30 @@ export default function Body<T extends Record<string, unknown>>({
                                             </svg>
                                         )}
                                     </button>
+                                  </div>
                                 </td>
                             )}
 
                             {columns.map((col) => (
-                                <Cell key={col.key} col={col} row={row} density={density} />
+                                <Cell key={col.key} col={col} row={row} density={density} variant={variant} />
                             ))}
 
                             {hasExpand && (
-                                <td className='flex items-center justify-center'
-                                    style={{ width: '2.5rem', minWidth: '2.5rem', flexShrink: 0 }}>
+                                <td className={`align-middle ${VARIANT_ROW_BORDER[variant]}`}
+                                    style={{ width: '2.5rem', minWidth: '2.5rem' }}>
+                                  <div className='flex items-center justify-center'>
                                     <ChevronDown className={`
                                         h-4 w-4 transition-transform duration-200
                                         ${isExpanded ? 'rotate-180 text-login' : 'text-login-400'}
                                     `} />
+                                  </div>
                                 </td>
                             )}
 
                             {hasMenu && (
-                                <td className='flex items-center justify-end pr-3'
-                                    style={{ width: '3.5rem', minWidth: '3.5rem', flexShrink: 0 }}>
-                                    <div className='relative'>
+                                <td className={`align-middle pr-3 ${VARIANT_ROW_BORDER[variant]}`}
+                                    style={{ width: '3.5rem', minWidth: '3.5rem' }}>
+                                    <div className='relative flex items-center justify-end'>
                                         <button
                                             type='button'
                                             aria-label='Row actions'
@@ -276,9 +276,10 @@ export default function Body<T extends Record<string, unknown>>({
                         </tr>
 
                         {hasExpand && isExpanded && (
-                            <tr className='flex w-full bg-login-700/25 border-b border-login-600/20'>
+                            <tr className='bg-login-700/25'>
                                 <td
-                                    className='w-full px-6 py-4'
+                                    colSpan={999}
+                                    className='px-6 py-4 border-b border-login-600/20'
                                     onClick={(e) => e.stopPropagation()}
                                 >
                                     {expandedContent}

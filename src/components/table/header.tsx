@@ -2,7 +2,7 @@
 
 import { ChevronUp, ChevronDown, ChevronsUpDown } from 'lucide-react'
 import type { Column, SortState, Density, TableVariant } from './types'
-import { DENSITY_TH, VARIANT_THEAD, VARIANT_THEAD_TH } from './constants'
+import { DENSITY_TH, VARIANT_THEAD, VARIANT_THEAD_TH, VARIANT_HEAD_BORDER, VARIANT_HEAD_BG } from './constants'
 
 type HeaderProps<T extends Record<string, unknown>> = {
     columns: Column<T>[]
@@ -43,12 +43,13 @@ export default function Header<T extends Record<string, unknown>>({
     }
 
     return (
-        <thead className={`block w-full sticky top-0 z-10 ${VARIANT_THEAD[variant]}`}>
-            <tr className='flex w-full'>
+        <thead className={VARIANT_THEAD[variant]}>
+            <tr>
 
                 {hasSelect && (
-                    <th className='flex items-center justify-center'
-                        style={{ width: '3rem', minWidth: '3rem', flexShrink: 0 }}>
+                    <th className={`sticky top-0 z-10 ${VARIANT_HEAD_BG[variant]} ${VARIANT_HEAD_BORDER[variant]}`}
+                        style={{ width: '3rem', minWidth: '3rem' }}>
+                      <div className='flex items-center justify-center'>
                         <button
                             type='button'
                             aria-label={allSelected ? 'Deselect all' : 'Select all'}
@@ -70,6 +71,7 @@ export default function Header<T extends Record<string, unknown>>({
                                 </svg>
                             )}
                         </button>
+                      </div>
                     </th>
                 )}
 
@@ -88,9 +90,9 @@ export default function Header<T extends Record<string, unknown>>({
                         <th
                             key={col.key}
                             aria-sort={sortable ? ariaSort : undefined}
-                            style={col.width ? { width: col.width, flexShrink: 0 } : undefined}
+                            style={col.width ? { width: col.width } : undefined}
                             className={`
-                                ${col.width ? '' : 'flex-1'}
+                                sticky top-0 z-10 ${VARIANT_HEAD_BG[variant]} ${VARIANT_HEAD_BORDER[variant]}
                                 text-xs font-medium uppercase tracking-wider
                                 ${DENSITY_TH[density]} ${VARIANT_THEAD_TH[variant]}
                             `}
@@ -113,7 +115,7 @@ export default function Header<T extends Record<string, unknown>>({
                                     </span>
                                 </button>
                             ) : (
-                                <span className={`flex w-full ${alignClass}`}>
+                                <span className={`flex w-full whitespace-nowrap ${alignClass}`}>
                                     {formatLabel(col.key, col.label)}
                                 </span>
                             )}
@@ -122,9 +124,9 @@ export default function Header<T extends Record<string, unknown>>({
                 })}
 
                 {hasExpand && (
-                    <th className='flex items-center justify-center'
-                        style={{ width: '2.5rem', minWidth: '2.5rem', flexShrink: 0 }}>
-                        <span className={`text-xs font-medium tracking-wider uppercase opacity-50 ${VARIANT_THEAD_TH[variant]}`}>
+                    <th className={`sticky top-0 z-10 ${VARIANT_HEAD_BG[variant]} ${VARIANT_HEAD_BORDER[variant]}`}
+                        style={{ width: '2.5rem', minWidth: '2.5rem' }}>
+                        <span className={`flex items-center justify-center text-xs font-medium tracking-wider uppercase opacity-50 ${VARIANT_THEAD_TH[variant]}`}>
                             +
                         </span>
                     </th>
@@ -132,7 +134,8 @@ export default function Header<T extends Record<string, unknown>>({
 
                 {hasMenu && (
                     <th aria-hidden='true'
-                        style={{ width: '3.5rem', minWidth: '3.5rem', flexShrink: 0 }} />
+                        className={`sticky top-0 z-10 ${VARIANT_HEAD_BG[variant]} ${VARIANT_HEAD_BORDER[variant]}`}
+                        style={{ width: '3.5rem', minWidth: '3.5rem' }} />
                 )}
             </tr>
         </thead>

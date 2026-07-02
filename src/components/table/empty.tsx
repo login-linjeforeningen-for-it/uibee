@@ -4,9 +4,9 @@ import type { ReactNode } from 'react'
 export default function Empty({ emptyState }: { emptyState?: ReactNode }) {
     if (emptyState) {
         return (
-            <tbody className='block w-full'>
-                <tr className='flex w-full'>
-                    <td className='w-full'>
+            <tbody>
+                <tr>
+                    <td colSpan={999}>
                         <div className='flex items-center justify-center min-h-[160px] py-8 px-6'>
                             {emptyState}
                         </div>
@@ -17,9 +17,9 @@ export default function Empty({ emptyState }: { emptyState?: ReactNode }) {
     }
 
     return (
-        <tbody className='block w-full'>
-            <tr className='flex w-full'>
-                <td className='w-full'>
+        <tbody>
+            <tr>
+                <td colSpan={999}>
                     <div className='flex flex-col items-center justify-center gap-3 min-h-[160px] py-8 text-login-300'>
                         <TableIcon className='h-10 w-10 opacity-30' />
                         <span className='text-sm'>No data found</span>

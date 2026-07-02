@@ -45,8 +45,8 @@ function TableShell<T extends Record<string, unknown>>({
 
     return (
         <div className={['flex flex-col min-h-0 w-full', VARIANT_CONTAINER[variant], className].filter(Boolean).join(' ')}>
-            <div className='flex-1 min-h-0 overflow-x-auto'>
-                <table className='min-w-full w-max flex flex-col flex-1 min-h-0 divide-y divide-login-600/20'>
+            <div className='flex-1 min-h-0 overflow-auto'>
+                <table className='min-w-full table-auto border-separate border-spacing-0'>
                     <Header
                         columns={columns}
                         sort={sort}

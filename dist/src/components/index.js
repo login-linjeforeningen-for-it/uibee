@@ -2731,7 +2731,19 @@ const VARIANT_CONTAINER = {
 };
 const VARIANT_THEAD = {
 	original: "bg-login-700",
-	modern: "bg-transparent border-b border-login-500/40"
+	modern: "bg-transparent"
+};
+const VARIANT_HEAD_BG = {
+	original: "bg-login-700",
+	modern: "bg-login-900/95"
+};
+const VARIANT_HEAD_BORDER = {
+	original: "border-b border-login-600",
+	modern: "border-b border-login-500/40"
+};
+const VARIANT_ROW_BORDER = {
+	original: "border-b border-login-600",
+	modern: "border-b border-login-600/15"
 };
 const VARIANT_THEAD_TH = {
 	original: "text-login-200",
@@ -2764,17 +2776,16 @@ function Header({ columns, sort, onSort, hasMenu, hasSelect, hasExpand, allSelec
 		});
 	}
 	return /* @__PURE__ */ jsx("thead", {
-		className: `block w-full sticky top-0 z-10 ${VARIANT_THEAD[variant]}`,
-		children: /* @__PURE__ */ jsxs("tr", {
-			className: "flex w-full",
-			children: [
-				hasSelect && /* @__PURE__ */ jsx("th", {
+		className: VARIANT_THEAD[variant],
+		children: /* @__PURE__ */ jsxs("tr", { children: [
+			hasSelect && /* @__PURE__ */ jsx("th", {
+				className: `sticky top-0 z-10 ${VARIANT_HEAD_BG[variant]} ${VARIANT_HEAD_BORDER[variant]}`,
+				style: {
+					width: "3rem",
+					minWidth: "3rem"
+				},
+				children: /* @__PURE__ */ jsx("div", {
 					className: "flex items-center justify-center",
-					style: {
-						width: "3rem",
-						minWidth: "3rem",
-						flexShrink: 0
-					},
 					children: /* @__PURE__ */ jsxs("button", {
 						type: "button",
 						"aria-label": allSelected ? "Deselect all" : "Select all",
@@ -2796,62 +2807,58 @@ function Header({ columns, sort, onSort, hasMenu, hasSelect, hasExpand, allSelec
 							})
 						})]
 					})
-				}),
-				columns.map((col) => {
-					const sortable = col.sortable !== false;
-					const isActive = sort?.column === col.key;
-					const ariaSort = isActive ? sort.order === "asc" ? "ascending" : "descending" : "none";
-					const alignClass = col.align === "right" ? "justify-end" : col.align === "center" ? "justify-center" : "";
-					return /* @__PURE__ */ jsx("th", {
-						"aria-sort": sortable ? ariaSort : void 0,
-						style: col.width ? {
-							width: col.width,
-							flexShrink: 0
-						} : void 0,
-						className: `
-                                ${col.width ? "" : "flex-1"}
+				})
+			}),
+			columns.map((col) => {
+				const sortable = col.sortable !== false;
+				const isActive = sort?.column === col.key;
+				const ariaSort = isActive ? sort.order === "asc" ? "ascending" : "descending" : "none";
+				const alignClass = col.align === "right" ? "justify-end" : col.align === "center" ? "justify-center" : "";
+				return /* @__PURE__ */ jsx("th", {
+					"aria-sort": sortable ? ariaSort : void 0,
+					style: col.width ? { width: col.width } : void 0,
+					className: `
+                                sticky top-0 z-10 ${VARIANT_HEAD_BG[variant]} ${VARIANT_HEAD_BORDER[variant]}
                                 text-xs font-medium uppercase tracking-wider
                                 ${DENSITY_TH[density]} ${VARIANT_THEAD_TH[variant]}
                             `,
-						children: sortable ? /* @__PURE__ */ jsxs("button", {
-							type: "button",
-							className: `group inline-flex items-center gap-1.5 w-full cursor-pointer ${alignClass}`,
-							onClick: () => handleSort(col.key),
-							children: [/* @__PURE__ */ jsx("span", {
-								className: "whitespace-nowrap",
-								children: formatLabel(col.key, col.label)
-							}), /* @__PURE__ */ jsx("span", {
-								className: "shrink-0 text-current",
-								children: isActive ? sort.order === "asc" ? /* @__PURE__ */ jsx(ChevronUp, { className: "h-3.5 w-3.5" }) : /* @__PURE__ */ jsx(ChevronDown, { className: "h-3.5 w-3.5" }) : /* @__PURE__ */ jsx(ChevronsUpDown, { className: "h-3.5 w-3.5 opacity-0 group-hover:opacity-35 transition-opacity" })
-							})]
-						}) : /* @__PURE__ */ jsx("span", {
-							className: `flex w-full ${alignClass}`,
+					children: sortable ? /* @__PURE__ */ jsxs("button", {
+						type: "button",
+						className: `group inline-flex items-center gap-1.5 w-full cursor-pointer ${alignClass}`,
+						onClick: () => handleSort(col.key),
+						children: [/* @__PURE__ */ jsx("span", {
+							className: "whitespace-nowrap",
 							children: formatLabel(col.key, col.label)
-						})
-					}, col.key);
-				}),
-				hasExpand && /* @__PURE__ */ jsx("th", {
-					className: "flex items-center justify-center",
-					style: {
-						width: "2.5rem",
-						minWidth: "2.5rem",
-						flexShrink: 0
-					},
-					children: /* @__PURE__ */ jsx("span", {
-						className: `text-xs font-medium tracking-wider uppercase opacity-50 ${VARIANT_THEAD_TH[variant]}`,
-						children: "+"
+						}), /* @__PURE__ */ jsx("span", {
+							className: "shrink-0 text-current",
+							children: isActive ? sort.order === "asc" ? /* @__PURE__ */ jsx(ChevronUp, { className: "h-3.5 w-3.5" }) : /* @__PURE__ */ jsx(ChevronDown, { className: "h-3.5 w-3.5" }) : /* @__PURE__ */ jsx(ChevronsUpDown, { className: "h-3.5 w-3.5 opacity-0 group-hover:opacity-35 transition-opacity" })
+						})]
+					}) : /* @__PURE__ */ jsx("span", {
+						className: `flex w-full whitespace-nowrap ${alignClass}`,
+						children: formatLabel(col.key, col.label)
 					})
-				}),
-				hasMenu && /* @__PURE__ */ jsx("th", {
-					"aria-hidden": "true",
-					style: {
-						width: "3.5rem",
-						minWidth: "3.5rem",
-						flexShrink: 0
-					}
+				}, col.key);
+			}),
+			hasExpand && /* @__PURE__ */ jsx("th", {
+				className: `sticky top-0 z-10 ${VARIANT_HEAD_BG[variant]} ${VARIANT_HEAD_BORDER[variant]}`,
+				style: {
+					width: "2.5rem",
+					minWidth: "2.5rem"
+				},
+				children: /* @__PURE__ */ jsx("span", {
+					className: `flex items-center justify-center text-xs font-medium tracking-wider uppercase opacity-50 ${VARIANT_THEAD_TH[variant]}`,
+					children: "+"
 				})
-			]
-		})
+			}),
+			hasMenu && /* @__PURE__ */ jsx("th", {
+				"aria-hidden": "true",
+				className: `sticky top-0 z-10 ${VARIANT_HEAD_BG[variant]} ${VARIANT_HEAD_BORDER[variant]}`,
+				style: {
+					width: "3.5rem",
+					minWidth: "3.5rem"
+				}
+			})
+		] })
 	});
 }
 //#endregion
@@ -2997,7 +3004,7 @@ function resolveRedirectUrl(redirectPath, row, id) {
 	const rid = cfg.key ? String(row[cfg.key] ?? id) : id;
 	return cfg.path.includes("?") ? `${cfg.path}${rid}` : `${cfg.path}/${rid}`;
 }
-function Cell({ col, row, density }) {
+function Cell({ col, row, density, variant }) {
 	const value = row[col.key];
 	const shouldTruncate = col.truncate === true;
 	const align = col.align ?? "left";
@@ -3025,16 +3032,13 @@ function Cell({ col, row, density }) {
 	return /* @__PURE__ */ jsx("td", {
 		style: col.width ? {
 			width: col.width,
-			flexShrink: 0
+			maxWidth: col.width
 		} : void 0,
 		className: `
-                ${col.width ? "" : "flex-1"} ${shouldTruncate ? "min-w-0" : ""} flex items-center text-sm text-login-75
-                ${DENSITY_TD[density]}
+                align-middle text-sm text-login-75 ${wrapperAlign}
+                ${DENSITY_TD[density]} ${VARIANT_ROW_BORDER[variant]}
             `,
-		children: /* @__PURE__ */ jsx("div", {
-			className: `min-w-0 w-full ${wrapperAlign}`,
-			children: content
-		})
+		children: content
 	});
 }
 function Body({ data, columns, idKey, variant, density, striped, redirectPath, onRowClick, renderExpandedRow, selectable, selectedIds, onSelectionChange, menuItems }) {
@@ -3043,16 +3047,14 @@ function Body({ data, columns, idKey, variant, density, striped, redirectPath, o
 	const [anchor, setAnchor] = useState(null);
 	const [expandedId, setExpandedId] = useState(null);
 	const menuRef = useRef(null);
-	const tbodyRef = useRef(null);
 	const menuWasOpenOnMouseDown = useRef(false);
 	const closeMenu = useCallback(() => setOpenMenuId(null), []);
 	useClickOutside(menuRef, closeMenu, openMenuId !== null);
 	useEffect(() => {
-		const el = tbodyRef.current;
-		if (!el) return;
-		el.addEventListener("scroll", closeMenu);
-		return () => el.removeEventListener("scroll", closeMenu);
-	}, [closeMenu]);
+		if (openMenuId === null) return;
+		document.addEventListener("scroll", closeMenu, true);
+		return () => document.removeEventListener("scroll", closeMenu, true);
+	}, [closeMenu, openMenuId]);
 	function openMenu(id, coords) {
 		setAnchor(coords);
 		setOpenMenuId(id);
@@ -3064,8 +3066,7 @@ function Body({ data, columns, idKey, variant, density, striped, redirectPath, o
 	const hasMenu = Boolean(menuItems);
 	const hasExpand = Boolean(renderExpandedRow);
 	return /* @__PURE__ */ jsx("tbody", {
-		ref: tbodyRef,
-		className: `block overflow-y-auto flex-1 min-h-0 divide-y ${VARIANT_TBODY[variant]}`,
+		className: VARIANT_TBODY[variant],
 		children: data.map((row, rowIdx) => {
 			const id = resolveId(row, idKey, columns);
 			const url = resolveRedirectUrl(redirectPath, row, id);
@@ -3075,7 +3076,7 @@ function Body({ data, columns, idKey, variant, density, striped, redirectPath, o
 			const isSelected = selectable && selectedSet.has(id);
 			const expandedContent = renderExpandedRow?.(row);
 			const rowClass = [
-				"flex w-full transition-colors duration-100",
+				"transition-colors duration-100",
 				isClickable ? "cursor-pointer" : "",
 				VARIANT_ROW_HOVER[variant],
 				striped ? VARIANT_ROW_STRIPED[variant] : "",
@@ -3114,35 +3115,37 @@ function Body({ data, columns, idKey, variant, density, striped, redirectPath, o
 				},
 				children: [
 					selectable && /* @__PURE__ */ jsx("td", {
-						className: "flex items-center justify-center",
+						className: `align-middle ${VARIANT_ROW_BORDER[variant]}`,
 						style: {
 							width: "3rem",
-							minWidth: "3rem",
-							flexShrink: 0
+							minWidth: "3rem"
 						},
-						children: /* @__PURE__ */ jsx("button", {
-							type: "button",
-							"aria-label": isSelected ? "Deselect row" : "Select row",
-							"aria-checked": isSelected,
-							role: "checkbox",
-							onClick: (e) => {
-								e.stopPropagation();
-								toggleSelect(id);
-							},
-							className: `
+						children: /* @__PURE__ */ jsx("div", {
+							className: "flex items-center justify-center",
+							children: /* @__PURE__ */ jsx("button", {
+								type: "button",
+								"aria-label": isSelected ? "Deselect row" : "Select row",
+								"aria-checked": isSelected,
+								role: "checkbox",
+								onClick: (e) => {
+									e.stopPropagation();
+									toggleSelect(id);
+								},
+								className: `
                                             h-4 w-4 rounded border flex items-center justify-center transition-colors cursor-pointer
                                             ${isSelected ? "bg-login border-login text-white" : "border-login-400 bg-transparent hover:border-login-100"}
                                         `,
-							children: isSelected && /* @__PURE__ */ jsx("svg", {
-								className: "h-3 w-3",
-								viewBox: "0 0 12 12",
-								fill: "none",
-								children: /* @__PURE__ */ jsx("path", {
-									d: "M2 6l3 3 5-5",
-									stroke: "currentColor",
-									strokeWidth: "1.5",
-									strokeLinecap: "round",
-									strokeLinejoin: "round"
+								children: isSelected && /* @__PURE__ */ jsx("svg", {
+									className: "h-3 w-3",
+									viewBox: "0 0 12 12",
+									fill: "none",
+									children: /* @__PURE__ */ jsx("path", {
+										d: "M2 6l3 3 5-5",
+										stroke: "currentColor",
+										strokeWidth: "1.5",
+										strokeLinecap: "round",
+										strokeLinejoin: "round"
+									})
 								})
 							})
 						})
@@ -3150,29 +3153,31 @@ function Body({ data, columns, idKey, variant, density, striped, redirectPath, o
 					columns.map((col) => /* @__PURE__ */ jsx(Cell, {
 						col,
 						row,
-						density
+						density,
+						variant
 					}, col.key)),
 					hasExpand && /* @__PURE__ */ jsx("td", {
-						className: "flex items-center justify-center",
+						className: `align-middle ${VARIANT_ROW_BORDER[variant]}`,
 						style: {
 							width: "2.5rem",
-							minWidth: "2.5rem",
-							flexShrink: 0
+							minWidth: "2.5rem"
 						},
-						children: /* @__PURE__ */ jsx(ChevronDown, { className: `
+						children: /* @__PURE__ */ jsx("div", {
+							className: "flex items-center justify-center",
+							children: /* @__PURE__ */ jsx(ChevronDown, { className: `
                                         h-4 w-4 transition-transform duration-200
                                         ${isExpanded ? "rotate-180 text-login" : "text-login-400"}
                                     ` })
+						})
 					}),
 					hasMenu && /* @__PURE__ */ jsx("td", {
-						className: "flex items-center justify-end pr-3",
+						className: `align-middle pr-3 ${VARIANT_ROW_BORDER[variant]}`,
 						style: {
 							width: "3.5rem",
-							minWidth: "3.5rem",
-							flexShrink: 0
+							minWidth: "3.5rem"
 						},
 						children: /* @__PURE__ */ jsxs("div", {
-							className: "relative",
+							className: "relative flex items-center justify-end",
 							children: [/* @__PURE__ */ jsx("button", {
 								type: "button",
 								"aria-label": "Row actions",
@@ -3205,9 +3210,10 @@ function Body({ data, columns, idKey, variant, density, striped, redirectPath, o
 					})
 				]
 			}), hasExpand && isExpanded && /* @__PURE__ */ jsx("tr", {
-				className: "flex w-full bg-login-700/25 border-b border-login-600/20",
+				className: "bg-login-700/25",
 				children: /* @__PURE__ */ jsx("td", {
-					className: "w-full px-6 py-4",
+					colSpan: 999,
+					className: "px-6 py-4 border-b border-login-600/20",
 					onClick: (e) => e.stopPropagation(),
 					children: expandedContent
 				})
@@ -3219,81 +3225,58 @@ function Body({ data, columns, idKey, variant, density, striped, redirectPath, o
 //#region src/components/table/skeleton.tsx
 function Skeleton({ columns, rows, variant, density, hasMenu, hasSelect }) {
 	return /* @__PURE__ */ jsx("tbody", {
-		className: `block divide-y divide-login-600/15 ${VARIANT_TBODY[variant]}`,
-		children: Array.from({ length: rows }).map((_, rowIdx) => /* @__PURE__ */ jsxs("tr", {
-			className: "flex w-full",
-			children: [
-				hasSelect && /* @__PURE__ */ jsx("td", {
-					className: "flex items-center justify-center",
+		className: VARIANT_TBODY[variant],
+		children: Array.from({ length: rows }).map((_, rowIdx) => /* @__PURE__ */ jsxs("tr", { children: [
+			hasSelect && /* @__PURE__ */ jsx("td", {
+				className: `align-middle ${VARIANT_ROW_BORDER[variant]}`,
+				style: {
+					width: "3rem",
+					minWidth: "3rem"
+				},
+				children: /* @__PURE__ */ jsx("span", { className: "block h-4 w-4 mx-auto rounded animate-shimmer" })
+			}),
+			columns.map((col, colIdx) => /* @__PURE__ */ jsx("td", {
+				style: col.width ? { width: col.width } : void 0,
+				className: `align-middle ${DENSITY_TD[density]} ${VARIANT_ROW_BORDER[variant]}`,
+				children: /* @__PURE__ */ jsx("span", {
+					className: "block h-4 rounded animate-shimmer",
 					style: {
-						width: "3rem",
-						minWidth: "3rem",
-						flexShrink: 0
-					},
-					children: /* @__PURE__ */ jsx("span", { className: "block h-4 w-4 rounded animate-shimmer" })
-				}),
-				columns.map((col, colIdx) => /* @__PURE__ */ jsx("td", {
-					style: col.width ? {
-						width: col.width,
-						flexShrink: 0
-					} : void 0,
-					className: `
-                                flex-1 min-w-0 flex items-center
-                                ${DENSITY_TD[density]}
-                            `,
-					children: /* @__PURE__ */ jsx("span", {
-						className: "block h-4 rounded animate-shimmer",
-						style: {
-							width: colIdx === 0 ? `${55 + (rowIdx * 17 + colIdx * 31) % 30}%` : `${40 + (rowIdx * 13 + colIdx * 23) % 40}%`,
-							animationDelay: `${(rowIdx * columns.length + colIdx) * 40}ms`
-						}
-					})
-				}, col.key)),
-				hasMenu && /* @__PURE__ */ jsx("td", {
-					className: "flex items-center justify-end pr-3",
-					style: {
-						width: "3.5rem",
-						minWidth: "3.5rem",
-						flexShrink: 0
-					},
-					children: /* @__PURE__ */ jsx("span", { className: "block h-5 w-5 rounded animate-shimmer" })
+						width: colIdx === 0 ? `${8 + (rowIdx * 17 + colIdx * 31) % 5}rem` : `${5 + (rowIdx * 13 + colIdx * 23) % 5}rem`,
+						animationDelay: `${(rowIdx * columns.length + colIdx) * 40}ms`
+					}
 				})
-			]
-		}, rowIdx))
+			}, col.key)),
+			hasMenu && /* @__PURE__ */ jsx("td", {
+				className: `align-middle pr-3 ${VARIANT_ROW_BORDER[variant]}`,
+				style: {
+					width: "3.5rem",
+					minWidth: "3.5rem"
+				},
+				children: /* @__PURE__ */ jsx("span", { className: "block h-5 w-5 ml-auto rounded animate-shimmer" })
+			})
+		] }, rowIdx))
 	});
 }
 //#endregion
 //#region src/components/table/empty.tsx
 function Empty({ emptyState }) {
-	if (emptyState) return /* @__PURE__ */ jsx("tbody", {
-		className: "block w-full",
-		children: /* @__PURE__ */ jsx("tr", {
-			className: "flex w-full",
-			children: /* @__PURE__ */ jsx("td", {
-				className: "w-full",
-				children: /* @__PURE__ */ jsx("div", {
-					className: "flex items-center justify-center min-h-[160px] py-8 px-6",
-					children: emptyState
-				})
-			})
+	if (emptyState) return /* @__PURE__ */ jsx("tbody", { children: /* @__PURE__ */ jsx("tr", { children: /* @__PURE__ */ jsx("td", {
+		colSpan: 999,
+		children: /* @__PURE__ */ jsx("div", {
+			className: "flex items-center justify-center min-h-[160px] py-8 px-6",
+			children: emptyState
 		})
-	});
-	return /* @__PURE__ */ jsx("tbody", {
-		className: "block w-full",
-		children: /* @__PURE__ */ jsx("tr", {
-			className: "flex w-full",
-			children: /* @__PURE__ */ jsx("td", {
-				className: "w-full",
-				children: /* @__PURE__ */ jsxs("div", {
-					className: "flex flex-col items-center justify-center gap-3 min-h-[160px] py-8 text-login-300",
-					children: [/* @__PURE__ */ jsx(TableIcon, { className: "h-10 w-10 opacity-30" }), /* @__PURE__ */ jsx("span", {
-						className: "text-sm",
-						children: "No data found"
-					})]
-				})
-			})
+	}) }) });
+	return /* @__PURE__ */ jsx("tbody", { children: /* @__PURE__ */ jsx("tr", { children: /* @__PURE__ */ jsx("td", {
+		colSpan: 999,
+		children: /* @__PURE__ */ jsxs("div", {
+			className: "flex flex-col items-center justify-center gap-3 min-h-[160px] py-8 text-login-300",
+			children: [/* @__PURE__ */ jsx(TableIcon, { className: "h-10 w-10 opacity-30" }), /* @__PURE__ */ jsx("span", {
+				className: "text-sm",
+				children: "No data found"
+			})]
 		})
-	});
+	}) }) });
 }
 //#endregion
 //#region src/components/table/pagination.tsx
@@ -3443,9 +3426,9 @@ function TableShell({ data, columns, idKey, variant, density, striped, loading, 
 			className
 		].filter(Boolean).join(" "),
 		children: [/* @__PURE__ */ jsx("div", {
-			className: "flex-1 min-h-0 overflow-x-auto",
+			className: "flex-1 min-h-0 overflow-auto",
 			children: /* @__PURE__ */ jsxs("table", {
-				className: "min-w-full w-max flex flex-col flex-1 min-h-0 divide-y divide-login-600/20",
+				className: "min-w-full table-auto border-separate border-spacing-0",
 				children: [/* @__PURE__ */ jsx(Header, {
 					columns,
 					sort,
