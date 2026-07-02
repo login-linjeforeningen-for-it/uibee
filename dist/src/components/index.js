@@ -3028,7 +3028,7 @@ function Cell({ col, row, density }) {
 			flexShrink: 0
 		} : void 0,
 		className: `
-                ${col.width ? "" : "flex-1"} min-w-0 flex items-center text-sm text-login-75
+                ${col.width ? "" : "flex-1"} ${shouldTruncate ? "min-w-0" : ""} flex items-center text-sm text-login-75
                 ${DENSITY_TD[density]}
             `,
 		children: /* @__PURE__ */ jsx("div", {
