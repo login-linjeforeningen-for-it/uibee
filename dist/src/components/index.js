@@ -1,8 +1,8 @@
 "use client";
-import { t as useClickOutside } from "../../useClickOutside-Cmp-RsP3.js";
+import { t as useClickOutside$1 } from "../../useClickOutside-Cmp-RsP3.js";
 import { D as Facebook, Kt as Wikijs, N as Github, W as Linkedin, x as Discord } from "../../icons-lZYQ6Vlr.js";
-import React, { createContext, useContext, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { AlertCircle, AlertTriangle, ArrowUpRight, Calendar, Check, CheckCircle, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, CircleAlert, CircleHelp, Clock, EllipsisVertical, ExternalLink, Eye, Globe, Info, LogIn, LogOut, Pencil, Search, TriangleAlert, User, X } from "lucide-react";
+import React, { Suspense, createContext, useCallback, useContext, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { AlertCircle, AlertTriangle, ArrowUpRight, Calendar, Check, CheckCircle, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, ChevronsUpDown, CircleAlert, CircleHelp, Clock, EllipsisVertical, ExternalLink, Eye, Globe, Info, LogIn, LogOut, Pencil, Search, TableIcon, TriangleAlert, User, X } from "lucide-react";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -651,7 +651,7 @@ function Input(props) {
 	const [isOpen, setIsOpen] = useState(false);
 	const anchorName = `--input-${useId().replace(/:/g, "")}`;
 	const containerRef = useRef(null);
-	useClickOutside(containerRef, () => setIsOpen(false));
+	useClickOutside$1(containerRef, () => setIsOpen(false));
 	const isDateType = [
 		"date",
 		"datetime-local",
@@ -988,7 +988,7 @@ function Select({ label, name, value, onChange, options, error, className, disab
 		setSelectedOption(options.find((opt) => opt.value === value));
 	}, [value, options]);
 	const containerRef = useRef(null);
-	useClickOutside(containerRef, () => setIsOpen(false));
+	useClickOutside$1(containerRef, () => setIsOpen(false));
 	function handleSelect(option) {
 		if (disabled) return;
 		setSelectedOption(option);
@@ -1200,7 +1200,7 @@ function TagInput({ label, name, value = [], onChange, placeholder = "Add...", e
 function MultiSelect({ label, name, options, value = [], onChange, placeholder = "Select…", error, className, disabled, required, info, description, textSize = "sm" }) {
 	const [open, setOpen] = useState(false);
 	const containerRef = useRef(null);
-	useClickOutside(containerRef, () => setOpen(false));
+	useClickOutside$1(containerRef, () => setOpen(false));
 	function toggleOption(optionValue) {
 		if (!onChange) return;
 		if (value.includes(optionValue)) onChange(value.filter((v) => v !== optionValue));
@@ -2705,138 +2705,387 @@ function Alert({ children, variant = "warning", className = "" }) {
 	});
 }
 //#endregion
+//#region src/components/table/constants.ts
+const HIGHLIGHT = {
+	green: "bg-green-500/15  text-green-400  ring-1 ring-green-500/25",
+	yellow: "bg-yellow-500/15 text-yellow-400 ring-1 ring-yellow-500/25",
+	red: "bg-red-500/15    text-red-400    ring-1 ring-red-500/25",
+	blue: "bg-blue-500/15   text-blue-400   ring-1 ring-blue-500/25",
+	gray: "bg-gray-500/15   text-gray-400   ring-1 ring-gray-500/25",
+	orange: "bg-orange-500/15 text-orange-400 ring-1 ring-orange-500/25",
+	purple: "bg-purple-500/15 text-purple-400 ring-1 ring-purple-500/25"
+};
+const DENSITY_TH = {
+	compact: "px-4 py-2",
+	comfortable: "px-6 py-3",
+	spacious: "px-8 py-4"
+};
+const DENSITY_TD = {
+	compact: "px-4 py-1.5",
+	comfortable: "px-6 py-3.5",
+	spacious: "px-8 py-5"
+};
+const VARIANT_CONTAINER = {
+	original: "bg-login-500/50 rounded-lg border border-login-600 shadow",
+	modern: "bg-transparent"
+};
+const VARIANT_THEAD = {
+	original: "bg-login-700",
+	modern: "bg-transparent border-b border-login-500/40"
+};
+const VARIANT_THEAD_TH = {
+	original: "text-login-200",
+	modern: "text-login-300"
+};
+const VARIANT_TBODY = {
+	original: "bg-login-500/50 divide-login-600",
+	modern: "divide-login-600/15"
+};
+const VARIANT_ROW_HOVER = {
+	original: "hover:bg-login-600/30",
+	modern: "hover:bg-login-700/50"
+};
+const VARIANT_ROW_STRIPED = {
+	original: "even:bg-login-600/40",
+	modern: "even:bg-login-800/40"
+};
+//#endregion
+//#region src/components/table/header.tsx
+function formatLabel(key, label) {
+	if (label) return label;
+	if (key.length <= 2) return key.toUpperCase();
+	return key.replace(/([a-z0-9])([A-Z])/g, "$1 $2").replaceAll("_", " ").replaceAll("-", " ").split(/\s+/).filter(Boolean).map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
+}
+function Header({ columns, sort, onSort, hasMenu, hasSelect, hasExpand, allSelected, someSelected, onSelectAll, variant, density }) {
+	function handleSort(key) {
+		onSort({
+			column: key,
+			order: sort?.column === key && sort?.order === "asc" ? "desc" : "asc"
+		});
+	}
+	return /* @__PURE__ */ jsx("thead", {
+		className: `block w-full sticky top-0 z-10 ${VARIANT_THEAD[variant]}`,
+		children: /* @__PURE__ */ jsxs("tr", {
+			className: "flex w-full",
+			children: [
+				hasSelect && /* @__PURE__ */ jsx("th", {
+					className: "flex items-center justify-center",
+					style: {
+						width: "3rem",
+						minWidth: "3rem",
+						flexShrink: 0
+					},
+					children: /* @__PURE__ */ jsxs("button", {
+						type: "button",
+						"aria-label": allSelected ? "Deselect all" : "Select all",
+						onClick: onSelectAll,
+						className: `
+                                h-4 w-4 rounded border flex items-center justify-center transition-colors cursor-pointer
+                                ${allSelected || someSelected ? "bg-login border-login text-white" : "border-login-400 bg-transparent hover:border-login-200"}
+                            `,
+						children: [someSelected && !allSelected && /* @__PURE__ */ jsx("span", { className: "block h-0.5 w-2 bg-white rounded-full" }), allSelected && /* @__PURE__ */ jsx("svg", {
+							className: "h-3 w-3",
+							viewBox: "0 0 12 12",
+							fill: "none",
+							children: /* @__PURE__ */ jsx("path", {
+								d: "M2 6l3 3 5-5",
+								stroke: "currentColor",
+								strokeWidth: "1.5",
+								strokeLinecap: "round",
+								strokeLinejoin: "round"
+							})
+						})]
+					})
+				}),
+				columns.map((col) => {
+					const sortable = col.sortable !== false;
+					const isActive = sort?.column === col.key;
+					const ariaSort = isActive ? sort.order === "asc" ? "ascending" : "descending" : "none";
+					const alignClass = col.align === "right" ? "justify-end" : col.align === "center" ? "justify-center" : "";
+					return /* @__PURE__ */ jsx("th", {
+						"aria-sort": sortable ? ariaSort : void 0,
+						style: col.width ? {
+							width: col.width,
+							flexShrink: 0
+						} : void 0,
+						className: `
+                                ${col.width ? "" : "flex-1"}
+                                text-xs font-medium uppercase tracking-wider
+                                ${DENSITY_TH[density]} ${VARIANT_THEAD_TH[variant]}
+                            `,
+						children: sortable ? /* @__PURE__ */ jsxs("button", {
+							type: "button",
+							className: `group inline-flex items-center gap-1.5 w-full cursor-pointer ${alignClass}`,
+							onClick: () => handleSort(col.key),
+							children: [/* @__PURE__ */ jsx("span", {
+								className: "whitespace-nowrap",
+								children: formatLabel(col.key, col.label)
+							}), /* @__PURE__ */ jsx("span", {
+								className: "shrink-0 text-current",
+								children: isActive ? sort.order === "asc" ? /* @__PURE__ */ jsx(ChevronUp, { className: "h-3.5 w-3.5" }) : /* @__PURE__ */ jsx(ChevronDown, { className: "h-3.5 w-3.5" }) : /* @__PURE__ */ jsx(ChevronsUpDown, { className: "h-3.5 w-3.5 opacity-0 group-hover:opacity-35 transition-opacity" })
+							})]
+						}) : /* @__PURE__ */ jsx("span", {
+							className: `flex w-full ${alignClass}`,
+							children: formatLabel(col.key, col.label)
+						})
+					}, col.key);
+				}),
+				hasExpand && /* @__PURE__ */ jsx("th", {
+					className: "flex items-center justify-center",
+					style: {
+						width: "2.5rem",
+						minWidth: "2.5rem",
+						flexShrink: 0
+					},
+					children: /* @__PURE__ */ jsx("span", {
+						className: `text-xs font-medium tracking-wider uppercase opacity-50 ${VARIANT_THEAD_TH[variant]}`,
+						children: "+"
+					})
+				}),
+				hasMenu && /* @__PURE__ */ jsx("th", {
+					"aria-hidden": "true",
+					style: {
+						width: "3.5rem",
+						minWidth: "3.5rem",
+						flexShrink: 0
+					}
+				})
+			]
+		})
+	});
+}
+//#endregion
+//#region src/components/table/format.ts
+const nullableTimeKeys = /* @__PURE__ */ new Set([
+	"date",
+	"last_sent",
+	"sent_at",
+	"time"
+]);
+const RX_DATETIME = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/;
+const RX_DATE = /^\d{4}-\d{2}-\d{2}$/;
+const RX_TIME = /^\d{2}:\d{2}(:\d{2})?$/;
+function formatValue(key, value) {
+	if (value === null || value === void 0) return nullableTimeKeys.has(key) ? "Never" : "-";
+	if (typeof value === "boolean") return value ? "Yes" : "No";
+	if (typeof value === "number") {
+		if (key.includes("capacity") && value === 0) return "Unlimited";
+		return value;
+	}
+	if (typeof value === "string") {
+		if (RX_DATETIME.test(value)) return new Date(value).toLocaleString("nb-NO", {
+			timeZone: "Europe/Oslo",
+			year: "numeric",
+			month: "2-digit",
+			day: "2-digit",
+			hour: "2-digit",
+			minute: "2-digit"
+		});
+		if (RX_DATE.test(value)) return new Date(value).toLocaleDateString("nb-NO", { timeZone: "Europe/Oslo" });
+		if (RX_TIME.test(value)) return (/* @__PURE__ */ new Date(`1970-01-01T${value}`)).toLocaleTimeString("nb-NO", {
+			timeZone: "Europe/Oslo",
+			hour: "2-digit",
+			minute: "2-digit"
+		});
+		return value;
+	}
+	if (Array.isArray(value)) return value.join(", ");
+	return String(value);
+}
+//#endregion
+//#region src/components/table/utils.ts
+function resolveId(row, idKey, columns) {
+	if (idKey && row[idKey] !== void 0) return String(row[idKey]);
+	if (row["id"] !== void 0) return String(row["id"]);
+	const firstKey = columns[0]?.key ?? Object.keys(row)[0];
+	return String(row[firstKey] ?? "");
+}
+//#endregion
 //#region src/components/table/menu.tsx
-const MenuContext = createContext({});
+const MenuCtx = createContext({});
 function Menu({ ref, children, anchor, onClose }) {
+	useEffect(() => {
+		function handleKey(e) {
+			if (e.key === "Escape") onClose?.();
+		}
+		window.addEventListener("keydown", handleKey);
+		return () => window.removeEventListener("keydown", handleKey);
+	}, [onClose]);
 	return createPortal(/* @__PURE__ */ jsx("div", {
 		ref,
+		role: "menu",
+		"aria-orientation": "vertical",
 		style: {
 			top: anchor.top,
 			right: anchor.right
 		},
-		className: "fixed bg-login-500 border border-login-600 rounded-lg shadow-lg z-9999 w-44",
-		children: /* @__PURE__ */ jsx(MenuContext.Provider, {
+		className: "fixed z-[9999] w-44 overflow-hidden rounded-lg border border-login-500/60 bg-login-600 shadow-xl shadow-black/40",
+		children: /* @__PURE__ */ jsx(MenuCtx.Provider, {
 			value: { onClose },
 			children
 		})
 	}), document.body);
 }
-function MenuButton({ icon, text, hotKey, onClick, className }) {
-	const { onClose } = useContext(MenuContext);
+function MenuButton({ icon, text, hotKey, onClick, className = "" }) {
+	const { onClose } = useContext(MenuCtx);
 	useEffect(() => {
 		if (!hotKey) return;
-		function handleKeyDown(e) {
+		function handleKey(e) {
+			const tag = e.target.tagName;
+			if (tag === "INPUT" || tag === "TEXTAREA") return;
 			if (e.key.toLowerCase() === hotKey.toLowerCase()) {
 				e.preventDefault();
 				onClick();
 				onClose?.();
 			}
 		}
-		window.addEventListener("keydown", handleKeyDown);
-		return () => window.removeEventListener("keydown", handleKeyDown);
+		window.addEventListener("keydown", handleKey);
+		return () => window.removeEventListener("keydown", handleKey);
 	}, [
 		hotKey,
 		onClick,
 		onClose
 	]);
 	return /* @__PURE__ */ jsxs("button", {
+		role: "menuitem",
 		onClick: () => {
 			onClick();
 			onClose?.();
 		},
-		className: `flex items-center justify-between w-full px-3 py-2 text-sm hover:bg-login-600 cursor-pointer
-                ${className || ""}
+		className: `
+                flex w-full items-center justify-between px-3 py-2 text-sm
+                text-login-75 transition-colors duration-100
+                hover:bg-login-500 focus:bg-login-500 focus:outline-none
+                first:rounded-t-lg last:rounded-b-lg
+                ${className}
             `,
-		children: [/* @__PURE__ */ jsxs("div", {
-			className: "flex items-center",
-			children: [React.cloneElement(icon, { className: "w-4 h-4 mr-2" }), text]
-		}), /* @__PURE__ */ jsx("span", {
-			className: "text-xs opacity-50 font-mono",
+		children: [/* @__PURE__ */ jsxs("span", {
+			className: "flex items-center gap-2",
+			children: [/* @__PURE__ */ jsx("span", {
+				className: "h-4 w-4 shrink-0 flex items-center justify-center",
+				children: icon
+			}), text]
+		}), hotKey && /* @__PURE__ */ jsx("kbd", {
+			className: "font-mono text-xs opacity-40",
 			children: hotKey
 		})]
 	});
 }
 //#endregion
-//#region src/components/table/format.ts
-const nullableTimeKeys = [
-	"date",
-	"last_sent",
-	"time"
-];
-const ISODateTimeReg = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/;
-const ISODateReg = /^\d{4}-\d{2}-\d{2}$/;
-const ISOTimeReg = /^\d{2}:\d{2}(:\d{2})?$/;
-const OsloTZ = { timeZone: "Europe/Oslo" };
-const OsloTime = {
-	...OsloTZ,
-	hour: "2-digit",
-	minute: "2-digit"
-};
-const OsloDateTime = {
-	...OsloTime,
-	year: "numeric",
-	month: "2-digit",
-	day: "2-digit"
-};
-function formatValue(key, value) {
-	if (nullableTimeKeys.includes(key) && !value) return "Never";
-	if (typeof value === "string") {
-		if (ISODateTimeReg.test(value)) return new Date(value).toLocaleString("nb-NO", OsloDateTime);
-		if (ISODateReg.test(value)) return new Date(value).toLocaleDateString("nb-NO", OsloTZ);
-		if (ISOTimeReg.test(value)) return (/* @__PURE__ */ new Date(`1970-01-01T${value}`)).toLocaleTimeString("nb-NO", OsloTime);
-	}
-	if (key.includes("capacity")) return value === 0 ? "Unlimited" : value;
-	return value;
-}
-//#endregion
 //#region src/components/table/body.tsx
-function Body({ list, columns, menuItems, redirectPath, variant = "default", idKey }) {
+function useClickOutside(ref, cb, enabled) {
+	useEffect(() => {
+		if (!enabled) return;
+		function handler(e) {
+			if (ref.current && !ref.current.contains(e.target)) cb();
+		}
+		document.addEventListener("mousedown", handler);
+		return () => document.removeEventListener("mousedown", handler);
+	}, [
+		ref,
+		cb,
+		enabled
+	]);
+}
+function resolveRedirectUrl(redirectPath, row, id) {
+	if (!redirectPath) return null;
+	const cfg = typeof redirectPath === "string" ? {
+		path: redirectPath,
+		key: void 0
+	} : redirectPath;
+	if (!cfg.path) return null;
+	const rid = cfg.key ? String(row[cfg.key] ?? id) : id;
+	return cfg.path.includes("?") ? `${cfg.path}${rid}` : `${cfg.path}/${rid}`;
+}
+function Cell({ col, row, density }) {
+	const value = row[col.key];
+	const shouldTruncate = col.truncate === true;
+	const align = col.align ?? "left";
+	const wrapperAlign = align === "right" ? "text-right" : align === "center" ? "text-center" : "";
+	let content;
+	if (col.render) content = col.render(value, row);
+	else if (col.highlight) {
+		const colorName = col.highlight[String(value)] ?? col.highlight["default"];
+		const formatted = String(formatValue(col.key, value));
+		if (colorName) content = /* @__PURE__ */ jsx("span", {
+			className: `inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${HIGHLIGHT[colorName]}`,
+			children: formatted
+		});
+		else content = /* @__PURE__ */ jsx("span", {
+			className: shouldTruncate ? "block truncate" : "whitespace-nowrap",
+			children: formatted
+		});
+	} else {
+		const formatted = formatValue(col.key, value);
+		content = /* @__PURE__ */ jsx("span", {
+			className: shouldTruncate ? "block truncate" : "whitespace-nowrap",
+			children: formatted === null || formatted === void 0 ? "-" : String(formatted)
+		});
+	}
+	return /* @__PURE__ */ jsx("td", {
+		style: col.width ? {
+			width: col.width,
+			flexShrink: 0
+		} : void 0,
+		className: `
+                ${col.width ? "" : "flex-1"} min-w-0 flex items-center text-sm text-login-75
+                ${DENSITY_TD[density]}
+            `,
+		children: /* @__PURE__ */ jsx("div", {
+			className: `min-w-0 w-full ${wrapperAlign}`,
+			children: content
+		})
+	});
+}
+function Body({ data, columns, idKey, variant, density, striped, redirectPath, onRowClick, renderExpandedRow, selectable, selectedIds, onSelectionChange, menuItems }) {
+	const router = useRouter();
 	const [openMenuId, setOpenMenuId] = useState(null);
 	const [anchor, setAnchor] = useState(null);
-	const router = useRouter();
+	const [expandedId, setExpandedId] = useState(null);
 	const menuRef = useRef(null);
 	const tbodyRef = useRef(null);
 	const menuWasOpenOnMouseDown = useRef(false);
-	useClickOutside(menuRef, () => setOpenMenuId(null));
+	const closeMenu = useCallback(() => setOpenMenuId(null), []);
+	useClickOutside(menuRef, closeMenu, openMenuId !== null);
 	useEffect(() => {
 		const el = tbodyRef.current;
 		if (!el) return;
-		const close = () => setOpenMenuId(null);
-		el.addEventListener("scroll", close);
-		return () => el.removeEventListener("scroll", close);
-	}, []);
+		el.addEventListener("scroll", closeMenu);
+		return () => el.removeEventListener("scroll", closeMenu);
+	}, [closeMenu]);
+	function openMenu(id, coords) {
+		setAnchor(coords);
+		setOpenMenuId(id);
+	}
+	const selectedSet = useMemo(() => new Set(selectedIds), [selectedIds]);
+	function toggleSelect(id) {
+		onSelectionChange(selectedSet.has(id) ? selectedIds.filter((s) => s !== id) : [...selectedIds, id]);
+	}
+	const hasMenu = Boolean(menuItems);
+	const hasExpand = Boolean(renderExpandedRow);
 	return /* @__PURE__ */ jsx("tbody", {
 		ref: tbodyRef,
-		className: `
-                block overflow-y-auto flex-1 min-h-0 divide-y
-                ${variant === "default" ? "bg-login-800 divide-login-600/25" : "bg-transparent divide-login-600/20"}
-            `,
-		children: list.map((item, index) => {
-			const itemRecord = item;
-			let id = "";
-			if (idKey && itemRecord[idKey] !== void 0) id = String(itemRecord[idKey]);
-			else if (itemRecord["id"] !== void 0) id = String(itemRecord["id"]);
-			else {
-				const firstKey = columns[0]?.key || Object.keys(itemRecord)[0];
-				id = String(itemRecord[firstKey]);
-			}
-			const redirectConfig = typeof redirectPath === "object" && redirectPath ? redirectPath : { path: redirectPath };
-			const redirectId = redirectConfig.key ? String(itemRecord[redirectConfig.key]) : id;
-			const menuButtonColors = variant === "minimal" ? {
-				active: "bg-login-600 text-login-100",
-				inactive: "hover:bg-login-600 text-login-200 hover:text-login-100"
-			} : {
-				active: "bg-login-400 text-login-100",
-				inactive: "hover:bg-login-400 text-login-200 hover:text-login-100"
-			};
-			const buttonClass = openMenuId === id ? menuButtonColors.active : menuButtonColors.inactive;
-			return /* @__PURE__ */ jsxs("tr", {
-				className: `
-                            flex w-full group/row transition-colors 
-                            ${redirectConfig.path ? "cursor-pointer" : ""}
-                            ${variant === "default" && redirectConfig.path ? "hover:bg-login-600/80" : ""}
-                            ${variant === "minimal" ? "hover:bg-login-600/70 border-b border-login-600/20 last:border-0" : ""}
-                        `,
+		className: `block overflow-y-auto flex-1 min-h-0 divide-y ${VARIANT_TBODY[variant]}`,
+		children: data.map((row, rowIdx) => {
+			const id = resolveId(row, idKey, columns);
+			const url = resolveRedirectUrl(redirectPath, row, id);
+			const isClickable = Boolean(url || onRowClick || hasExpand);
+			const isMenuOpen = openMenuId === id;
+			const isExpanded = expandedId === id;
+			const isSelected = selectable && selectedSet.has(id);
+			const expandedContent = renderExpandedRow?.(row);
+			const rowClass = [
+				"flex w-full transition-colors duration-100",
+				isClickable ? "cursor-pointer" : "",
+				VARIANT_ROW_HOVER[variant],
+				striped ? VARIANT_ROW_STRIPED[variant] : "",
+				isSelected ? "bg-login/5" : ""
+			].filter(Boolean).join(" ");
+			return /* @__PURE__ */ jsxs(React.Fragment, { children: [/* @__PURE__ */ jsxs("tr", {
+				className: rowClass,
+				onMouseEnter: () => {
+					if (url) router.prefetch(url);
+				},
 				onMouseDown: () => {
 					menuWasOpenOnMouseDown.current = openMenuId !== null;
 				},
@@ -2845,296 +3094,530 @@ function Body({ list, columns, menuItems, redirectPath, variant = "default", idK
 						menuWasOpenOnMouseDown.current = false;
 						return;
 					}
-					if (redirectConfig.path) if (redirectConfig.path.includes("?")) router.push(`${redirectConfig.path}${redirectId}`);
-					else router.push(`${redirectConfig.path}/${redirectId}`);
+					if (hasExpand) {
+						setExpandedId(isExpanded ? null : id);
+						return;
+					}
+					if (onRowClick) {
+						onRowClick(row, id);
+						return;
+					}
+					if (url) router.push(url);
 				},
 				onContextMenu: (e) => {
+					if (!hasMenu) return;
 					e.preventDefault();
-					setAnchor({
+					openMenu(id, {
 						top: e.clientY,
 						right: window.innerWidth - e.clientX
 					});
-					setOpenMenuId(id);
 				},
-				children: [columns.map((col) => {
-					const value = itemRecord[col.key];
-					let badgeClass = "";
-					if (col.highlight) {
-						const highlightKey = String(value);
-						const colorName = col.highlight[highlightKey] || col.highlight.default;
-						if (colorName) {
-							switch (colorName) {
-								case "green":
-									badgeClass = "bg-green-500/20 text-green-400";
-									break;
-								case "yellow":
-									badgeClass = "bg-yellow-500/20 text-yellow-400";
-									break;
-								case "red":
-									badgeClass = "bg-red-500/20 text-red-400";
-									break;
-								case "blue":
-									badgeClass = "bg-blue-500/20 text-blue-400";
-									break;
-								case "gray":
-									badgeClass = "bg-gray-500/20 text-gray-400";
-									break;
-							}
-							badgeClass += " px-2 py-1 rounded";
-						}
-					}
-					return /* @__PURE__ */ jsx("td", {
-						className: `
-                                        flex-1 min-w-0 px-6 py-4 whitespace-nowrap text-sm flex items-center text-login-100
-                                        ${variant === "minimal" ? "px-4! py-2!" : ""}
-                                    `,
-						children: /* @__PURE__ */ jsx("div", {
-							className: "relative w-full min-w-0",
-							children: /* @__PURE__ */ jsx("span", {
-								className: `block max-w-full truncate ${badgeClass}`,
-								children: formatValue(col.key, value)
-							})
-						})
-					}, col.key);
-				}), menuItems && /* @__PURE__ */ jsx("td", {
-					className: "shrink-0 w-16 flex flex-row items-center justify-end p-2 px-4\n                                    whitespace-nowrap text-right text-sm font-medium",
-					children: /* @__PURE__ */ jsxs("div", {
-						className: "relative",
-						children: [/* @__PURE__ */ jsx("button", {
+				children: [
+					selectable && /* @__PURE__ */ jsx("td", {
+						className: "flex items-center justify-center",
+						style: {
+							width: "3rem",
+							minWidth: "3rem",
+							flexShrink: 0
+						},
+						children: /* @__PURE__ */ jsx("button", {
 							type: "button",
-							className: `p-1.5 rounded flex items-center justify-center transition-colors ${buttonClass}`,
-							onMouseDown: (e) => e.nativeEvent.stopImmediatePropagation(),
+							"aria-label": isSelected ? "Deselect row" : "Select row",
+							"aria-checked": isSelected,
+							role: "checkbox",
 							onClick: (e) => {
 								e.stopPropagation();
-								const rect = e.currentTarget.getBoundingClientRect();
-								const coords = {
-									top: rect.bottom + 4,
-									right: window.innerWidth - rect.right
-								};
-								setAnchor(openMenuId === id ? null : coords);
-								setOpenMenuId(openMenuId === id ? null : id);
+								toggleSelect(id);
 							},
-							children: /* @__PURE__ */ jsx("span", {
-								className: "text-xl leading-none select-none",
-								children: /* @__PURE__ */ jsx(EllipsisVertical, { className: "h-5 w-5" })
+							className: `
+                                            h-4 w-4 rounded border flex items-center justify-center transition-colors cursor-pointer
+                                            ${isSelected ? "bg-login border-login text-white" : "border-login-400 bg-transparent hover:border-login-100"}
+                                        `,
+							children: isSelected && /* @__PURE__ */ jsx("svg", {
+								className: "h-3 w-3",
+								viewBox: "0 0 12 12",
+								fill: "none",
+								children: /* @__PURE__ */ jsx("path", {
+									d: "M2 6l3 3 5-5",
+									stroke: "currentColor",
+									strokeWidth: "1.5",
+									strokeLinecap: "round",
+									strokeLinejoin: "round"
+								})
 							})
-						}), openMenuId === id && anchor && /* @__PURE__ */ jsx(Menu, {
-							ref: menuRef,
-							anchor,
-							onClose: () => setOpenMenuId(null),
-							children: menuItems?.(item, id)
-						})]
+						})
+					}),
+					columns.map((col) => /* @__PURE__ */ jsx(Cell, {
+						col,
+						row,
+						density
+					}, col.key)),
+					hasExpand && /* @__PURE__ */ jsx("td", {
+						className: "flex items-center justify-center",
+						style: {
+							width: "2.5rem",
+							minWidth: "2.5rem",
+							flexShrink: 0
+						},
+						children: /* @__PURE__ */ jsx(ChevronDown, { className: `
+                                        h-4 w-4 transition-transform duration-200
+                                        ${isExpanded ? "rotate-180 text-login" : "text-login-400"}
+                                    ` })
+					}),
+					hasMenu && /* @__PURE__ */ jsx("td", {
+						className: "flex items-center justify-end pr-3",
+						style: {
+							width: "3.5rem",
+							minWidth: "3.5rem",
+							flexShrink: 0
+						},
+						children: /* @__PURE__ */ jsxs("div", {
+							className: "relative",
+							children: [/* @__PURE__ */ jsx("button", {
+								type: "button",
+								"aria-label": "Row actions",
+								"aria-expanded": isMenuOpen,
+								"aria-haspopup": "menu",
+								onMouseDown: (e) => e.nativeEvent.stopImmediatePropagation(),
+								onClick: (e) => {
+									e.stopPropagation();
+									if (isMenuOpen) setOpenMenuId(null);
+									else {
+										const rect = e.currentTarget.getBoundingClientRect();
+										openMenu(id, {
+											top: rect.bottom + 4,
+											right: window.innerWidth - rect.right
+										});
+									}
+								},
+								className: `
+                                                p-1.5 rounded flex items-center justify-center transition-colors
+                                                ${isMenuOpen ? "bg-login-500 text-login-75" : "text-login-300 hover:bg-login-500/60 hover:text-login-75"}
+                                            `,
+								children: /* @__PURE__ */ jsx(EllipsisVertical, { className: "h-4 w-4" })
+							}), isMenuOpen && anchor && /* @__PURE__ */ jsx(Menu, {
+								ref: menuRef,
+								anchor,
+								onClose: closeMenu,
+								children: menuItems(row, id)
+							})]
+						})
 					})
-				})]
-			}, index);
+				]
+			}), hasExpand && isExpanded && /* @__PURE__ */ jsx("tr", {
+				className: "flex w-full bg-login-700/25 border-b border-login-600/20",
+				children: /* @__PURE__ */ jsx("td", {
+					className: "w-full px-6 py-4",
+					onClick: (e) => e.stopPropagation(),
+					children: expandedContent
+				})
+			})] }, id + rowIdx);
 		})
 	});
 }
 //#endregion
-//#region src/components/table/header.tsx
-function parseOrder(value) {
-	return value === "asc" || value === "desc" ? value : void 0;
-}
-function Header({ columns, hideMenu, variant = "default" }) {
-	const router = useRouter();
-	const pathname = usePathname();
-	const searchParams = useSearchParams();
-	const [column, setColumn] = useState(searchParams.get("column") ?? "");
-	const [order, setOrder] = useState(parseOrder(searchParams.get("order")));
-	useEffect(() => {
-		if (!column || !order) return;
-		const params = new URLSearchParams(searchParams.toString());
-		if (searchParams.get("order") !== order || searchParams.get("column") !== column) {
-			params.set("order", order);
-			params.set("column", column);
-			params.set("page", "1");
-			router.push(`${pathname}?${params.toString()}`);
-		}
-	}, [
-		order,
-		column,
-		pathname,
-		router,
-		searchParams
-	]);
-	function handleChange(key) {
-		setColumn(key);
-		setOrder((prev) => key === column && prev === "asc" ? "desc" : "asc");
-	}
-	return /* @__PURE__ */ jsx("thead", {
-		className: `
-            block w-full
-            ${variant === "default" ? "bg-login-700" : "bg-transparent border-b border-login-600"}
-        `,
-		children: /* @__PURE__ */ jsxs("tr", {
+//#region src/components/table/skeleton.tsx
+function Skeleton({ columns, rows, variant, density, hasMenu, hasSelect }) {
+	return /* @__PURE__ */ jsx("tbody", {
+		className: `block divide-y divide-login-600/15 ${VARIANT_TBODY[variant]}`,
+		children: Array.from({ length: rows }).map((_, rowIdx) => /* @__PURE__ */ jsxs("tr", {
 			className: "flex w-full",
-			children: [columns.map((col) => {
-				const key = col.key;
-				const value = col.label || (key.length < 3 ? key.toUpperCase() : `${key[0].toUpperCase()}${key.slice(1).replaceAll("_", " ")}`);
-				return /* @__PURE__ */ jsx("th", {
+			children: [
+				hasSelect && /* @__PURE__ */ jsx("td", {
+					className: "flex items-center justify-center",
+					style: {
+						width: "3rem",
+						minWidth: "3rem",
+						flexShrink: 0
+					},
+					children: /* @__PURE__ */ jsx("span", { className: "block h-4 w-4 rounded animate-shimmer" })
+				}),
+				columns.map((col, colIdx) => /* @__PURE__ */ jsx("td", {
+					style: col.width ? {
+						width: col.width,
+						flexShrink: 0
+					} : void 0,
 					className: `
-                                flex-1 min-w-0 px-6 py-3 text-xs font-medium uppercase tracking-wider text-left
-                                ${variant === "default" ? "text-login-200" : "text-login-100"}
-                                ${variant === "minimal" ? "px-4!" : ""}
+                                flex-1 min-w-0 flex items-center
+                                ${DENSITY_TD[density]}
                             `,
-					children: /* @__PURE__ */ jsxs("button", {
-						className: "flex w-full min-w-0 flex-row items-center gap-2 group uppercase whitespace-nowrap",
-						onClick: () => handleChange(key),
-						children: [/* @__PURE__ */ jsx("span", {
-							className: "min-w-0 truncate",
-							children: value
-						}), /* @__PURE__ */ jsx("span", {
-							className: "flex flex-col",
-							children: column === key ? order === "asc" ? /* @__PURE__ */ jsx(ChevronUp, { className: "h-4 w-4" }) : /* @__PURE__ */ jsx(ChevronDown, { className: "h-4 w-4" }) : /* @__PURE__ */ jsx(ChevronUp, { className: "h-4 w-4 stroke-login-200 opacity-0 group-hover:opacity-100" })
-						})]
+					children: /* @__PURE__ */ jsx("span", {
+						className: "block h-4 rounded animate-shimmer",
+						style: {
+							width: colIdx === 0 ? `${55 + (rowIdx * 17 + colIdx * 31) % 30}%` : `${40 + (rowIdx * 13 + colIdx * 23) % 40}%`,
+							animationDelay: `${(rowIdx * columns.length + colIdx) * 40}ms`
+						}
 					})
-				}, key);
-			}), !hideMenu && /* @__PURE__ */ jsx("th", { className: "shrink-0 w-16 px-6 py-3" })]
-		})
+				}, col.key)),
+				hasMenu && /* @__PURE__ */ jsx("td", {
+					className: "flex items-center justify-end pr-3",
+					style: {
+						width: "3.5rem",
+						minWidth: "3.5rem",
+						flexShrink: 0
+					},
+					children: /* @__PURE__ */ jsx("span", { className: "block h-5 w-5 rounded animate-shimmer" })
+				})
+			]
+		}, rowIdx))
 	});
 }
 //#endregion
-//#region src/components/table/table.tsx
-function Table({ data, columns, menuItems, redirectPath, variant = "default", idKey }) {
-	if (data.length === 0) return /* @__PURE__ */ jsx("div", {
-		className: "p-4 text-center text-login-200",
-		children: "No data found"
+//#region src/components/table/empty.tsx
+function Empty({ emptyState }) {
+	if (emptyState) return /* @__PURE__ */ jsx("tbody", {
+		className: "block w-full",
+		children: /* @__PURE__ */ jsx("tr", {
+			className: "flex w-full",
+			children: /* @__PURE__ */ jsx("td", {
+				className: "w-full",
+				children: /* @__PURE__ */ jsx("div", {
+					className: "flex items-center justify-center min-h-[160px] py-8 px-6",
+					children: emptyState
+				})
+			})
+		})
 	});
-	return /* @__PURE__ */ jsx("div", {
-		className: `
-            flex-1 flex flex-col min-h-0 overflow-x-auto overflow-y-hidden h-full w-full
-            ${variant === "default" ? "bg-login-800 rounded-lg border border-login-600/30" : ""}
-            ${variant === "minimal" ? "bg-transparent" : ""}
-        `,
-		children: /* @__PURE__ */ jsxs("table", {
-			className: "min-w-full w-max divide-y divide-login-600/30 flex flex-col flex-1 min-h-0",
-			children: [/* @__PURE__ */ jsx(Header, {
-				columns,
-				hideMenu: !menuItems,
-				variant
-			}), /* @__PURE__ */ jsx(Body, {
-				list: data,
-				columns,
-				menuItems,
-				redirectPath,
-				variant,
-				idKey
-			})]
+	return /* @__PURE__ */ jsx("tbody", {
+		className: "block w-full",
+		children: /* @__PURE__ */ jsx("tr", {
+			className: "flex w-full",
+			children: /* @__PURE__ */ jsx("td", {
+				className: "w-full",
+				children: /* @__PURE__ */ jsxs("div", {
+					className: "flex flex-col items-center justify-center gap-3 min-h-[160px] py-8 text-login-300",
+					children: [/* @__PURE__ */ jsx(TableIcon, { className: "h-10 w-10 opacity-30" }), /* @__PURE__ */ jsx("span", {
+						className: "text-sm",
+						children: "No data found"
+					})]
+				})
+			})
 		})
 	});
 }
 //#endregion
 //#region src/components/table/pagination.tsx
-function Pagination({ pageSize = 10, totalRows }) {
-	const router = useRouter();
-	const pathname = usePathname();
-	const searchParams = useSearchParams();
-	const rawPage = parseInt(searchParams.get("page") || "1", 10);
-	const [current, setCurrent] = useState(Math.max(1, Number.isNaN(rawPage) ? 1 : rawPage));
-	const totalPages = Math.max(1, Math.ceil(totalRows !== void 0 && pageSize > 0 ? totalRows / pageSize : 1));
-	useEffect(() => {
-		const raw = parseInt(searchParams.get("page") || "1", 10);
-		setCurrent(Math.max(1, Math.min(totalPages, Math.max(1, Number.isNaN(raw) ? 1 : raw))));
-	}, [searchParams, totalPages]);
-	function updateQuery(p) {
-		const params = new URLSearchParams(searchParams.toString());
-		params.set("page", String(p));
-		router.push(`${pathname}?${params.toString()}`);
+function computeTotalPages(totalRows, pageSize) {
+	return Math.max(1, pageSize > 0 ? Math.ceil(totalRows / pageSize) : 1);
+}
+function pageRange(current, total) {
+	const delta = 2;
+	const left = Math.max(1, current - delta);
+	const right = Math.min(total, current + delta);
+	const pages = [];
+	if (left > 1) {
+		pages.push(1);
+		if (left > 2) pages.push("…");
 	}
-	function goPrevious() {
-		if (current <= 1) return;
-		const next = current - 1;
-		setCurrent(next);
-		updateQuery(next);
+	for (let i = left; i <= right; i++) pages.push(i);
+	if (right < total) {
+		if (right < total - 1) pages.push("…");
+		pages.push(total);
 	}
-	function goNext() {
-		if (current >= totalPages) return;
-		const next = current + 1;
-		setCurrent(next);
-		updateQuery(next);
-	}
-	function setPage(p) {
-		if (p === current) return;
-		setCurrent(p);
-		updateQuery(p);
-	}
-	function getPages(curr, total) {
-		const delta = 2;
-		const left = Math.max(1, curr - delta);
-		const right = Math.min(total, curr + delta);
-		const pages = [];
-		if (left > 1) {
-			pages.push(1);
-			if (left > 2) pages.push("...");
-		}
-		for (let i = left; i <= right; i++) pages.push(i);
-		if (right < total) {
-			if (right < total - 1) pages.push("...");
-			pages.push(total);
-		}
-		return pages;
-	}
-	const pages = getPages(current, totalPages);
-	const start = Math.max(1, (current - 1) * pageSize + 1);
-	const end = Math.min(current * pageSize, totalRows !== void 0 ? totalRows : current * pageSize);
+	return pages;
+}
+function PaginationShell({ page, totalPages, totalRows, pageSize, onPageChange, variant }) {
+	const start = totalRows === 0 ? 0 : (page - 1) * pageSize + 1;
+	const end = Math.min(page * pageSize, totalRows);
+	const pages = pageRange(page, totalPages);
+	const btnBase = `
+        flex items-center justify-center rounded-md border text-sm transition-colors duration-100
+        disabled:opacity-35 disabled:cursor-not-allowed
+    `;
+	const btnStyle = variant === "original" ? "border-login-500/50 bg-login-700 hover:bg-login-600 text-login-100" : "border-login-500/40 bg-transparent hover:bg-login-700/60 text-login-100";
+	const pageActive = variant === "original" ? "border-login bg-login/10 text-login" : "border-login text-login bg-transparent";
+	const pageInactive = variant === "original" ? "border-login-500/50 bg-login-700 text-login-100 hover:bg-login-600" : "border-transparent bg-transparent text-login-200 hover:text-login-75 hover:bg-login-700/60";
 	return /* @__PURE__ */ jsxs("div", {
-		className: "flex items-center justify-between w-full pt-4",
-		children: [/* @__PURE__ */ jsx("div", {
-			className: "text-sm /70",
-			children: totalRows !== void 0 ? totalRows === 0 ? /* @__PURE__ */ jsx("span", { children: "Showing 0 results" }) : /* @__PURE__ */ jsxs("span", { children: [
-				"Showing ",
-				start,
-				" to ",
-				end,
-				" of ",
-				totalRows,
-				" results"
-			] }) : null
-		}), /* @__PURE__ */ jsxs("div", {
-			className: "flex items-center gap-3",
+		className: "flex items-center justify-between w-full gap-4 flex-wrap",
+		children: [/* @__PURE__ */ jsx("span", {
+			className: "text-xs text-login-300 tabular-nums",
+			children: totalRows === 0 ? "No results" : `${start}-${end} of ${totalRows}`
+		}), /* @__PURE__ */ jsxs("nav", {
+			className: "flex items-center gap-1.5",
+			"aria-label": "Pagination",
 			children: [
 				/* @__PURE__ */ jsx("button", {
 					type: "button",
-					onClick: goPrevious,
-					disabled: current <= 1,
-					className: `
-                        flex items-center gap-2 p-1 rounded-lg
-                        bg-login-700 hover:bg-login-600 disabled:opacity-40
-                        border border-login-500/50 text-sm transition-colors duration-150
-                    `,
-					children: /* @__PURE__ */ jsx(ChevronLeft, { className: "h-5 w-5" })
+					"aria-label": "Previous page",
+					disabled: page <= 1,
+					onClick: () => onPageChange(page - 1),
+					className: `${btnBase} ${btnStyle} h-8 w-8`,
+					children: /* @__PURE__ */ jsx(ChevronLeft, { className: "h-4 w-4" })
 				}),
-				/* @__PURE__ */ jsx("nav", {
-					className: "flex items-center gap-1",
-					"aria-label": "Pagination",
-					children: pages.map((p, i) => typeof p === "string" ? /* @__PURE__ */ jsx("span", {
-						className: "px-3 py-1 text-sm",
-						children: p
-					}, `e-${i}`) : /* @__PURE__ */ jsx("button", {
-						type: "button",
-						onClick: () => setPage(p),
-						"aria-current": p === current ? "page" : void 0,
-						className: `
-                                    px-3 py-1 rounded-lg text-sm border transition-colors duration-150
-                                    ${p === current ? "bg-login text-white border-login" : "bg-login-700 border-login-500/50 hover:bg-login-600"}
-                                `,
-						children: p
-					}, p))
-				}),
+				pages.map((p, i) => p === "…" ? /* @__PURE__ */ jsx("span", {
+					className: "w-8 text-center text-sm text-login-400 select-none",
+					children: "…"
+				}, `ellipsis-${i}`) : /* @__PURE__ */ jsx("button", {
+					type: "button",
+					"aria-current": p === page ? "page" : void 0,
+					onClick: () => onPageChange(p),
+					className: `${btnBase} h-8 min-w-8 px-2 tabular-nums ${p === page ? pageActive : pageInactive}`,
+					children: p
+				}, p)),
 				/* @__PURE__ */ jsx("button", {
 					type: "button",
-					onClick: goNext,
-					disabled: current >= totalPages,
-					className: `
-                        flex items-center gap-2 p-1 rounded-lg select-none
-                        bg-login-700 hover:bg-login-600 disabled:opacity-40
-                        border border-login-500/50 text-sm transition-colors duration-150
-                    `,
-					children: /* @__PURE__ */ jsx(ChevronRight, { className: "h-5 w-5" })
+					"aria-label": "Next page",
+					disabled: page >= totalPages,
+					onClick: () => onPageChange(page + 1),
+					className: `${btnBase} ${btnStyle} h-8 w-8`,
+					children: /* @__PURE__ */ jsx(ChevronRight, { className: "h-4 w-4" })
 				})
 			]
 		})]
 	});
+}
+function PaginationLocalState({ totalRows, pageSize, variant = "original" }) {
+	const [page, setPage] = useState(1);
+	return /* @__PURE__ */ jsx(PaginationShell, {
+		page,
+		totalPages: computeTotalPages(totalRows, pageSize),
+		totalRows,
+		pageSize,
+		onPageChange: setPage,
+		variant
+	});
+}
+function PaginationURLState({ totalRows, pageSize, variant = "original" }) {
+	const router = useRouter();
+	const pathname = usePathname();
+	const searchParams = useSearchParams();
+	const page = Math.max(1, parseInt(searchParams.get("page") ?? "1", 10) || 1);
+	function onPageChange(p) {
+		const params = new URLSearchParams(searchParams.toString());
+		params.set("page", String(p));
+		router.replace(`${pathname}?${params.toString()}`);
+	}
+	return /* @__PURE__ */ jsx(PaginationShell, {
+		page,
+		totalPages: computeTotalPages(totalRows, pageSize),
+		totalRows,
+		pageSize,
+		onPageChange,
+		variant
+	});
+}
+function Pagination(props) {
+	const { totalRows, pageSize, variant = "original", urlState, page, onPageChange } = props;
+	if (urlState) return /* @__PURE__ */ jsx(Suspense, {
+		fallback: /* @__PURE__ */ jsx(PaginationShell, {
+			page: 1,
+			totalPages: computeTotalPages(totalRows, pageSize),
+			totalRows,
+			pageSize,
+			onPageChange: () => {},
+			variant
+		}),
+		children: /* @__PURE__ */ jsx(PaginationURLState, { ...props })
+	});
+	if (page !== void 0 && onPageChange !== void 0) return /* @__PURE__ */ jsx(PaginationShell, {
+		page,
+		totalPages: computeTotalPages(totalRows, pageSize),
+		totalRows,
+		pageSize,
+		onPageChange,
+		variant
+	});
+	return /* @__PURE__ */ jsx(PaginationLocalState, { ...props });
+}
+//#endregion
+//#region src/components/table/table.tsx
+function TableShell({ data, columns, idKey, variant, density, striped, loading, loadingRows, emptyState, redirectPath, onRowClick, renderExpandedRow, selectable, selectedIds, onSelectionChange, sort, onSort, page, onPageChange, totalRows, pageSize, hidePagination, menuItems, className }) {
+	const allIds = data.map((row) => resolveId(row, idKey, columns));
+	const allIdsSet = useMemo(() => new Set(allIds), [allIds]);
+	const allSelected = allIds.length > 0 && allIds.every((id) => selectedIds.includes(id));
+	const someSelected = !allSelected && allIds.some((id) => selectedIds.includes(id));
+	function handleSelectAll() {
+		if (allSelected) onSelectionChange(selectedIds.filter((id) => !allIdsSet.has(id)));
+		else onSelectionChange([.../* @__PURE__ */ new Set([...selectedIds, ...allIds])]);
+	}
+	const isEmpty = !loading && data.length === 0;
+	const showPagination = !hidePagination && pageSize > 0 && totalRows > 0;
+	const hasMenu = Boolean(menuItems);
+	const hasSelect = Boolean(selectable);
+	const hasExpand = Boolean(renderExpandedRow);
+	const paginationPad = variant === "original" ? "px-4 pb-4 pt-3" : "pt-4";
+	return /* @__PURE__ */ jsxs("div", {
+		className: [
+			"flex flex-col min-h-0 w-full",
+			VARIANT_CONTAINER[variant],
+			className
+		].filter(Boolean).join(" "),
+		children: [/* @__PURE__ */ jsx("div", {
+			className: "flex-1 min-h-0 overflow-x-auto",
+			children: /* @__PURE__ */ jsxs("table", {
+				className: "min-w-full w-max flex flex-col flex-1 min-h-0 divide-y divide-login-600/20",
+				children: [/* @__PURE__ */ jsx(Header, {
+					columns,
+					sort,
+					onSort,
+					hasMenu,
+					hasSelect,
+					hasExpand,
+					allSelected,
+					someSelected,
+					onSelectAll: handleSelectAll,
+					variant,
+					density
+				}), loading ? /* @__PURE__ */ jsx(Skeleton, {
+					columns,
+					rows: loadingRows,
+					variant,
+					density,
+					hasMenu,
+					hasSelect
+				}) : isEmpty ? /* @__PURE__ */ jsx(Empty, { emptyState }) : /* @__PURE__ */ jsx(Body, {
+					data,
+					columns,
+					idKey,
+					variant,
+					density,
+					striped,
+					redirectPath,
+					onRowClick,
+					renderExpandedRow,
+					selectable,
+					selectedIds,
+					onSelectionChange,
+					menuItems
+				})]
+			})
+		}), showPagination && /* @__PURE__ */ jsx("div", {
+			className: paginationPad,
+			children: /* @__PURE__ */ jsx(Pagination, {
+				page,
+				totalRows,
+				pageSize,
+				onPageChange,
+				variant
+			})
+		})]
+	});
+}
+function useInternalSelection(props) {
+	const [internal, setInternal] = useState([]);
+	return {
+		selectedIds: props.selectedIds ?? internal,
+		onSelectionChange: props.onSelectionChange ?? setInternal
+	};
+}
+function applyDefaults(props) {
+	return {
+		variant: props.variant ?? "original",
+		density: props.density ?? "comfortable",
+		selectable: props.selectable ?? false,
+		loading: props.loading ?? false,
+		loadingRows: props.loadingRows ?? props.pageSize ?? 5,
+		striped: props.striped ?? false,
+		hidePagination: props.hidePagination ?? false,
+		pageSize: props.pageSize ?? 0
+	};
+}
+function TableLocalState(props) {
+	const defaults = applyDefaults(props);
+	const selection = useInternalSelection(props);
+	const [sort, setSort] = useState(void 0);
+	const [page, setPage] = useState(1);
+	const ps = defaults.pageSize;
+	const allRows = props.data.length;
+	const sorted = useMemo(() => {
+		if (!sort) return props.data;
+		return [...props.data].sort((a, b) => {
+			const av = a[sort.column];
+			const bv = b[sort.column];
+			const cmp = String(av ?? "").localeCompare(String(bv ?? ""), void 0, {
+				numeric: true,
+				sensitivity: "base"
+			});
+			return sort.order === "asc" ? cmp : -cmp;
+		});
+	}, [props.data, sort]);
+	const displayData = ps > 0 ? sorted.slice((page - 1) * ps, page * ps) : sorted;
+	function handleSort(newSort) {
+		setSort(newSort);
+		setPage(1);
+	}
+	return /* @__PURE__ */ jsx(TableShell, {
+		...props,
+		...defaults,
+		...selection,
+		data: displayData,
+		sort,
+		onSort: handleSort,
+		page,
+		onPageChange: setPage,
+		totalRows: ps > 0 ? allRows : props.totalRows ?? allRows
+	});
+}
+function TableURLState(props) {
+	const defaults = applyDefaults(props);
+	const selection = useInternalSelection(props);
+	const router = useRouter();
+	const pathname = usePathname();
+	const searchParams = useSearchParams();
+	const urlColumn = searchParams.get("column") ?? "";
+	const urlOrder = searchParams.get("order") ?? "asc";
+	const urlPage = Math.max(1, parseInt(searchParams.get("page") ?? "1", 10) || 1);
+	const sort = urlColumn ? {
+		column: urlColumn,
+		order: urlOrder
+	} : void 0;
+	function handleSort(newSort) {
+		const p = new URLSearchParams(searchParams.toString());
+		p.set("column", newSort.column);
+		p.set("order", newSort.order);
+		p.set("page", "1");
+		router.replace(`${pathname}?${p.toString()}`);
+	}
+	function handlePageChange(newPage) {
+		const p = new URLSearchParams(searchParams.toString());
+		p.set("page", String(newPage));
+		router.replace(`${pathname}?${p.toString()}`);
+	}
+	return /* @__PURE__ */ jsx(TableShell, {
+		...props,
+		...defaults,
+		...selection,
+		sort,
+		onSort: handleSort,
+		page: urlPage,
+		onPageChange: handlePageChange,
+		totalRows: props.totalRows ?? props.data.length
+	});
+}
+function TableControlled(props) {
+	const defaults = applyDefaults(props);
+	const selection = useInternalSelection(props);
+	return /* @__PURE__ */ jsx(TableShell, {
+		...props,
+		...defaults,
+		...selection,
+		sort: props.sort,
+		onSort: props.onSort,
+		page: props.page ?? 1,
+		onPageChange: props.onPageChange ?? (() => {}),
+		totalRows: props.totalRows ?? props.data.length
+	});
+}
+function Table(props) {
+	if (props.sort !== void 0 || props.onSort !== void 0) return /* @__PURE__ */ jsx(TableControlled, { ...props });
+	if (props.urlState) {
+		const defaults = applyDefaults(props);
+		return /* @__PURE__ */ jsx(Suspense, {
+			fallback: /* @__PURE__ */ jsx(TableShell, {
+				...props,
+				...defaults,
+				selectedIds: props.selectedIds ?? [],
+				onSelectionChange: props.onSelectionChange ?? (() => {}),
+				sort: void 0,
+				onSort: () => {},
+				page: 1,
+				onPageChange: () => {},
+				totalRows: props.totalRows ?? props.data.length
+			}),
+			children: /* @__PURE__ */ jsx(TableURLState, { ...props })
+		});
+	}
+	return /* @__PURE__ */ jsx(TableLocalState, { ...props });
 }
 //#endregion
 //#region src/components/confirm/confirmPopup.tsx

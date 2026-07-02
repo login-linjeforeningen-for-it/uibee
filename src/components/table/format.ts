@@ -1,35 +1,42 @@
-const nullableTimeKeys = ['date', 'last_sent', 'time']
+const nullableTimeKeys = new Set(['date', 'last_sent', 'sent_at', 'time'])
 
-const ISODateTimeReg = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/
-const ISODateReg = /^\d{4}-\d{2}-\d{2}$/
-const ISOTimeReg = /^\d{2}:\d{2}(:\d{2})?$/
+const RX_DATETIME = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/
+const RX_DATE     = /^\d{4}-\d{2}-\d{2}$/
+const RX_TIME     = /^\d{2}:\d{2}(:\d{2})?$/
 
-const OsloTZ = { timeZone: 'Europe/Oslo' } as const
-const OsloTime: Intl.DateTimeFormatOptions = { ...OsloTZ, hour: '2-digit', minute: '2-digit' }
-const OsloDateTime: Intl.DateTimeFormatOptions = { ...OsloTime, year: 'numeric', month: '2-digit', day: '2-digit' }
+export function formatValue(key: string, value: unknown): string | number {
+    if (value === null || value === undefined) {
+        return nullableTimeKeys.has(key) ? 'Never' : '-'
+    }
 
-export function formatValue(key: string, value: string | number) {
-    if (nullableTimeKeys.includes(key) && !value) {
-        return 'Never'
+    if (typeof value === 'boolean') return value ? 'Yes' : 'No'
+
+    if (typeof value === 'number') {
+        if (key.includes('capacity') && value === 0) return 'Unlimited'
+        return value
     }
 
     if (typeof value === 'string') {
-        if (ISODateTimeReg.test(value)) {
-            return new Date(value).toLocaleString('nb-NO', OsloDateTime)
+        if (RX_DATETIME.test(value)) {
+            return new Date(value).toLocaleString('nb-NO', {
+                timeZone: 'Europe/Oslo',
+                year: 'numeric', month: '2-digit', day: '2-digit',
+                hour: '2-digit', minute: '2-digit',
+            })
         }
-
-        if (ISODateReg.test(value)) {
-            return new Date(value).toLocaleDateString('nb-NO', OsloTZ)
+        if (RX_DATE.test(value)) {
+            return new Date(value).toLocaleDateString('nb-NO', { timeZone: 'Europe/Oslo' })
         }
-
-        if (ISOTimeReg.test(value)) {
-            return new Date(`1970-01-01T${value}`).toLocaleTimeString('nb-NO', OsloTime)
+        if (RX_TIME.test(value)) {
+            return new Date(`1970-01-01T${value}`).toLocaleTimeString('nb-NO', {
+                timeZone: 'Europe/Oslo',
+                hour: '2-digit', minute: '2-digit',
+            })
         }
+        return value
     }
 
-    if (key.includes('capacity')) {
-        return value === 0 ? 'Unlimited' : value
-    }
+    if (Array.isArray(value)) return value.join(', ')
 
-    return value
+    return String(value)
 }

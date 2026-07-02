@@ -32,7 +32,6 @@ export default async function authCallback({
     }
 
     try {
-        // Exchanges callback code for access token
         const tokenResponse = await fetch(tokenURL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -56,7 +55,6 @@ export default async function authCallback({
 
         const token = JSON.parse(tokenResponseBody)
 
-        // Fetches user info using access token
         const userInfoResponse = await fetch(userInfoURL, {
             headers: { Authorization: `Bearer ${token.access_token}` }
         })

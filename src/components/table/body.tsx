@@ -1,184 +1,291 @@
-import { EllipsisVertical } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { useState, useRef, RefObject, useEffect } from 'react'
-import React from 'react'
-import useClickOutside from '@hooks/useClickOutside'
-import Menu from './menu'
-import type { Column } from 'uibee/components'
-import { formatValue } from './format'
+'use client'
 
-type BodyProps = {
-    list: object[]
-    columns: Column[]
-    menuItems?: (data: object, id: string) => React.ReactNode
-    redirectPath?: string | { path: string, key?: string }
-    variant?: 'default' | 'minimal'
-    idKey?: string
+import React, { useState, useRef, useEffect, useCallback, useMemo, type RefObject } from 'react'
+import { useRouter } from 'next/navigation'
+import { EllipsisVertical, ChevronDown } from 'lucide-react'
+import type { Column, Density, TableVariant, MenuAnchor, TableShellProps } from './types'
+import { HIGHLIGHT, DENSITY_TD, VARIANT_TBODY, VARIANT_ROW_HOVER, VARIANT_ROW_STRIPED } from './constants'
+import { formatValue } from './format'
+import { resolveId } from './utils'
+import Menu from './menu'
+
+function useClickOutside(ref: RefObject<HTMLElement | null>, cb: () => void, enabled: boolean) {
+    useEffect(() => {
+        if (!enabled) return
+        function handler(e: MouseEvent) {
+            if (ref.current && !ref.current.contains(e.target as Node)) cb()
+        }
+        document.addEventListener('mousedown', handler)
+        return () => document.removeEventListener('mousedown', handler)
+    }, [ref, cb, enabled])
 }
 
-export default function Body({ list, columns, menuItems, redirectPath, variant = 'default', idKey }: BodyProps) {
-    const [openMenuId, setOpenMenuId] = useState<string | null>(null)
-    const [anchor, setAnchor] = useState<{ top: number; right: number } | null>(null)
+function resolveRedirectUrl(
+    redirectPath: TableShellProps<Record<string, unknown>>['redirectPath'],
+    row: Record<string, unknown>,
+    id: string
+): string | null {
+    if (!redirectPath) return null
+    const cfg = typeof redirectPath === 'string'
+        ? { path: redirectPath, key: undefined }
+        : redirectPath
+    if (!cfg.path) return null
+    const rid = cfg.key ? String(row[cfg.key] ?? id) : id
+    return cfg.path.includes('?') ? `${cfg.path}${rid}` : `${cfg.path}/${rid}`
+}
+
+function Cell<T extends Record<string, unknown>>({
+    col,
+    row,
+    density,
+}: {
+    col: Column<T>
+    row: T
+    density: Density
+}) {
+    const value = row[col.key]
+    // Truncate: opt-in, only applied when col.truncate === true
+    const shouldTruncate = col.truncate === true
+    const align = col.align ?? 'left'
+
+    const wrapperAlign =
+        align === 'right'  ? 'text-right'  :
+        align === 'center' ? 'text-center' : ''
+
+    let content: React.ReactNode
+
+    if (col.render) {
+        // Custom renderer: caller is responsible for alignment
+        content = col.render(value, row)
+    } else if (col.highlight) {
+        const colorName = col.highlight[String(value)] ?? col.highlight['default']
+        const formatted = String(formatValue(col.key, value))
+        if (colorName) {
+            content = (
+                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${HIGHLIGHT[colorName]}`}>
+                    {formatted}
+                </span>
+            )
+        } else {
+            content = (
+                <span className={shouldTruncate ? 'block truncate' : 'whitespace-nowrap'}>
+                    {formatted}
+                </span>
+            )
+        }
+    } else {
+        const formatted = formatValue(col.key, value)
+        content = (
+            <span className={shouldTruncate ? 'block truncate' : 'whitespace-nowrap'}>
+                {formatted === null || formatted === undefined ? '-' : String(formatted)}
+            </span>
+        )
+    }
+
+    return (
+        <td
+            style={col.width ? { width: col.width, flexShrink: 0 } : undefined}
+            className={`
+                ${col.width ? '' : 'flex-1'} min-w-0 flex items-center text-sm text-login-75
+                ${DENSITY_TD[density]}
+            `}
+        >
+            {/* w-full fills the column; text-align handles alignment */}
+            <div className={`min-w-0 w-full ${wrapperAlign}`}>
+                {content}
+            </div>
+        </td>
+    )
+}
+
+type BodyProps<T extends Record<string, unknown>> = Pick<
+    TableShellProps<T>,
+    'data' | 'columns' | 'idKey' | 'variant' | 'density' | 'striped' |
+    'redirectPath' | 'onRowClick' | 'renderExpandedRow' |
+    'selectable' | 'selectedIds' | 'onSelectionChange' |
+    'menuItems'
+>
+
+export default function Body<T extends Record<string, unknown>>({
+    data, columns, idKey, variant, density, striped,
+    redirectPath, onRowClick, renderExpandedRow,
+    selectable, selectedIds, onSelectionChange,
+    menuItems,
+}: BodyProps<T>) {
     const router = useRouter()
+    const [openMenuId, setOpenMenuId] = useState<string | null>(null)
+    const [anchor, setAnchor] = useState<MenuAnchor | null>(null)
+    const [expandedId, setExpandedId] = useState<string | null>(null)
+
     const menuRef = useRef<HTMLDivElement>(null)
     const tbodyRef = useRef<HTMLTableSectionElement>(null)
     const menuWasOpenOnMouseDown = useRef(false)
 
-    useClickOutside(menuRef as RefObject<HTMLElement>, () => setOpenMenuId(null))
+    const closeMenu = useCallback(() => setOpenMenuId(null), [])
+    useClickOutside(menuRef as RefObject<HTMLElement>, closeMenu, openMenuId !== null)
 
     useEffect(() => {
         const el = tbodyRef.current
         if (!el) return
-        const close = () => setOpenMenuId(null)
-        el.addEventListener('scroll', close)
-        return () => el.removeEventListener('scroll', close)
-    }, [])
+        el.addEventListener('scroll', closeMenu)
+        return () => el.removeEventListener('scroll', closeMenu)
+    }, [closeMenu])
+
+    function openMenu(id: string, coords: MenuAnchor) {
+        setAnchor(coords)
+        setOpenMenuId(id)
+    }
+
+    const selectedSet = useMemo(() => new Set(selectedIds), [selectedIds])
+
+    function toggleSelect(id: string) {
+        const next = selectedSet.has(id)
+            ? selectedIds.filter(s => s !== id)
+            : [...selectedIds, id]
+        onSelectionChange(next)
+    }
+
+    const hasMenu   = Boolean(menuItems)
+    const hasExpand = Boolean(renderExpandedRow)
 
     return (
         <tbody
             ref={tbodyRef}
-            className={`
-                block overflow-y-auto flex-1 min-h-0 divide-y
-                ${variant === 'default' ? 'bg-login-800 divide-login-600/25' : 'bg-transparent divide-login-600/20'}
-            `}
+            className={`block overflow-y-auto flex-1 min-h-0 divide-y ${VARIANT_TBODY[variant]}`}
         >
-            {list.map((item, index) => {
-                const itemRecord = item as Record<string, unknown>
-                let id: string = ''
+            {data.map((row, rowIdx) => {
+                const id = resolveId(row as Record<string, unknown>, idKey as string | undefined, columns as Column<Record<string, unknown>>[])
+                const url = resolveRedirectUrl(redirectPath, row as Record<string, unknown>, id)
+                const isClickable = Boolean(url || onRowClick || hasExpand)
+                const isMenuOpen  = openMenuId === id
+                const isExpanded  = expandedId  === id
+                const isSelected  = selectable && selectedSet.has(id)
+                const expandedContent = renderExpandedRow?.(row)
 
-                if (idKey && itemRecord[idKey] !== undefined) {
-                    id = String(itemRecord[idKey])
-                } else if (itemRecord['id'] !== undefined) {
-                    id = String(itemRecord['id'])
-                } else {
-                    const firstKey = columns[0]?.key || Object.keys(itemRecord)[0]
-                    id = String(itemRecord[firstKey])
-                }
-
-                const redirectConfig = (typeof redirectPath === 'object' && redirectPath) ? redirectPath : { path: redirectPath as string }
-                const redirectId = redirectConfig.key ? String(itemRecord[redirectConfig.key]) : id
-
-                const menuButtonColors = variant === 'minimal'
-                    ? {
-                        active: 'bg-login-600 text-login-100',
-                        inactive: 'hover:bg-login-600 text-login-200 hover:text-login-100'
-                    }
-                    : {
-                        active: 'bg-login-400 text-login-100',
-                        inactive: 'hover:bg-login-400 text-login-200 hover:text-login-100'
-                    }
-
-                const buttonClass = openMenuId === id ? menuButtonColors.active : menuButtonColors.inactive
+                const rowClass = [
+                    'flex w-full transition-colors duration-100',
+                    isClickable ? 'cursor-pointer' : '',
+                    VARIANT_ROW_HOVER[variant],
+                    striped ? VARIANT_ROW_STRIPED[variant] : '',
+                    isSelected ? 'bg-login/5' : '',
+                ].filter(Boolean).join(' ')
 
                 return (
-                    <tr
-                        key={index}
-                        className={`
-                            flex w-full group/row transition-colors 
-                            ${redirectConfig.path ? 'cursor-pointer' : ''}
-                            ${variant === 'default' && redirectConfig.path ? 'hover:bg-login-600/80' : ''}
-                            ${variant === 'minimal' ? 'hover:bg-login-600/70 border-b border-login-600/20 last:border-0' : ''}
-                        `}
-                        onMouseDown={() => {
-                            menuWasOpenOnMouseDown.current = openMenuId !== null
-                        }}
-                        onClick={() => {
-                            if (menuWasOpenOnMouseDown.current) {
-                                menuWasOpenOnMouseDown.current = false
-                                return
-                            }
-                            if (redirectConfig.path) {
-                                if (redirectConfig.path.includes('?')) {
-                                    router.push(`${redirectConfig.path}${redirectId}`)
-                                } else {
-                                    router.push(`${redirectConfig.path}/${redirectId}`)
+                    <React.Fragment key={id + rowIdx}>
+                        <tr
+                            className={rowClass}
+                            onMouseEnter={() => { if (url) router.prefetch(url) }}
+                            onMouseDown={() => {
+                                menuWasOpenOnMouseDown.current = openMenuId !== null
+                            }}
+                            onClick={() => {
+                                if (menuWasOpenOnMouseDown.current) {
+                                    menuWasOpenOnMouseDown.current = false
+                                    return
                                 }
-                            }
-                        }}
-                        onContextMenu={(e) => {
-                            e.preventDefault()
-                            setAnchor({ top: e.clientY, right: window.innerWidth - e.clientX })
-                            setOpenMenuId(id)
-                        }}
-                    >
-                        {columns.map((col) => {
-                            const val = itemRecord[col.key] as string | number | undefined
-                            const value = val
-
-                            let badgeClass = ''
-                            if (col.highlight) {
-                                const highlightKey = String(value)
-                                const colorName = col.highlight[highlightKey] || col.highlight.default
-                                if (colorName) {
-                                    switch (colorName) {
-                                        case 'green':
-                                            badgeClass = 'bg-green-500/20 text-green-400'; break
-                                        case 'yellow':
-                                            badgeClass = 'bg-yellow-500/20 text-yellow-400'; break
-                                        case 'red':
-                                            badgeClass = 'bg-red-500/20 text-red-400'; break
-                                        case 'blue':
-                                            badgeClass = 'bg-blue-500/20 text-blue-400'; break
-                                        case 'gray':
-                                            badgeClass = 'bg-gray-500/20 text-gray-400'; break
-                                    }
-                                    badgeClass += ' px-2 py-1 rounded'
+                                if (hasExpand) {
+                                    setExpandedId(isExpanded ? null : id)
+                                    return
                                 }
-                            }
-
-                            return (
-                                <td
-                                    key={col.key}
-                                    className={`
-                                        flex-1 min-w-0 px-6 py-4 whitespace-nowrap text-sm flex items-center text-login-100
-                                        ${variant === 'minimal' ? 'px-4! py-2!' : ''}
-                                    `}
-                                >
-                                    <div className='relative w-full min-w-0'>
-                                        <span className={`block max-w-full truncate ${badgeClass}`}>
-                                            {formatValue(col.key, value as string | number)}
-                                        </span>
-                                    </div>
-                                </td>
-                            )
-                        })}
-                        {menuItems && (
-                            <td
-                                className='shrink-0 w-16 flex flex-row items-center justify-end p-2 px-4
-                                    whitespace-nowrap text-right text-sm font-medium'
-                            >
-                                <div className='relative'>
+                                if (onRowClick) { onRowClick(row, id); return }
+                                if (url) router.push(url)
+                            }}
+                            onContextMenu={(e) => {
+                                if (!hasMenu) return
+                                e.preventDefault()
+                                openMenu(id, { top: e.clientY, right: window.innerWidth - e.clientX })
+                            }}
+                        >
+                            {selectable && (
+                                <td className='flex items-center justify-center'
+                                    style={{ width: '3rem', minWidth: '3rem', flexShrink: 0 }}>
                                     <button
                                         type='button'
-                                        className={`p-1.5 rounded flex items-center justify-center transition-colors ${buttonClass}`}
-                                        onMouseDown={(e) => e.nativeEvent.stopImmediatePropagation()}
-                                        onClick={(e) => {
-                                            e.stopPropagation()
-                                            const rect = (e.currentTarget as HTMLButtonElement).getBoundingClientRect()
-                                            const coords = { top: rect.bottom + 4, right: window.innerWidth - rect.right }
-                                            setAnchor(openMenuId === id ? null : coords)
-                                            setOpenMenuId(openMenuId === id ? null : id)
-                                        }}
+                                        aria-label={isSelected ? 'Deselect row' : 'Select row'}
+                                        aria-checked={isSelected}
+                                        role='checkbox'
+                                        onClick={(e) => { e.stopPropagation(); toggleSelect(id) }}
+                                        className={`
+                                            h-4 w-4 rounded border flex items-center justify-center transition-colors cursor-pointer
+                                            ${isSelected
+                                                ? 'bg-login border-login text-white'
+                                                : 'border-login-400 bg-transparent hover:border-login-100'
+                                            }
+                                        `}
                                     >
-                                        <span
-                                            className='text-xl leading-none select-none'
-                                        >
-                                            <EllipsisVertical className='h-5 w-5' />
-                                        </span>
+                                        {isSelected && (
+                                            <svg className='h-3 w-3' viewBox='0 0 12 12' fill='none'>
+                                                <path d='M2 6l3 3 5-5' stroke='currentColor' strokeWidth='1.5' strokeLinecap='round' strokeLinejoin='round' />
+                                            </svg>
+                                        )}
                                     </button>
-                                    {openMenuId === id && anchor && (
-                                        <Menu
-                                            ref={menuRef}
-                                            anchor={anchor}
-                                            onClose={() => setOpenMenuId(null)}
+                                </td>
+                            )}
+
+                            {columns.map((col) => (
+                                <Cell key={col.key} col={col} row={row} density={density} />
+                            ))}
+
+                            {hasExpand && (
+                                <td className='flex items-center justify-center'
+                                    style={{ width: '2.5rem', minWidth: '2.5rem', flexShrink: 0 }}>
+                                    <ChevronDown className={`
+                                        h-4 w-4 transition-transform duration-200
+                                        ${isExpanded ? 'rotate-180 text-login' : 'text-login-400'}
+                                    `} />
+                                </td>
+                            )}
+
+                            {hasMenu && (
+                                <td className='flex items-center justify-end pr-3'
+                                    style={{ width: '3.5rem', minWidth: '3.5rem', flexShrink: 0 }}>
+                                    <div className='relative'>
+                                        <button
+                                            type='button'
+                                            aria-label='Row actions'
+                                            aria-expanded={isMenuOpen}
+                                            aria-haspopup='menu'
+                                            onMouseDown={(e) => e.nativeEvent.stopImmediatePropagation()}
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                                if (isMenuOpen) {
+                                                    setOpenMenuId(null)
+                                                } else {
+                                                    const rect = e.currentTarget.getBoundingClientRect()
+                                                    openMenu(id, { top: rect.bottom + 4, right: window.innerWidth - rect.right })
+                                                }
+                                            }}
+                                            className={`
+                                                p-1.5 rounded flex items-center justify-center transition-colors
+                                                ${isMenuOpen
+                                                    ? 'bg-login-500 text-login-75'
+                                                    : 'text-login-300 hover:bg-login-500/60 hover:text-login-75'
+                                                }
+                                            `}
                                         >
-                                            {menuItems?.(item, id)}
-                                        </Menu>
-                                    )}
-                                </div>
-                            </td>
+                                            <EllipsisVertical className='h-4 w-4' />
+                                        </button>
+                                        {isMenuOpen && anchor && (
+                                            <Menu ref={menuRef} anchor={anchor} onClose={closeMenu}>
+                                                {menuItems!(row, id)}
+                                            </Menu>
+                                        )}
+                                    </div>
+                                </td>
+                            )}
+                        </tr>
+
+                        {hasExpand && isExpanded && (
+                            <tr className='flex w-full bg-login-700/25 border-b border-login-600/20'>
+                                <td
+                                    className='w-full px-6 py-4'
+                                    onClick={(e) => e.stopPropagation()}
+                                >
+                                    {expandedContent}
+                                </td>
+                            </tr>
                         )}
-                    </tr>
+                    </React.Fragment>
                 )
             })}
         </tbody>

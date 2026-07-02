@@ -69,7 +69,6 @@ export default function Navbar({
             <div className={`flex w-full max-w-6xl m-auto p-2 transition duration-500 800px:justify-between 800px:p-4 ${
                 isMobileMenuOpen ? 'h-screen bg-login-900/20 800px:h-20' : ''} ${innerClassName}
             `}>
-                {/* Logo */}
                 <div className='block h-12 p-1 800px:p-0'>
                     <Link
                         href='/'
@@ -81,12 +80,10 @@ export default function Navbar({
 
                 {onlyLogo ? null : (
                     <>
-                        {/* Desktop Navigation */}
                         <nav className='hidden 800px:flex 800px:justify-between 800px:items-center 800px:w-fill max-w-200'>
                             {children}
                         </nav>
 
-                        {/* Controls */}
                         <nav className='flex w-[calc(100vw-8rem)] justify-end h-12 800px:w-fit'>
                             <div className='relative grid gap-2'>
                                 {!disableThemeToggle &&
@@ -115,7 +112,6 @@ export default function Navbar({
                             </div>
                         </nav>
 
-                        {/* Mobile Menu Button */}
                         <button
                             className='w-12 h-12 relative cursor-pointer bg-none border-none 800px:hidden'
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -124,7 +120,6 @@ export default function Navbar({
                             <div className={hamburgerStyle(isMobileMenuOpen, true)} />
                         </button>
 
-                        {/* Mobile Navigation */}
                         <nav className={`fixed top-16 w-[calc(100%-2rem)] max-w-140 mx-auto left-0 right-0 800px:hidden
                             transition-all duration-500 ease-in-out overflow-hidden 
                             ${isMobileMenuOpen ? 'max-h-[calc(100vh-4rem)] opacity-100' : 'max-h-0 opacity-0'}`}

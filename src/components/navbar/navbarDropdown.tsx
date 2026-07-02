@@ -16,7 +16,6 @@ export default function NavDropdown({ children, title, className }: NavDropdownP
 
     return (
         <>
-            {/* Desktop Dropdown */}
             <div className={'relative hidden 800px:block'}>
                 <div className='outline-none' tabIndex={0} ref={navItemRef}
                     onMouseEnter={() => setIsDesktopOpen(true)}
@@ -53,7 +52,6 @@ export default function NavDropdown({ children, title, className }: NavDropdownP
                 </div>
             </div>
 
-            {/* Mobile Dropdown */}
             <div className={'block 800px:hidden!'}>
                 <button
                     className={'bg-none border-none cursor-pointer w-full text-left'}

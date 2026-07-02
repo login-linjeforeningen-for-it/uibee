@@ -1,165 +1,191 @@
 'use client'
 
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { Suspense, useState } from 'react'
+import { useRouter, usePathname, useSearchParams } from 'next/navigation'
+import type { TableVariant } from './types'
 
-type PaginationProps = {
-    pageSize?: number
-    totalRows?: number
+export type PaginationProps = {
+    totalRows: number
+    pageSize: number
+    variant?: TableVariant
+    urlState?: boolean
+    page?: number
+    onPageChange?: (page: number) => void
 }
 
-export default function Pagination({
-    pageSize = 10,
-    totalRows,
-}: PaginationProps) {
-    const router = useRouter()
-    const pathname = usePathname()
-    const searchParams = useSearchParams()
+type ShellProps = {
+    page: number
+    totalPages: number
+    totalRows: number
+    pageSize: number
+    onPageChange: (page: number) => void
+    variant: TableVariant
+}
 
-    const rawPage = parseInt(searchParams.get('page') || '1', 10)
-    const initialPage = Math.max(1, Number.isNaN(rawPage) ? 1 : rawPage)
-    const [current, setCurrent] = useState<number>(initialPage)
+function computeTotalPages(totalRows: number, pageSize: number) {
+    return Math.max(1, pageSize > 0 ? Math.ceil(totalRows / pageSize) : 1)
+}
 
-    const totalPages = Math.max(
-        1,
-        Math.ceil(totalRows !== undefined && pageSize > 0 ? totalRows / pageSize : 1)
-    )
+function pageRange(current: number, total: number): (number | '…')[] {
+    const delta = 2
+    const left  = Math.max(1, current - delta)
+    const right = Math.min(total, current + delta)
+    const pages: (number | '…')[] = []
 
-    useEffect(() => {
-        const raw = parseInt(searchParams.get('page') || '1', 10)
-        const p = Math.max(1, Number.isNaN(raw) ? 1 : raw)
-        setCurrent(Math.max(1, Math.min(totalPages, p)))
-    }, [searchParams, totalPages])
+    if (left > 1) { pages.push(1); if (left > 2) pages.push('…') }
+    for (let i = left; i <= right; i++) pages.push(i)
+    if (right < total) { if (right < total - 1) pages.push('…'); pages.push(total) }
 
-    function updateQuery(p: number) {
-        const params = new URLSearchParams(searchParams.toString())
-        params.set('page', String(p))
-        router.push(`${pathname}?${params.toString()}`)
-    }
+    return pages
+}
 
-    function goPrevious() {
-        if (current <= 1) return
-        const next = current - 1
-        setCurrent(next)
-        updateQuery(next)
-    }
+function PaginationShell({ page, totalPages, totalRows, pageSize, onPageChange, variant }: ShellProps) {
+    const start = totalRows === 0 ? 0 : (page - 1) * pageSize + 1
+    const end   = Math.min(page * pageSize, totalRows)
+    const pages = pageRange(page, totalPages)
 
-    function goNext() {
-        if (current >= totalPages) return
-        const next = current + 1
-        setCurrent(next)
-        updateQuery(next)
-    }
+    const btnBase = `
+        flex items-center justify-center rounded-md border text-sm transition-colors duration-100
+        disabled:opacity-35 disabled:cursor-not-allowed
+    `
 
-    function setPage(p: number) {
-        if (p === current) return
-        setCurrent(p)
-        updateQuery(p)
-    }
+    const btnStyle = variant === 'original'
+        ? 'border-login-500/50 bg-login-700 hover:bg-login-600 text-login-100'
+        : 'border-login-500/40 bg-transparent hover:bg-login-700/60 text-login-100'
 
-    function getPages(curr: number, total: number): (number | string)[] {
-        const delta = 2
-        const left = Math.max(1, curr - delta)
-        const right = Math.min(total, curr + delta)
+    const pageActive = variant === 'original'
+        ? 'border-login bg-login/10 text-login'
+        : 'border-login text-login bg-transparent'
 
-        const pages: (number | string)[] = []
-
-        if (left > 1) {
-            pages.push(1)
-            if (left > 2) pages.push('...')
-        }
-
-        for (let i = left; i <= right; i++) pages.push(i)
-
-        if (right < total) {
-            if (right < total - 1) pages.push('...')
-            pages.push(total)
-        }
-
-        return pages
-    }
-
-    const pages = getPages(current, totalPages)
-
-    const start = Math.max(1, (current - 1) * pageSize + 1)
-    const end = Math.min(
-        current * pageSize,
-        totalRows !== undefined ? totalRows : current * pageSize
-    )
+    const pageInactive = variant === 'original'
+        ? 'border-login-500/50 bg-login-700 text-login-100 hover:bg-login-600'
+        : 'border-transparent bg-transparent text-login-200 hover:text-login-75 hover:bg-login-700/60'
 
     return (
-        <div className='flex items-center justify-between w-full pt-4'>
-            <div className='text-sm /70'>
-                {totalRows !== undefined ? (
-                    totalRows === 0 ? (
-                        <span>Showing 0 results</span>
-                    ) : (
-                        <span>
-                            Showing {start} to {end} of {totalRows} results
+        <div className='flex items-center justify-between w-full gap-4 flex-wrap'>
+            <span className='text-xs text-login-300 tabular-nums'>
+                {totalRows === 0
+                    ? 'No results'
+                    : `${start}-${end} of ${totalRows}`
+                }
+            </span>
+
+            <nav className='flex items-center gap-1.5' aria-label='Pagination'>
+                <button
+                    type='button'
+                    aria-label='Previous page'
+                    disabled={page <= 1}
+                    onClick={() => onPageChange(page - 1)}
+                    className={`${btnBase} ${btnStyle} h-8 w-8`}
+                >
+                    <ChevronLeft className='h-4 w-4' />
+                </button>
+
+                {pages.map((p, i) =>
+                    p === '…' ? (
+                        <span key={`ellipsis-${i}`} className='w-8 text-center text-sm text-login-400 select-none'>
+                            …
                         </span>
+                    ) : (
+                        <button
+                            key={p}
+                            type='button'
+                            aria-current={p === page ? 'page' : undefined}
+                            onClick={() => onPageChange(p)}
+                            className={`${btnBase} h-8 min-w-8 px-2 tabular-nums ${p === page ? pageActive : pageInactive}`}
+                        >
+                            {p}
+                        </button>
                     )
-                ) : null}
-            </div>
-
-            <div className='flex items-center gap-3'>
-                <button
-                    type='button'
-                    onClick={goPrevious}
-                    disabled={current <= 1}
-                    className={`
-                        flex items-center gap-2 p-1 rounded-lg
-                        bg-login-700 hover:bg-login-600 disabled:opacity-40
-                        border border-login-500/50 text-sm transition-colors duration-150
-                    `}
-                >
-                    <ChevronLeft className='h-5 w-5' />
-                </button>
-
-                <nav
-                    className='flex items-center gap-1'
-                    aria-label='Pagination'
-                >
-                    {pages.map((p, i) =>
-                        typeof p === 'string' ? (
-                            <span key={`e-${i}`} className='px-3 py-1 text-sm'>
-                                {p}
-                            </span>
-                        ) : (
-                            <button
-                                key={p}
-                                type='button'
-                                onClick={() => setPage(p)}
-                                aria-current={
-                                    p === current ? 'page' : undefined
-                                }
-                                className={`
-                                    px-3 py-1 rounded-lg text-sm border transition-colors duration-150
-                                    ${p === current
-                                        ? 'bg-login text-white border-login'
-                                        : 'bg-login-700 border-login-500/50 hover:bg-login-600'
-                                    }
-                                `}
-                            >
-                                {p}
-                            </button>
-                        )
-                    )}
-                </nav>
+                )}
 
                 <button
                     type='button'
-                    onClick={goNext}
-                    disabled={current >= totalPages}
-                    className={`
-                        flex items-center gap-2 p-1 rounded-lg select-none
-                        bg-login-700 hover:bg-login-600 disabled:opacity-40
-                        border border-login-500/50 text-sm transition-colors duration-150
-                    `}
+                    aria-label='Next page'
+                    disabled={page >= totalPages}
+                    onClick={() => onPageChange(page + 1)}
+                    className={`${btnBase} ${btnStyle} h-8 w-8`}
                 >
-                    <ChevronRight className='h-5 w-5' />
+                    <ChevronRight className='h-4 w-4' />
                 </button>
-            </div>
+            </nav>
         </div>
     )
+}
+
+function PaginationLocalState({ totalRows, pageSize, variant = 'original' }: PaginationProps) {
+    const [page, setPage] = useState(1)
+    return (
+        <PaginationShell
+            page={page}
+            totalPages={computeTotalPages(totalRows, pageSize)}
+            totalRows={totalRows}
+            pageSize={pageSize}
+            onPageChange={setPage}
+            variant={variant}
+        />
+    )
+}
+
+function PaginationURLState({ totalRows, pageSize, variant = 'original' }: PaginationProps) {
+    const router     = useRouter()
+    const pathname   = usePathname()
+    const searchParams = useSearchParams()
+
+    const page = Math.max(1, parseInt(searchParams.get('page') ?? '1', 10) || 1)
+
+    function onPageChange(p: number) {
+        const params = new URLSearchParams(searchParams.toString())
+        params.set('page', String(p))
+        router.replace(`${pathname}?${params.toString()}`)
+    }
+
+    return (
+        <PaginationShell
+            page={page}
+            totalPages={computeTotalPages(totalRows, pageSize)}
+            totalRows={totalRows}
+            pageSize={pageSize}
+            onPageChange={onPageChange}
+            variant={variant}
+        />
+    )
+}
+
+export default function Pagination(props: PaginationProps) {
+    const { totalRows, pageSize, variant = 'original', urlState, page, onPageChange } = props
+
+    if (urlState) {
+        const fallback = (
+            <PaginationShell
+                page={1}
+                totalPages={computeTotalPages(totalRows, pageSize)}
+                totalRows={totalRows}
+                pageSize={pageSize}
+                onPageChange={() => {}}
+                variant={variant}
+            />
+        )
+        return (
+            <Suspense fallback={fallback}>
+                <PaginationURLState {...props} />
+            </Suspense>
+        )
+    }
+
+    if (page !== undefined && onPageChange !== undefined) {
+        return (
+            <PaginationShell
+                page={page}
+                totalPages={computeTotalPages(totalRows, pageSize)}
+                totalRows={totalRows}
+                pageSize={pageSize}
+                onPageChange={onPageChange}
+                variant={variant}
+            />
+        )
+    }
+
+    return <PaginationLocalState {...props} />
 }

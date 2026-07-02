@@ -1,94 +1,139 @@
-import { ChevronDown, ChevronUp } from 'lucide-react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import type { Column } from 'uibee/components'
+'use client'
 
-type HeaderProps = {
-    columns: Column[]
-    hideMenu?: boolean
-    variant?: 'default' | 'minimal'
+import { ChevronUp, ChevronDown, ChevronsUpDown } from 'lucide-react'
+import type { Column, SortState, Density, TableVariant } from './types'
+import { DENSITY_TH, VARIANT_THEAD, VARIANT_THEAD_TH } from './constants'
+
+type HeaderProps<T extends Record<string, unknown>> = {
+    columns: Column<T>[]
+    sort?: SortState
+    onSort: (sort: SortState) => void
+    hasMenu: boolean
+    hasSelect: boolean
+    hasExpand: boolean
+    allSelected: boolean
+    someSelected: boolean
+    onSelectAll: () => void
+    variant: TableVariant
+    density: Density
 }
 
-function parseOrder(value: string | null) {
-    return value === 'asc' || value === 'desc' ? value : undefined
+// Title case from any key format: last_active → "Last Active", cpuPct → "Cpu Pct", id → "ID"
+function formatLabel(key: string, label?: string): string {
+    if (label) return label
+    if (key.length <= 2) return key.toUpperCase()
+    return key
+        .replace(/([a-z0-9])([A-Z])/g, '$1 $2')  // split camelCase
+        .replaceAll('_', ' ')
+        .replaceAll('-', ' ')
+        .split(/\s+/)
+        .filter(Boolean)
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ')
 }
 
-export default function Header({ columns, hideMenu, variant = 'default' }: HeaderProps) {
-    const router = useRouter()
-    const pathname = usePathname()
-    const searchParams = useSearchParams()
-    const [column, setColumn] = useState(searchParams.get('column') ?? '')
-    const [order, setOrder] = useState<'asc' | 'desc' | undefined>(parseOrder(searchParams.get('order')))
+export default function Header<T extends Record<string, unknown>>({
+    columns, sort, onSort, hasMenu, hasSelect, hasExpand,
+    allSelected, someSelected, onSelectAll, variant, density,
+}: HeaderProps<T>) {
 
-    useEffect(() => {
-        if (!column || !order) {
-            return
-        }
-
-        const params = new URLSearchParams(searchParams.toString())
-        if (
-            searchParams.get('order') !== order ||
-            searchParams.get('column') !== column
-        ) {
-            params.set('order', order)
-            params.set('column', column)
-            params.set('page', '1')
-            router.push(`${pathname}?${params.toString()}`)
-        }
-    }, [order, column, pathname, router, searchParams])
-
-    function handleChange(key: string) {
-        setColumn(key)
-        setOrder((prev) => (key === column && prev === 'asc' ? 'desc' : 'asc'))
+    function handleSort(key: string) {
+        const sameCol = sort?.column === key
+        onSort({ column: key, order: sameCol && sort?.order === 'asc' ? 'desc' : 'asc' })
     }
 
     return (
-        <thead className={`
-            block w-full
-            ${variant === 'default' ? 'bg-login-700' : 'bg-transparent border-b border-login-600'}
-        `}>
+        <thead className={`block w-full sticky top-0 z-10 ${VARIANT_THEAD[variant]}`}>
             <tr className='flex w-full'>
-                {columns.map((col) => {
-                    const key = col.key
-                    const value = col.label || (
-                        key.length < 3
-                            ? key.toUpperCase()
-                            : `${key[0].toUpperCase()}${key
-                                .slice(1)
-                                .replaceAll('_', ' ')}`
-                    )
-                    return (
-                        <th
-                            key={key}
+
+                {hasSelect && (
+                    <th className='flex items-center justify-center'
+                        style={{ width: '3rem', minWidth: '3rem', flexShrink: 0 }}>
+                        <button
+                            type='button'
+                            aria-label={allSelected ? 'Deselect all' : 'Select all'}
+                            onClick={onSelectAll}
                             className={`
-                                flex-1 min-w-0 px-6 py-3 text-xs font-medium uppercase tracking-wider text-left
-                                ${variant === 'default' ? 'text-login-200' : 'text-login-100'}
-                                ${variant === 'minimal' ? 'px-4!' : ''}
+                                h-4 w-4 rounded border flex items-center justify-center transition-colors cursor-pointer
+                                ${allSelected || someSelected
+                                    ? 'bg-login border-login text-white'
+                                    : 'border-login-400 bg-transparent hover:border-login-200'
+                                }
                             `}
                         >
-                            <button
-                                className='flex w-full min-w-0 flex-row items-center gap-2 group uppercase whitespace-nowrap'
-                                onClick={() => handleChange(key)}
-                            >
-                                <span className='min-w-0 truncate'>{value}</span>
-                                <span className='flex flex-col'>
-                                    {column === key ? (
-                                        order === 'asc' ? (
-                                            <ChevronUp className='h-4 w-4' />
+                            {someSelected && !allSelected && (
+                                <span className='block h-0.5 w-2 bg-white rounded-full' />
+                            )}
+                            {allSelected && (
+                                <svg className='h-3 w-3' viewBox='0 0 12 12' fill='none'>
+                                    <path d='M2 6l3 3 5-5' stroke='currentColor' strokeWidth='1.5' strokeLinecap='round' strokeLinejoin='round' />
+                                </svg>
+                            )}
+                        </button>
+                    </th>
+                )}
+
+                {columns.map((col) => {
+                    const sortable = col.sortable !== false
+                    const isActive = sort?.column === col.key
+                    const ariaSort = isActive
+                        ? sort!.order === 'asc' ? 'ascending' : 'descending'
+                        : 'none'
+
+                    const alignClass =
+                        col.align === 'right'  ? 'justify-end'    :
+                        col.align === 'center' ? 'justify-center' : ''
+
+                    return (
+                        <th
+                            key={col.key}
+                            aria-sort={sortable ? ariaSort : undefined}
+                            style={col.width ? { width: col.width, flexShrink: 0 } : undefined}
+                            className={`
+                                ${col.width ? '' : 'flex-1'}
+                                text-xs font-medium uppercase tracking-wider
+                                ${DENSITY_TH[density]} ${VARIANT_THEAD_TH[variant]}
+                            `}
+                        >
+                            {sortable ? (
+                                <button
+                                    type='button'
+                                    className={`group inline-flex items-center gap-1.5 w-full cursor-pointer ${alignClass}`}
+                                    onClick={() => handleSort(col.key)}
+                                >
+                                    <span className='whitespace-nowrap'>{formatLabel(col.key, col.label)}</span>
+                                    <span className='shrink-0 text-current'>
+                                        {isActive ? (
+                                            sort!.order === 'asc'
+                                                ? <ChevronUp className='h-3.5 w-3.5' />
+                                                : <ChevronDown className='h-3.5 w-3.5' />
                                         ) : (
-                                            <ChevronDown className='h-4 w-4' />
-                                        )
-                                    ) : (
-                                        <ChevronUp
-                                            className='h-4 w-4 stroke-login-200 opacity-0 group-hover:opacity-100'
-                                        />
-                                    )}
+                                            <ChevronsUpDown className='h-3.5 w-3.5 opacity-0 group-hover:opacity-35 transition-opacity' />
+                                        )}
+                                    </span>
+                                </button>
+                            ) : (
+                                <span className={`flex w-full ${alignClass}`}>
+                                    {formatLabel(col.key, col.label)}
                                 </span>
-                            </button>
+                            )}
                         </th>
                     )
                 })}
-                {!hideMenu && <th className='shrink-0 w-16 px-6 py-3' />}
+
+                {hasExpand && (
+                    <th className='flex items-center justify-center'
+                        style={{ width: '2.5rem', minWidth: '2.5rem', flexShrink: 0 }}>
+                        <span className={`text-xs font-medium tracking-wider uppercase opacity-50 ${VARIANT_THEAD_TH[variant]}`}>
+                            +
+                        </span>
+                    </th>
+                )}
+
+                {hasMenu && (
+                    <th aria-hidden='true'
+                        style={{ width: '3.5rem', minWidth: '3.5rem', flexShrink: 0 }} />
+                )}
             </tr>
         </thead>
     )

@@ -1,6 +1,6 @@
 import React$1, { ElementType, JSX, ReactNode } from "react";
 import { Components } from "react-markdown";
-import { Column, Language, LoginPageProps, ToastType } from "uibee/components";
+import { Language, LoginPageProps, ToastType } from "uibee/components";
 
 //#region src/components/inputs/input.d.ts
 type InputProps = Omit<React.ComponentProps<'input'>, 'name'> & {
@@ -587,6 +587,55 @@ declare function Alert({
   className
 }: AlertProps): import("react").JSX.Element;
 //#endregion
+//#region src/components/table/types.d.ts
+type TableColor = 'green' | 'yellow' | 'red' | 'blue' | 'gray' | 'orange' | 'purple';
+type Column<T extends Record<string, unknown> = Record<string, unknown>> = {
+  key: keyof T & string;
+  label?: string;
+  sortable?: boolean;
+  width?: string;
+  align?: 'left' | 'center' | 'right';
+  highlight?: Record<string, TableColor>;
+  render?: (value: unknown, row: T) => ReactNode;
+  truncate?: boolean;
+};
+type SortState = {
+  column: string;
+  order: 'asc' | 'desc';
+};
+type Density = 'compact' | 'comfortable' | 'spacious';
+type TableVariant = 'original' | 'modern';
+type TableProps<T extends Record<string, unknown> = Record<string, unknown>> = {
+  data: T[];
+  columns: Column<T>[];
+  idKey?: keyof T & string;
+  variant?: TableVariant;
+  density?: Density;
+  striped?: boolean;
+  className?: string;
+  loading?: boolean;
+  loadingRows?: number;
+  emptyState?: ReactNode;
+  redirectPath?: string | {
+    path: string;
+    key?: string;
+  };
+  onRowClick?: (row: T, id: string) => void;
+  renderExpandedRow?: (row: T) => ReactNode;
+  selectable?: boolean;
+  selectedIds?: string[];
+  onSelectionChange?: (ids: string[]) => void;
+  urlState?: boolean;
+  sort?: SortState;
+  onSort?: (sort: SortState) => void;
+  pageSize?: number;
+  totalRows?: number;
+  page?: number;
+  onPageChange?: (page: number) => void;
+  hidePagination?: boolean;
+  menuItems?: (row: T, id: string) => ReactNode;
+};
+//#endregion
 //#region src/components/table/menu.d.ts
 declare function MenuButton({
   icon,
@@ -603,35 +652,18 @@ declare function MenuButton({
 }): React$1.JSX.Element;
 //#endregion
 //#region src/components/table/table.d.ts
-type TableProps = {
-  data: object[];
-  columns: Column[];
-  menuItems?: (data: object, id: string) => React.ReactNode;
-  redirectPath?: string | {
-    path: string;
-    key?: string;
-  };
-  variant?: 'default' | 'minimal';
-  idKey?: string;
-};
-declare function Table({
-  data,
-  columns,
-  menuItems,
-  redirectPath,
-  variant,
-  idKey
-}: TableProps): import("react").JSX.Element;
+declare function Table<T extends Record<string, unknown> = Record<string, unknown>>(props: TableProps<T>): import("react").JSX.Element;
 //#endregion
 //#region src/components/table/pagination.d.ts
 type PaginationProps = {
-  pageSize?: number;
-  totalRows?: number;
+  totalRows: number;
+  pageSize: number;
+  variant?: TableVariant;
+  urlState?: boolean;
+  page?: number;
+  onPageChange?: (page: number) => void;
 };
-declare function Pagination({
-  pageSize,
-  totalRows
-}: PaginationProps): import("react").JSX.Element;
+declare function Pagination(props: PaginationProps): import("react").JSX.Element;
 //#endregion
 //#region src/components/markdownrender/markdownRender.d.ts
 declare function MarkdownRender({
@@ -703,4 +735,4 @@ declare function Toggle<T>({
   right
 }: ToggleProps<T>): import("react").JSX.Element;
 //#endregion
-export { Accordion, AccordionGroup, Alert, type BilingualString, Button, Card, Checkbox, ConfirmPopup, Footer, type FooterColumn, type FooterProps, type FooterSocialLink, type FooterSocialLink as LoginSocialLinkData, Highlight, IconBubble, Input, type Lang, LanguageToggle, LeftBarPanel, LoginPage, Logo, LogoSmall, MarkdownRender, MenuButton, MultiSelect, NavDropdown, NavItem, Navbar, PageContainer, Pagination, PulseDot, Radio, Range, SearchInput, Select, SeverityPill, StatCard, Switch, TabPanel, Table, Tabs, TagInput, Textarea, ThemeToggle, Toaster, Toggle, VersionTag, loginAddress, loginCopyright, loginEmail, loginSocialLinks, loginSponsor, toast };
+export { Accordion, AccordionGroup, Alert, type BilingualString, Button, Card, Checkbox, type Column, ConfirmPopup, type Density, Footer, type FooterColumn, type FooterProps, type FooterSocialLink, type FooterSocialLink as LoginSocialLinkData, Highlight, IconBubble, Input, type Lang, LanguageToggle, LeftBarPanel, LoginPage, Logo, LogoSmall, MarkdownRender, MenuButton, MultiSelect, NavDropdown, NavItem, Navbar, PageContainer, Pagination, PulseDot, Radio, Range, SearchInput, Select, SeverityPill, type SortState, StatCard, Switch, TabPanel, Table, type TableColor, type TableProps, type TableVariant, Tabs, TagInput, Textarea, ThemeToggle, Toaster, Toggle, VersionTag, loginAddress, loginCopyright, loginEmail, loginSocialLinks, loginSponsor, toast };

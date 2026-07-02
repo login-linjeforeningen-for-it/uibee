@@ -147,6 +147,17 @@ pre code.hljs {
     padding: 0;
 }
 
+@keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+@utility animate-shimmer {
+    background: linear-gradient(90deg, var(--color-login-600) 25%, var(--color-login-500) 50%, var(--color-login-600) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.6s ease-in-out infinite;
+}
+
 @keyframes jump {
     40% {
         transform: translateY(-0.3rem);
