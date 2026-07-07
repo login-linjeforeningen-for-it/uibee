@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, type ElementType, type ReactNode } from 'react'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
@@ -20,23 +20,49 @@ export type SidebarItem = {
 
 type SidebarProps = {
     items: SidebarItem[]
-    header?: ReactNode
+    header?: ReactNode | ((expanded: boolean) => ReactNode)
     bottomAction?: (expanded: boolean) => ReactNode
     mobile?: boolean
     initialExpanded?: boolean
+    onExpandedChange?: (expanded: boolean) => void
+    className?: string
 }
 
 const ITEM_HEIGHT = 48
 const GAP = 4
 const SUB_STRIDE = 40
 
-export default function Sidebar({ items, header, bottomAction, mobile = false, initialExpanded = true }: SidebarProps) {
+export default function Sidebar({
+    items,
+    header,
+    bottomAction,
+    mobile = false,
+    initialExpanded = true,
+    onExpandedChange,
+    className = '',
+}: SidebarProps) {
     const [expanded, setExpanded] = useState(initialExpanded)
     const pathname = usePathname()
+    const searchParams = useSearchParams()
+    const fullPath = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '')
+
+    function toggleExpanded() {
+        const next = !expanded
+        setExpanded(next)
+        onExpandedChange?.(next)
+    }
+
+    function isSubActive(sub: SidebarSubItem) {
+        return sub.path.includes('?')
+            ? fullPath.startsWith(sub.path)
+            : pathname === sub.path
+    }
 
     function isItemActive(item: SidebarItem) {
         return pathname === item.path ||
-            !!(item.items?.some(sub => pathname === sub.path || pathname.startsWith(sub.path + '/')))
+            !!(item.items?.some(sub => sub.path.includes('?')
+                ? fullPath.startsWith(sub.path)
+                : pathname === sub.path || pathname.startsWith(sub.path + '/')))
     }
 
     const activeIndex = items.findIndex(isItemActive)
@@ -49,6 +75,7 @@ export default function Sidebar({ items, header, bottomAction, mobile = false, i
             flex flex-col border-r border-login-100/10 bg-login-900
             transition-all duration-300 ease-in-out
             ${mobile ? 'w-full' : `h-full ${expanded ? 'w-64' : 'w-20'}`}
+            ${className}
         `}>
             {!mobile && (
                 <div className={`relative mb-2 p-4 transition-all duration-300 ${expanded ? 'h-16' : 'h-20'}`}>
@@ -57,11 +84,11 @@ export default function Sidebar({ items, header, bottomAction, mobile = false, i
                             absolute top-4 flex items-center transition-all duration-300
                             ${expanded ? 'left-4 gap-3' : 'left-1/2 -translate-x-1/2 gap-0'}
                         `}>
-                            {header}
+                            {typeof header === 'function' ? header(expanded) : header}
                         </div>
                     )}
                     <button
-                        onClick={() => setExpanded(!expanded)}
+                        onClick={toggleExpanded}
                         className={`
                             absolute cursor-pointer rounded-lg p-1.5
                             text-login-200 transition-all duration-300 hover:bg-login-800
@@ -75,7 +102,7 @@ export default function Sidebar({ items, header, bottomAction, mobile = false, i
 
             {mobile && <div className='h-4' />}
 
-            <div className='relative flex flex-1 flex-col gap-1 overflow-x-hidden overflow-y-auto px-3'>
+            <div className='relative flex flex-1 flex-col gap-1 overflow-x-hidden overflow-y-auto px-3 [scrollbar-width:none]'>
                 {activeIndex >= 0 && (
                     <span
                         aria-hidden
@@ -87,7 +114,7 @@ export default function Sidebar({ items, header, bottomAction, mobile = false, i
                     const isActive = isItemActive(item)
                     const Icon = item.icon
                     const activeSubIndex = item.items
-                        ? item.items.findIndex(sub => pathname === sub.path || pathname.startsWith(sub.path + '/'))
+                        ? item.items.findIndex(isSubActive)
                         : -1
 
                     return (
@@ -142,7 +169,7 @@ export default function Sidebar({ items, header, bottomAction, mobile = false, i
                                         />
                                     )}
                                     {item.items.map((sub, subIndex) => {
-                                        const isSubActive = pathname === sub.path || pathname.startsWith(sub.path + '/')
+                                        const subActive = isSubActive(sub)
                                         return (
                                             <Link
                                                 key={`${index}-${subIndex}`}
@@ -150,7 +177,7 @@ export default function Sidebar({ items, header, bottomAction, mobile = false, i
                                                 className={`
                                                     relative z-10 rounded-lg p-2 text-sm
                                                     transition-all duration-200
-                                                    ${isSubActive
+                                                    ${subActive
                                                 ? 'text-login'
                                                 : 'text-login-300 hover:bg-login-800/30 hover:text-login-100'
                                             }

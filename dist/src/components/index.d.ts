@@ -824,17 +824,21 @@ type SidebarItem = {
 };
 type SidebarProps = {
   items: SidebarItem[];
-  header?: ReactNode;
+  header?: ReactNode | ((expanded: boolean) => ReactNode);
   bottomAction?: (expanded: boolean) => ReactNode;
   mobile?: boolean;
   initialExpanded?: boolean;
+  onExpandedChange?: (expanded: boolean) => void;
+  className?: string;
 };
 declare function Sidebar({
   items,
   header,
   bottomAction,
   mobile,
-  initialExpanded
+  initialExpanded,
+  onExpandedChange,
+  className
 }: SidebarProps): import("react").JSX.Element;
 //#endregion
 //#region src/components/badge/badge.d.ts

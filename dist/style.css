@@ -1978,6 +1978,9 @@
   .resize-y {
     resize: vertical;
   }
+  .\[scrollbar-width\:none\] {
+    scrollbar-width: none;
+  }
   .list-none {
     list-style-type: none;
   }

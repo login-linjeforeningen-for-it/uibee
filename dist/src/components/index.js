@@ -2054,11 +2054,18 @@ function Footer({ logo, sponsor, columns, socialLinks, copyright, version, lang 
 						children: [/* @__PURE__ */ jsx("h4", {
 							className: "pb-2 text-sm font-medium tracking-widest text-login-100",
 							children: t(col.heading, lang)
-						}), col.items.map((item, j) => item.href ? /* @__PURE__ */ jsx("a", {
-							className: "link--underscore-hover block",
+						}), col.items.map((item, j) => item.href ? item.href.startsWith("/") ? /* @__PURE__ */ jsx(Link, {
+							className: "link--underscore-hover block text-login-100",
 							href: item.href,
 							children: t(item.label, lang)
-						}, j) : /* @__PURE__ */ jsx("p", { children: t(item.label, lang) }, j))]
+						}, j) : /* @__PURE__ */ jsx("a", {
+							className: "link--underscore-hover block text-login-100",
+							href: item.href,
+							children: t(item.label, lang)
+						}, j) : /* @__PURE__ */ jsx("p", {
+							className: "text-login-100",
+							children: t(item.label, lang)
+						}, j))]
 					}, i))
 				}),
 				socialLinks && socialLinks.length > 0 && /* @__PURE__ */ jsx("div", {
@@ -2081,7 +2088,8 @@ function Footer({ logo, sponsor, columns, socialLinks, copyright, version, lang 
 					children: [/* @__PURE__ */ jsxs("p", {
 						className: "text-xs wrap-break-word text-login-100",
 						children: [
-							"Copyright © ",
+							lang === "no" ? "Opphavsrett" : "Copyright",
+							" © ",
 							year,
 							" ",
 							t(copyright, lang)
@@ -3948,11 +3956,21 @@ function Modal({ isOpen, onClose, title, children, footer, size = "md" }) {
 const ITEM_HEIGHT = 48;
 const GAP = 4;
 const SUB_STRIDE = 40;
-function Sidebar({ items, header, bottomAction, mobile = false, initialExpanded = true }) {
+function Sidebar({ items, header, bottomAction, mobile = false, initialExpanded = true, onExpandedChange, className = "" }) {
 	const [expanded, setExpanded] = useState(initialExpanded);
 	const pathname = usePathname();
+	const searchParams = useSearchParams();
+	const fullPath = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : "");
+	function toggleExpanded() {
+		const next = !expanded;
+		setExpanded(next);
+		onExpandedChange?.(next);
+	}
+	function isSubActive(sub) {
+		return sub.path.includes("?") ? fullPath.startsWith(sub.path) : pathname === sub.path;
+	}
 	function isItemActive(item) {
-		return pathname === item.path || !!item.items?.some((sub) => pathname === sub.path || pathname.startsWith(sub.path + "/"));
+		return pathname === item.path || !!item.items?.some((sub) => sub.path.includes("?") ? fullPath.startsWith(sub.path) : pathname === sub.path || pathname.startsWith(sub.path + "/"));
 	}
 	const activeIndex = items.findIndex(isItemActive);
 	const activeOffset = items.slice(0, Math.max(activeIndex, 0)).reduce((acc, item) => acc + ITEM_HEIGHT + (item.items ? GAP : 0) + GAP, 0);
@@ -3961,6 +3979,7 @@ function Sidebar({ items, header, bottomAction, mobile = false, initialExpanded 
             flex flex-col border-r border-login-100/10 bg-login-900
             transition-all duration-300 ease-in-out
             ${mobile ? "w-full" : `h-full ${expanded ? "w-64" : "w-20"}`}
+            ${className}
         `,
 		children: [
 			!mobile && /* @__PURE__ */ jsxs("div", {
@@ -3970,9 +3989,9 @@ function Sidebar({ items, header, bottomAction, mobile = false, initialExpanded 
                             absolute top-4 flex items-center transition-all duration-300
                             ${expanded ? "left-4 gap-3" : "left-1/2 -translate-x-1/2 gap-0"}
                         `,
-					children: header
+					children: typeof header === "function" ? header(expanded) : header
 				}), /* @__PURE__ */ jsx("button", {
-					onClick: () => setExpanded(!expanded),
+					onClick: toggleExpanded,
 					className: `
                             absolute cursor-pointer rounded-lg p-1.5
                             text-login-200 transition-all duration-300 hover:bg-login-800
@@ -3983,7 +4002,7 @@ function Sidebar({ items, header, bottomAction, mobile = false, initialExpanded 
 			}),
 			mobile && /* @__PURE__ */ jsx("div", { className: "h-4" }),
 			/* @__PURE__ */ jsxs("div", {
-				className: "relative flex flex-1 flex-col gap-1 overflow-x-hidden overflow-y-auto px-3",
+				className: "relative flex flex-1 flex-col gap-1 overflow-x-hidden overflow-y-auto px-3 [scrollbar-width:none]",
 				children: [activeIndex >= 0 && /* @__PURE__ */ jsx("span", {
 					"aria-hidden": true,
 					className: "absolute left-3 right-3 top-0 h-12 rounded-lg bg-login-800 transition-transform duration-300 ease-in-out",
@@ -3991,7 +4010,7 @@ function Sidebar({ items, header, bottomAction, mobile = false, initialExpanded 
 				}), items.map((item, index) => {
 					const isActive = isItemActive(item);
 					const Icon = item.icon;
-					const activeSubIndex = item.items ? item.items.findIndex((sub) => pathname === sub.path || pathname.startsWith(sub.path + "/")) : -1;
+					const activeSubIndex = item.items ? item.items.findIndex(isSubActive) : -1;
 					return /* @__PURE__ */ jsxs("div", {
 						className: "flex flex-col gap-1",
 						children: [/* @__PURE__ */ jsxs(Link, {
@@ -4038,13 +4057,13 @@ function Sidebar({ items, header, bottomAction, mobile = false, initialExpanded 
 								className: "\n                                                absolute left-2 right-0 top-0 h-9 rounded-lg\n                                                bg-login-800/50 transition-transform duration-300 ease-in-out\n                                            ",
 								style: { transform: `translateY(${activeSubIndex * SUB_STRIDE}px)` }
 							}), item.items.map((sub, subIndex) => {
-								const isSubActive = pathname === sub.path || pathname.startsWith(sub.path + "/");
+								const subActive = isSubActive(sub);
 								return /* @__PURE__ */ jsx(Link, {
 									href: sub.path,
 									className: `
                                                     relative z-10 rounded-lg p-2 text-sm
                                                     transition-all duration-200
-                                                    ${isSubActive ? "text-login" : "text-login-300 hover:bg-login-800/30 hover:text-login-100"}
+                                                    ${subActive ? "text-login" : "text-login-300 hover:bg-login-800/30 hover:text-login-100"}
                                                 `,
 									children: sub.name
 								}, `${index}-${subIndex}`);

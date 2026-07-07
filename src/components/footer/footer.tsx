@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import Link from 'next/link'
 import VersionTag from '@components/version/version'
 
 export type Lang = 'no' | 'en'
@@ -56,7 +57,9 @@ export default function Footer({
                         <div>
                             <div className='block w-full'>{sponsor.node}</div>
                             {sponsor.label && (
-                                <p className='pt-8 text-center text-login-100'>{t(sponsor.label, lang)}</p>
+                                <p className='pt-8 text-center text-login-100'>
+                                    {t(sponsor.label, lang)}
+                                </p>
                             )}
                         </div>
                     )}
@@ -76,11 +79,27 @@ export default function Footer({
                                 </h4>
                                 {col.items.map((item, j) =>
                                     item.href ? (
-                                        <a key={j} className='link--underscore-hover block' href={item.href}>
-                                            {t(item.label, lang)}
-                                        </a>
+                                        item.href.startsWith('/') ? (
+                                            <Link
+                                                key={j}
+                                                className='link--underscore-hover block text-login-100'
+                                                href={item.href}
+                                            >
+                                                {t(item.label, lang)}
+                                            </Link>
+                                        ) : (
+                                            <a
+                                                key={j}
+                                                className='link--underscore-hover block text-login-100'
+                                                href={item.href}
+                                            >
+                                                {t(item.label, lang)}
+                                            </a>
+                                        )
                                     ) : (
-                                        <p key={j}>{t(item.label, lang)}</p>
+                                        <p key={j} className='text-login-100'>
+                                            {t(item.label, lang)}
+                                        </p>
                                     )
                                 )}
                             </div>
@@ -112,7 +131,7 @@ export default function Footer({
                     md:grid-cols-[auto_min-content] md:items-end md:gap-8'
                 >
                     <p className='text-xs wrap-break-word text-login-100'>
-                        Copyright © {year} {t(copyright, lang)}
+                        {lang === 'no' ? 'Opphavsrett' : 'Copyright'} © {year} {t(copyright, lang)}
                     </p>
                     {version && (
                         <VersionTag version={version.tag} url={version.href} />
