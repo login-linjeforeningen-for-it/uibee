@@ -1,38 +1,6 @@
-import { NextResponse } from "next/server.js";
-import { AuthCallbackProps, AuthLoginProps, AuthLogoutProps, AuthTokenProps } from "uibee/utils";
-
-//#region src/utils/logoConsoleOutput/logoConsoleOutput.d.ts
-declare function LogoConsoleOutput(): void;
-//#endregion
-//#region src/utils/auth/login.d.ts
-declare function AuthLogin({
-  req,
-  clientID,
-  redirectPath,
-  authURL
-}: AuthLoginProps): Promise<NextResponse<unknown>>;
-//#endregion
-//#region src/utils/auth/callback.d.ts
-declare function authCallback({
-  req,
-  tokenURL,
-  clientID,
-  clientSecret,
-  redirectPath,
-  userInfoURL,
-  tokenRedirectPath
-}: AuthCallbackProps): Promise<Response>;
-//#endregion
-//#region src/utils/auth/token.d.ts
-declare function AuthToken({
-  req,
-  redirectPath
-}: AuthTokenProps): Promise<NextResponse<unknown>>;
-//#endregion
-//#region src/utils/auth/logout.d.ts
-declare function AuthLogout({
-  req,
-  path
-}: AuthLogoutProps): Promise<NextResponse<unknown>>;
-//#endregion
+import { LogoConsoleOutput } from "../../utils/logoConsoleOutput/logoConsoleOutput.js";
+import AuthLogin from "../../utils/auth/login.js";
+import authCallback from "../../utils/auth/callback.js";
+import AuthToken from "../../utils/auth/token.js";
+import AuthLogout from "../../utils/auth/logout.js";
 export { LogoConsoleOutput, authCallback, AuthLogin as authLogin, AuthLogout as authLogout, AuthToken as authToken };

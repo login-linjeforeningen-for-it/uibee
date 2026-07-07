@@ -1,4 +1,3 @@
-'use client'
 export { default as Input } from './inputs/input'
 export { default as SearchInput } from './inputs/searchInput'
 export { default as Textarea } from './inputs/textarea'

@@ -13,6 +13,7 @@ export default defineConfig({
     outExtensions: () => ({ js: '.js', dts: '.d.ts' }),
     dts: true,
     clean: true,
+    unbundle: true,
     deps: {
         onlyBundle: false,
     },

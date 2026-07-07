@@ -1,3 +1,5 @@
+'use client'
+
 import { AlertCircle, AlertTriangle, CheckCircle, Info, X } from 'lucide-react'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { ToastType, ToastProps } from 'uibee/components'

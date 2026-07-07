@@ -1,15 +1,4 @@
-import { RefObject } from "react";
-
-//#region src/hooks/useVisibility.d.ts
-declare function useVisibility<T extends HTMLElement>(onVisible: () => void, rootMargin?: string): {
-  ref: import("react").RefObject<T | null>;
-  isVisible: boolean;
-};
-//#endregion
-//#region src/hooks/useDarkMode.d.ts
-declare function useDarkMode(): boolean;
-//#endregion
-//#region src/hooks/useClickOutside.d.ts
-declare function useClickOutside<T extends HTMLElement>(ref: RefObject<T | null>, callback: () => void): void;
-//#endregion
+import useVisibility from "../../hooks/useVisibility.js";
+import useDarkMode from "../../hooks/useDarkMode.js";
+import useClickOutside from "../../hooks/useClickOutside.js";
 export { useClickOutside, useDarkMode, useVisibility };

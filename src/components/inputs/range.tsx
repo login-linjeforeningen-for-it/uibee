@@ -1,3 +1,5 @@
+'use client'
+
 import { FieldWrapper } from './shared'
 
 export type RangeProps = Omit<React.ComponentProps<'input'>, 'name'> & {

@@ -10,4 +10,4 @@ function useClickOutside(ref, callback) {
 	}, [ref, callback]);
 }
 //#endregion
-export { useClickOutside as t };
+export { useClickOutside as default };

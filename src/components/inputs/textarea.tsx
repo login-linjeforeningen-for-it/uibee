@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 import { Eye, Pencil } from 'lucide-react'
 import { FieldWrapper } from './shared'

@@ -1,3 +1,5 @@
+'use client'
+
 import { type JSX, useState, useEffect, useRef } from 'react'
 
 export type ColorPickerPopupProps = {

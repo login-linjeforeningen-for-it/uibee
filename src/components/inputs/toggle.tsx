@@ -1,3 +1,5 @@
+'use client'
+
 type ToggleOption<T> = {
     value: T
     label?: string

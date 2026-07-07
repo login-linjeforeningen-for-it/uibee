@@ -1,3 +1,5 @@
+'use client'
+
 import React, { type ChangeEvent, type JSX, useRef, useState, useId } from 'react'
 import { Calendar, Clock } from 'lucide-react'
 import { FieldWrapper } from './shared'

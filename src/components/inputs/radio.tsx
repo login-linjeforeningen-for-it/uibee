@@ -1,3 +1,5 @@
+'use client'
+
 import { FieldWrapper, InputLabel } from './shared'
 
 export type RadioOption = {
