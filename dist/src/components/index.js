@@ -2,7 +2,7 @@
 import { t as useClickOutside$1 } from "../../useClickOutside-Cmp-RsP3.js";
 import { D as Facebook, Kt as Wikijs, N as Github, W as Linkedin, x as Discord } from "../../icons-lZYQ6Vlr.js";
 import React, { Suspense, createContext, useCallback, useContext, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { AlertCircle, AlertTriangle, ArrowUpRight, Calendar, Check, CheckCircle, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, ChevronsUpDown, CircleAlert, CircleHelp, Clock, EllipsisVertical, ExternalLink, Eye, Globe, Info, LogIn, LogOut, Pencil, Search, TableIcon, TriangleAlert, User, X } from "lucide-react";
+import { AlertCircle, AlertTriangle, ArrowUpRight, Calendar, Check, CheckCircle, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, ChevronsUpDown, CircleAlert, CircleHelp, Clock, Copy, EllipsisVertical, ExternalLink, Eye, FileIcon, Globe, Info, LogIn, LogOut, Pencil, Search, TableIcon, TriangleAlert, UploadCloud, User, X } from "lucide-react";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -1242,7 +1242,7 @@ function MultiSelect({ label, name, options, value = [], onChange, placeholder =
 							const option = options.find((o) => o.value === val);
 							if (!option) return null;
 							return /* @__PURE__ */ jsxs("span", {
-								className: "flex items-center gap-1 px-2 py-0.5 bg-login-600 text-login-100 border border-login-500 rounded text-sm",
+								className: "\n                                        flex items-center gap-1 rounded px-2 py-0.5 text-sm\n                                        border border-login-500 bg-login-600 text-login-100\n                                    ",
 								children: [option.label, !disabled && /* @__PURE__ */ jsx("button", {
 									type: "button",
 									onClick: (e) => {
@@ -1260,7 +1260,7 @@ function MultiSelect({ label, name, options, value = [], onChange, placeholder =
 					})]
 				}),
 				open && options.length > 0 && /* @__PURE__ */ jsx("div", {
-					className: "absolute z-50 mt-1 w-full max-h-60 overflow-auto rounded-md bg-login-800 border border-login-500/50 shadow-lg",
+					className: "\n                        absolute z-50 mt-1 w-full max-h-60 overflow-auto\n                        rounded-md border border-login-500/50 bg-login-800 shadow-lg\n                    ",
 					children: options.map((option) => {
 						const selected = value.includes(option.value);
 						return /* @__PURE__ */ jsxs("div", {
@@ -1314,7 +1314,7 @@ function Switch(props) {
                     ${inputProps.disabled ? "opacity-40 cursor-not-allowed" : ""}
                     ${error ? "ring-1 ring-red-500/60" : ""}
                 `,
-				children: /* @__PURE__ */ jsx("span", { className: "absolute inset-y-0 my-auto left-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-all group-has-[input:checked]/sw:translate-x-full" })
+				children: /* @__PURE__ */ jsx("span", { className: "\n                        absolute inset-y-0 my-auto left-0.5 h-5 w-5\n                        rounded-full bg-white shadow-sm transition-all\n                        group-has-[input:checked]/sw:translate-x-full\n                    " })
 			})]
 		})
 	});
@@ -2358,7 +2358,7 @@ function Accordion({ title, children, defaultOpen = false, className = "" }) {
 		children: [/* @__PURE__ */ jsxs("button", {
 			type: "button",
 			onClick: () => setOpen((o) => !o),
-			className: "flex w-full cursor-pointer items-center justify-between bg-login-800 px-4 py-3 text-left transition-colors duration-150 hover:bg-login-700 select-none",
+			className: "\n                    flex w-full cursor-pointer items-center justify-between\n                    bg-login-800 px-4 py-3 text-left select-none\n                    transition-colors duration-150 hover:bg-login-700\n                ",
 			children: [/* @__PURE__ */ jsx("div", {
 				className: "text-sm font-medium text-login-50",
 				children: title
@@ -2641,7 +2641,7 @@ function Toaster() {
 }
 //#endregion
 //#region src/components/buttons/button.tsx
-const variants = {
+const variants$1 = {
 	primary: "bg-login text-white hover:brightness-110",
 	secondary: "bg-login-500 text-login-50 hover:bg-login-400",
 	warning: "bg-yellow-500 text-black hover:brightness-110",
@@ -2658,7 +2658,7 @@ const iconWrap = (icon) => icon ? /* @__PURE__ */ jsx("span", {
 	children: icon
 }) : null;
 function Button({ text, className, icon, path, variant = "primary", type, onClick, disabled }) {
-	const color = variants[variant];
+	const color = variants$1[variant];
 	const sizing = icon && !text ? iconOnly : withText;
 	const cls = `${base} ${sizing} ${color} ${disabled ? disabledCls : ""} ${className || ""}`;
 	if (!path) return /* @__PURE__ */ jsxs("button", {
@@ -2846,7 +2846,11 @@ function Header({ columns, sort, onSort, hasMenu, hasSelect, hasExpand, allSelec
 					minWidth: "2.5rem"
 				},
 				children: /* @__PURE__ */ jsx("span", {
-					className: `flex items-center justify-center text-xs font-medium tracking-wider uppercase opacity-50 ${VARIANT_THEAD_TH[variant]}`,
+					className: `
+                            flex items-center justify-center
+                            text-xs font-medium tracking-wider uppercase opacity-50
+                            ${VARIANT_THEAD_TH[variant]}
+                        `,
 					children: "+"
 				})
 			}),
@@ -3713,4 +3717,445 @@ function Toggle({ value, onChange, left, right }) {
 	});
 }
 //#endregion
-export { Accordion, AccordionGroup, Alert, Button, Card, Checkbox, ConfirmPopup, Footer, Highlight, IconBubble, Input, LanguageToggle, LeftBarPanel, LoginPage, Logo, LogoSmall, MarkdownRender, MenuButton, MultiSelect, NavDropdown, NavItem, Navbar, PageContainer, Pagination, PulseDot, Radio, Range, SearchInput, Select, SeverityPill, StatCard, Switch, TabPanel, Table, Tabs, TagInput, Textarea, ThemeToggle, Toaster, Toggle, VersionTag, loginAddress, loginCopyright, loginEmail, loginSocialLinks, loginSponsor, toast };
+//#region src/components/inputs/fileInput.tsx
+function FileInput({ name, label, accept, multiple = false, onChange, className = "" }) {
+	const [files, setFiles] = useState([]);
+	const [dragging, setDragging] = useState(false);
+	const inputRef = useRef(null);
+	function handleFiles(incoming) {
+		if (!incoming) return;
+		const arr = multiple ? Array.from(incoming) : [incoming[0]];
+		setFiles(arr);
+		onChange(arr);
+	}
+	function removeFile(index) {
+		const next = files.filter((_, i) => i !== index);
+		setFiles(next);
+		onChange(next);
+		if (inputRef.current) inputRef.current.value = "";
+	}
+	function onDrop(e) {
+		e.preventDefault();
+		setDragging(false);
+		handleFiles(e.dataTransfer.files);
+	}
+	return /* @__PURE__ */ jsxs("div", {
+		className: `flex flex-col gap-2 ${className}`,
+		children: [
+			label && /* @__PURE__ */ jsx("label", {
+				className: "text-sm font-medium text-login-200",
+				children: label
+			}),
+			/* @__PURE__ */ jsxs("div", {
+				role: "button",
+				tabIndex: 0,
+				onClick: () => inputRef.current?.click(),
+				onKeyDown: (e) => {
+					if (e.key === "Enter" || e.key === " ") inputRef.current?.click();
+				},
+				onDragOver: (e) => {
+					e.preventDefault();
+					setDragging(true);
+				},
+				onDragLeave: () => setDragging(false),
+				onDrop,
+				className: `
+                    flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed p-6
+                    transition-all duration-150
+                    ${dragging ? "scale-[1.01] border-login bg-login/5" : "border-login-500/50 bg-login-800/30 hover:border-login/50 hover:bg-login/5"}
+                `,
+				children: [
+					/* @__PURE__ */ jsx("input", {
+						ref: inputRef,
+						type: "file",
+						name,
+						accept,
+						multiple,
+						className: "hidden",
+						onChange: (e) => handleFiles(e.target.files)
+					}),
+					/* @__PURE__ */ jsx(UploadCloud, { className: "h-7 w-7 text-login-400" }),
+					/* @__PURE__ */ jsxs("div", {
+						className: "text-center",
+						children: [/* @__PURE__ */ jsxs("p", {
+							className: "text-sm text-login-200",
+							children: ["Drop files here or ", /* @__PURE__ */ jsx("span", {
+								className: "text-login",
+								children: "browse"
+							})]
+						}), accept && /* @__PURE__ */ jsx("p", {
+							className: "mt-0.5 text-xs text-login-400",
+							children: accept
+						})]
+					})
+				]
+			}),
+			files.length > 0 && /* @__PURE__ */ jsx("ul", {
+				className: "flex flex-col gap-1.5",
+				children: files.map((file, i) => /* @__PURE__ */ jsxs("li", {
+					className: "\n                            flex items-center gap-2 rounded-lg\n                            border border-login-500/25 bg-login-800/50 px-3 py-2 text-sm\n                        ",
+					children: [
+						/* @__PURE__ */ jsx(FileIcon, { className: "h-4 w-4 shrink-0 text-login-400" }),
+						/* @__PURE__ */ jsx("span", {
+							className: "flex-1 truncate text-login-200",
+							children: file.name
+						}),
+						/* @__PURE__ */ jsxs("span", {
+							className: "shrink-0 text-xs text-login-400",
+							children: [(file.size / 1024).toFixed(1), " KB"]
+						}),
+						/* @__PURE__ */ jsx("button", {
+							type: "button",
+							onClick: (e) => {
+								e.stopPropagation();
+								removeFile(i);
+							},
+							className: "cursor-pointer text-login-400 transition-colors hover:text-red-400",
+							children: /* @__PURE__ */ jsx(X, { className: "h-3.5 w-3.5" })
+						})
+					]
+				}, i))
+			})
+		]
+	});
+}
+//#endregion
+//#region src/components/container/glassCard.tsx
+function GlassCard({ children, className = "" }) {
+	return /* @__PURE__ */ jsx("div", {
+		className: `rounded-xl border border-login-500/20 bg-login-800/60 backdrop-blur-sm ${className}`,
+		children
+	});
+}
+//#endregion
+//#region src/components/container/expandableCard.tsx
+function ExpandableCard({ icon, iconTone = "orange", title, subtitle, pulse, trailing, isExpanded, onToggle, children }) {
+	return /* @__PURE__ */ jsxs(Card, { children: [/* @__PURE__ */ jsxs("div", {
+		role: "button",
+		tabIndex: 0,
+		onClick: onToggle,
+		onKeyDown: (e) => {
+			if (e.key === "Enter" || e.key === " ") {
+				e.preventDefault();
+				onToggle();
+			}
+		},
+		"aria-expanded": isExpanded,
+		className: "group flex cursor-pointer select-none items-center gap-4 px-5 py-4",
+		children: [
+			/* @__PURE__ */ jsx(IconBubble, {
+				icon,
+				tone: iconTone,
+				size: "sm"
+			}),
+			/* @__PURE__ */ jsxs("div", {
+				className: "min-w-0 flex-1",
+				children: [/* @__PURE__ */ jsxs("div", {
+					className: "flex flex-wrap items-center gap-3",
+					children: [/* @__PURE__ */ jsx("span", {
+						className: "font-semibold text-login-50 transition group-hover:text-login",
+						children: title
+					}), pulse && /* @__PURE__ */ jsxs("span", {
+						className: "flex items-center gap-2 text-xs text-login-300",
+						children: [/* @__PURE__ */ jsx("span", {
+							className: "flex h-3 w-3 shrink-0 items-center justify-center",
+							children: /* @__PURE__ */ jsx(PulseDot, {
+								variant: pulse.variant,
+								size: "sm"
+							})
+						}), pulse.label]
+					})]
+				}), subtitle && /* @__PURE__ */ jsx("div", {
+					className: "mt-0.5 text-xs text-login-300",
+					children: subtitle
+				})]
+			}),
+			trailing && /* @__PURE__ */ jsx("div", {
+				className: "flex shrink-0 items-center gap-3",
+				onClick: (e) => e.stopPropagation(),
+				children: trailing
+			}),
+			/* @__PURE__ */ jsx(Button, {
+				variant: "secondary",
+				icon: /* @__PURE__ */ jsx(ChevronDown, { className: `h-4 w-4 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}` }),
+				onClick: (e) => {
+					e.stopPropagation();
+					onToggle();
+				}
+			})
+		]
+	}), isExpanded && children && /* @__PURE__ */ jsx("div", {
+		className: "border-t border-white/5 px-5 pb-5 pt-4",
+		children
+	})] });
+}
+//#endregion
+//#region src/components/modal/modal.tsx
+const sizes$2 = {
+	sm: "max-w-sm",
+	md: "max-w-md",
+	lg: "max-w-lg"
+};
+function Modal({ isOpen, onClose, title, children, footer, size = "md" }) {
+	useEffect(() => {
+		if (!isOpen) return;
+		const handler = (e) => {
+			if (e.key === "Escape") onClose();
+		};
+		document.addEventListener("keydown", handler);
+		return () => document.removeEventListener("keydown", handler);
+	}, [isOpen, onClose]);
+	if (!isOpen) return null;
+	return /* @__PURE__ */ jsxs("div", {
+		role: "dialog",
+		"aria-modal": "true",
+		className: "fixed inset-0 z-50 flex items-center justify-center",
+		onClick: onClose,
+		children: [/* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-black/50 backdrop-blur-sm" }), /* @__PURE__ */ jsxs("div", {
+			className: `
+                    relative z-10 mx-4 w-full ${sizes$2[size]}
+                    flex flex-col rounded-xl border border-login-500/50
+                    bg-login-800 shadow-2xl
+                `,
+			onClick: (e) => e.stopPropagation(),
+			children: [
+				title && /* @__PURE__ */ jsxs("div", {
+					className: "flex items-center justify-between px-6 pt-5 pb-4 border-b border-login-500/25",
+					children: [/* @__PURE__ */ jsx("h2", {
+						className: "text-login-50 text-base font-semibold leading-snug",
+						children: title
+					}), /* @__PURE__ */ jsx("button", {
+						type: "button",
+						onClick: onClose,
+						className: "\n                                cursor-pointer rounded-md p-1.5\n                                text-login-400 hover:text-login-100 hover:bg-login-600\n                                transition-colors\n                            ",
+						children: /* @__PURE__ */ jsx(X, { className: "w-4 h-4" })
+					})]
+				}),
+				/* @__PURE__ */ jsx("div", {
+					className: "p-6",
+					children
+				}),
+				footer && /* @__PURE__ */ jsx("div", {
+					className: "px-6 pb-5 pt-4 border-t border-login-500/25",
+					children: footer
+				})
+			]
+		})]
+	});
+}
+//#endregion
+//#region src/components/sidebar/sidebar.tsx
+const ITEM_HEIGHT = 48;
+const GAP = 4;
+const SUB_STRIDE = 40;
+function Sidebar({ items, header, bottomAction, mobile = false, initialExpanded = true }) {
+	const [expanded, setExpanded] = useState(initialExpanded);
+	const pathname = usePathname();
+	function isItemActive(item) {
+		return pathname === item.path || !!item.items?.some((sub) => pathname === sub.path || pathname.startsWith(sub.path + "/"));
+	}
+	const activeIndex = items.findIndex(isItemActive);
+	const activeOffset = items.slice(0, Math.max(activeIndex, 0)).reduce((acc, item) => acc + ITEM_HEIGHT + (item.items ? GAP : 0) + GAP, 0);
+	return /* @__PURE__ */ jsxs("aside", {
+		className: `
+            flex flex-col border-r border-login-100/10 bg-login-900
+            transition-all duration-300 ease-in-out
+            ${mobile ? "w-full" : `h-full ${expanded ? "w-64" : "w-20"}`}
+        `,
+		children: [
+			!mobile && /* @__PURE__ */ jsxs("div", {
+				className: `relative mb-2 p-4 transition-all duration-300 ${expanded ? "h-16" : "h-20"}`,
+				children: [header && /* @__PURE__ */ jsx("div", {
+					className: `
+                            absolute top-4 flex items-center transition-all duration-300
+                            ${expanded ? "left-4 gap-3" : "left-1/2 -translate-x-1/2 gap-0"}
+                        `,
+					children: header
+				}), /* @__PURE__ */ jsx("button", {
+					onClick: () => setExpanded(!expanded),
+					className: `
+                            absolute cursor-pointer rounded-lg p-1.5
+                            text-login-200 transition-all duration-300 hover:bg-login-800
+                            ${expanded ? "right-4 top-4" : "left-1/2 top-12 -translate-x-1/2"}
+                        `,
+					children: expanded ? /* @__PURE__ */ jsx(ChevronLeft, { size: 20 }) : /* @__PURE__ */ jsx(ChevronRight, { size: 20 })
+				})]
+			}),
+			mobile && /* @__PURE__ */ jsx("div", { className: "h-4" }),
+			/* @__PURE__ */ jsxs("div", {
+				className: "relative flex flex-1 flex-col gap-1 overflow-x-hidden overflow-y-auto px-3",
+				children: [activeIndex >= 0 && /* @__PURE__ */ jsx("span", {
+					"aria-hidden": true,
+					className: "absolute left-3 right-3 top-0 h-12 rounded-lg bg-login-800 transition-transform duration-300 ease-in-out",
+					style: { transform: `translateY(${activeOffset}px)` }
+				}), items.map((item, index) => {
+					const isActive = isItemActive(item);
+					const Icon = item.icon;
+					const activeSubIndex = item.items ? item.items.findIndex((sub) => pathname === sub.path || pathname.startsWith(sub.path + "/")) : -1;
+					return /* @__PURE__ */ jsxs("div", {
+						className: "flex flex-col gap-1",
+						children: [/* @__PURE__ */ jsxs(Link, {
+							href: item.path,
+							title: !expanded ? item.name : void 0,
+							className: `
+                                    group relative z-10 flex items-center
+                                    overflow-hidden rounded-lg p-3 transition-all duration-200
+                                    ${isActive ? "text-login" : "text-login-200 hover:bg-login-800/50 hover:text-login-100"}
+                                `,
+							children: [
+								/* @__PURE__ */ jsx("div", {
+									className: `
+                                    flex min-w-6 w-6 items-center justify-center transition-all duration-300
+                                    ${expanded ? "" : "translate-x-1"}
+                                    ${isActive ? "[&>svg]:stroke-login" : "group-hover:[&>svg]:stroke-login-100"}
+                                `,
+									children: /* @__PURE__ */ jsx(Icon, { className: "h-5 w-5" })
+								}),
+								/* @__PURE__ */ jsx("span", {
+									className: `
+                                    whitespace-nowrap overflow-hidden transition-all duration-300
+                                    ${expanded ? "ml-3 max-w-48 opacity-100" : "ml-0 max-w-0 opacity-0"}
+                                `,
+									children: item.name
+								}),
+								item.status && /* @__PURE__ */ jsx("div", {
+									className: `
+                                        flex items-center justify-center
+                                        ${expanded ? "ml-auto" : "absolute right-1 top-1 scale-75"}
+                                    `,
+									children: item.status
+								})
+							]
+						}), item.items && /* @__PURE__ */ jsxs("div", {
+							className: `
+                                    relative ml-6 flex flex-col gap-1 overflow-hidden
+                                    border-l border-login-800 pl-2
+                                    transition-all duration-300 ease-in-out
+                                    ${expanded && isActive ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}
+                                `,
+							children: [activeSubIndex >= 0 && /* @__PURE__ */ jsx("span", {
+								"aria-hidden": true,
+								className: "\n                                                absolute left-2 right-0 top-0 h-9 rounded-lg\n                                                bg-login-800/50 transition-transform duration-300 ease-in-out\n                                            ",
+								style: { transform: `translateY(${activeSubIndex * SUB_STRIDE}px)` }
+							}), item.items.map((sub, subIndex) => {
+								const isSubActive = pathname === sub.path || pathname.startsWith(sub.path + "/");
+								return /* @__PURE__ */ jsx(Link, {
+									href: sub.path,
+									className: `
+                                                    relative z-10 rounded-lg p-2 text-sm
+                                                    transition-all duration-200
+                                                    ${isSubActive ? "text-login" : "text-login-300 hover:bg-login-800/30 hover:text-login-100"}
+                                                `,
+									children: sub.name
+								}, `${index}-${subIndex}`);
+							})]
+						})]
+					}, index);
+				})]
+			}),
+			bottomAction && /* @__PURE__ */ jsx("div", {
+				className: "border-t border-login-100/10 p-3",
+				children: bottomAction(expanded)
+			})
+		]
+	});
+}
+//#endregion
+//#region src/components/badge/badge.tsx
+const variants = {
+	default: "bg-login-600 text-login-100",
+	success: "bg-emerald-500/15 text-emerald-400",
+	warning: "bg-yellow-500/15 text-yellow-400",
+	danger: "bg-red-500/15 text-red-400",
+	info: "bg-sky-500/15 text-sky-400",
+	amber: "bg-amber-500/15 text-amber-400",
+	violet: "bg-violet-500/15 text-violet-400",
+	blue: "bg-blue-500/15 text-blue-400",
+	emerald: "bg-emerald-500/15 text-emerald-400",
+	orange: "bg-login/15 text-login"
+};
+const sizes$1 = {
+	sm: "px-2 py-0.5 text-xs",
+	md: "px-2.5 py-1 text-sm"
+};
+function Badge({ text, variant = "default", size = "sm", className = "" }) {
+	return /* @__PURE__ */ jsx("span", {
+		className: `inline-flex items-center rounded-full font-medium ${variants[variant]} ${sizes$1[size]} ${className}`,
+		children: text
+	});
+}
+//#endregion
+//#region src/components/empty/emptyState.tsx
+function EmptyState({ icon: Icon, title, description, action, className = "" }) {
+	return /* @__PURE__ */ jsxs("div", {
+		className: `flex flex-col items-center justify-center gap-3 py-12 text-center ${className}`,
+		children: [
+			Icon && /* @__PURE__ */ jsx("div", {
+				className: "mb-1 rounded-xl bg-login-600/30 p-3 text-login-400",
+				children: /* @__PURE__ */ jsx(Icon, { className: "h-7 w-7" })
+			}),
+			/* @__PURE__ */ jsx("p", {
+				className: "text-sm font-semibold text-login-100",
+				children: title
+			}),
+			description && /* @__PURE__ */ jsx("p", {
+				className: "max-w-xs text-xs leading-relaxed text-login-400",
+				children: description
+			}),
+			action && /* @__PURE__ */ jsx("div", {
+				className: "mt-2",
+				children: action
+			})
+		]
+	});
+}
+//#endregion
+//#region src/components/spinner/spinner.tsx
+const sizes = {
+	sm: "w-4 h-4 border-2",
+	md: "w-6 h-6 border-2",
+	lg: "w-9 h-9 border-[3px]"
+};
+function Spinner({ size = "md", className = "" }) {
+	return /* @__PURE__ */ jsx("div", {
+		role: "status",
+		"aria-label": "Loading",
+		className: `rounded-full border-login-500 border-t-login animate-spin ${sizes[size]} ${className}`
+	});
+}
+//#endregion
+//#region src/components/code/code.tsx
+function Code({ children, className = "" }) {
+	return /* @__PURE__ */ jsx("code", {
+		className: `font-mono text-xs bg-login-700 text-login px-1.5 py-0.5 rounded ${className}`,
+		children
+	});
+}
+function CodeBlock({ code, language, className = "" }) {
+	const [copied, setCopied] = useState(false);
+	function copy() {
+		navigator.clipboard.writeText(code);
+		setCopied(true);
+		setTimeout(() => setCopied(false), 2e3);
+	}
+	return /* @__PURE__ */ jsxs("div", {
+		className: `relative group rounded-xl border border-login-500/30 bg-login-900 overflow-hidden ${className}`,
+		children: [/* @__PURE__ */ jsxs("div", {
+			className: "flex items-center justify-between px-4 py-2 border-b border-login-500/20 bg-login-800",
+			children: [/* @__PURE__ */ jsx("span", {
+				className: "text-xs font-mono text-login-400",
+				children: language ?? ""
+			}), /* @__PURE__ */ jsxs("button", {
+				type: "button",
+				onClick: copy,
+				className: "flex cursor-pointer items-center gap-1.5 text-xs text-login-400 hover:text-login-100 transition-colors",
+				children: [copied ? /* @__PURE__ */ jsx(Check, { className: "w-3.5 h-3.5 stroke-emerald-400" }) : /* @__PURE__ */ jsx(Copy, { className: "w-3.5 h-3.5" }), copied ? "Copied" : "Copy"]
+			})]
+		}), /* @__PURE__ */ jsx("pre", {
+			className: "overflow-x-auto p-4 text-xs font-mono leading-relaxed text-login-100",
+			children: /* @__PURE__ */ jsx("code", { children: code })
+		})]
+	});
+}
+//#endregion
+export { Accordion, AccordionGroup, Alert, Badge, Button, Card, Checkbox, Code, CodeBlock, ConfirmPopup, EmptyState, ExpandableCard, FileInput, Footer, GlassCard, Highlight, IconBubble, Input, LanguageToggle, LeftBarPanel, LoginPage, Logo, LogoSmall, MarkdownRender, MenuButton, Modal, MultiSelect, NavDropdown, NavItem, Navbar, PageContainer, Pagination, PulseDot, Radio, Range, SearchInput, Select, SeverityPill, Sidebar, Spinner, StatCard, Switch, TabPanel, Table, Tabs, TagInput, Textarea, ThemeToggle, Toaster, Toggle, VersionTag, loginAddress, loginCopyright, loginEmail, loginSocialLinks, loginSponsor, toast };

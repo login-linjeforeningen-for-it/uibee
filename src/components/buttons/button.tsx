@@ -21,7 +21,8 @@ const variants = {
     info:      'bg-blue-600 text-white hover:brightness-110',
 }
 
-const base = 'cursor-pointer rounded-md h-9 flex items-center justify-center gap-2 select-none text-sm font-medium transition-all duration-150'
+const base = 'cursor-pointer rounded-md h-9 flex items-center justify-center gap-2' +
+    ' select-none text-sm font-medium transition-all duration-150'
 const withText = 'px-4 w-fit'
 const iconOnly = 'w-9'
 const disabledCls = 'opacity-40 cursor-not-allowed pointer-events-none'

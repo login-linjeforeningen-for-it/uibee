@@ -1,4 +1,4 @@
-import { type ChangeEvent, type JSX, useRef, useState, useId } from 'react'
+import React, { type ChangeEvent, type JSX, useRef, useState, useId } from 'react'
 import { Calendar, Clock } from 'lucide-react'
 import { FieldWrapper } from './shared'
 import DateTimePickerPopup from './shared/dateTimePickerPopup'
@@ -158,7 +158,7 @@ export default function Input(props: InputProps) {
                     readOnly={isClickableType}
                     onClick={() => isClickableType && !inputProps.disabled && setIsOpen(true)}
                     aria-describedby={error ? `${name}-error` : undefined}
-                    style={{ anchorName } as any}
+                    style={{ anchorName } as React.CSSProperties & { anchorName?: string }}
                     className={`
                         w-full rounded-md bg-login-500/50 border border-login-500
                         text-login-text placeholder-login-200 text-sm

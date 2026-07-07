@@ -51,7 +51,7 @@ function Cell<T extends Record<string, unknown>>({
 
     const wrapperAlign =
         align === 'right'  ? 'text-right'  :
-        align === 'center' ? 'text-center' : ''
+            align === 'center' ? 'text-center' : ''
 
     let content: React.ReactNode
 
@@ -146,7 +146,11 @@ export default function Body<T extends Record<string, unknown>>({
     return (
         <tbody className={VARIANT_TBODY[variant]}>
             {data.map((row, rowIdx) => {
-                const id = resolveId(row as Record<string, unknown>, idKey as string | undefined, columns as Column<Record<string, unknown>>[])
+                const id = resolveId(
+                    row as Record<string, unknown>,
+                    idKey as string | undefined,
+                    columns as Column<Record<string, unknown>>[],
+                )
                 const url = resolveRedirectUrl(redirectPath, row as Record<string, unknown>, id)
                 const isClickable = Boolean(url || onRowClick || hasExpand)
                 const isMenuOpen  = openMenuId === id
@@ -191,28 +195,34 @@ export default function Body<T extends Record<string, unknown>>({
                             {selectable && (
                                 <td className={`align-middle ${VARIANT_ROW_BORDER[variant]}`}
                                     style={{ width: '3rem', minWidth: '3rem' }}>
-                                  <div className='flex items-center justify-center'>
-                                    <button
-                                        type='button'
-                                        aria-label={isSelected ? 'Deselect row' : 'Select row'}
-                                        aria-checked={isSelected}
-                                        role='checkbox'
-                                        onClick={(e) => { e.stopPropagation(); toggleSelect(id) }}
-                                        className={`
+                                    <div className='flex items-center justify-center'>
+                                        <button
+                                            type='button'
+                                            aria-label={isSelected ? 'Deselect row' : 'Select row'}
+                                            aria-checked={isSelected}
+                                            role='checkbox'
+                                            onClick={(e) => { e.stopPropagation(); toggleSelect(id) }}
+                                            className={`
                                             h-4 w-4 rounded border flex items-center justify-center transition-colors cursor-pointer
                                             ${isSelected
-                                                ? 'bg-login border-login text-white'
-                                                : 'border-login-400 bg-transparent hover:border-login-100'
-                                            }
+                                    ? 'bg-login border-login text-white'
+                                    : 'border-login-400 bg-transparent hover:border-login-100'
+                                }
                                         `}
-                                    >
-                                        {isSelected && (
-                                            <svg className='h-3 w-3' viewBox='0 0 12 12' fill='none'>
-                                                <path d='M2 6l3 3 5-5' stroke='currentColor' strokeWidth='1.5' strokeLinecap='round' strokeLinejoin='round' />
-                                            </svg>
-                                        )}
-                                    </button>
-                                  </div>
+                                        >
+                                            {isSelected && (
+                                                <svg className='h-3 w-3' viewBox='0 0 12 12' fill='none'>
+                                                    <path
+                                                        d='M2 6l3 3 5-5'
+                                                        stroke='currentColor'
+                                                        strokeWidth='1.5'
+                                                        strokeLinecap='round'
+                                                        strokeLinejoin='round'
+                                                    />
+                                                </svg>
+                                            )}
+                                        </button>
+                                    </div>
                                 </td>
                             )}
 
@@ -223,12 +233,12 @@ export default function Body<T extends Record<string, unknown>>({
                             {hasExpand && (
                                 <td className={`align-middle ${VARIANT_ROW_BORDER[variant]}`}
                                     style={{ width: '2.5rem', minWidth: '2.5rem' }}>
-                                  <div className='flex items-center justify-center'>
-                                    <ChevronDown className={`
+                                    <div className='flex items-center justify-center'>
+                                        <ChevronDown className={`
                                         h-4 w-4 transition-transform duration-200
                                         ${isExpanded ? 'rotate-180 text-login' : 'text-login-400'}
                                     `} />
-                                  </div>
+                                    </div>
                                 </td>
                             )}
 
@@ -254,9 +264,9 @@ export default function Body<T extends Record<string, unknown>>({
                                             className={`
                                                 p-1.5 rounded flex items-center justify-center transition-colors
                                                 ${isMenuOpen
-                                                    ? 'bg-login-500 text-login-75'
-                                                    : 'text-login-300 hover:bg-login-500/60 hover:text-login-75'
-                                                }
+                                    ? 'bg-login-500 text-login-75'
+                                    : 'text-login-300 hover:bg-login-500/60 hover:text-login-75'
+                                }
                                             `}
                                         >
                                             <EllipsisVertical className='h-4 w-4' />

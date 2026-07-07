@@ -3,7 +3,7 @@ import { Components } from "react-markdown";
 import { Language, LoginPageProps, ToastType } from "uibee/components";
 
 //#region src/components/inputs/input.d.ts
-type InputProps = Omit<React.ComponentProps<'input'>, 'name'> & {
+type InputProps = Omit<React$1.ComponentProps<'input'>, 'name'> & {
   name: string;
   label?: string;
   error?: string;
@@ -735,4 +735,167 @@ declare function Toggle<T>({
   right
 }: ToggleProps<T>): import("react").JSX.Element;
 //#endregion
-export { Accordion, AccordionGroup, Alert, type BilingualString, Button, Card, Checkbox, type Column, ConfirmPopup, type Density, Footer, type FooterColumn, type FooterProps, type FooterSocialLink, type FooterSocialLink as LoginSocialLinkData, Highlight, IconBubble, Input, type Lang, LanguageToggle, LeftBarPanel, LoginPage, Logo, LogoSmall, MarkdownRender, MenuButton, MultiSelect, NavDropdown, NavItem, Navbar, PageContainer, Pagination, PulseDot, Radio, Range, SearchInput, Select, SeverityPill, type SortState, StatCard, Switch, TabPanel, Table, type TableColor, type TableProps, type TableVariant, Tabs, TagInput, Textarea, ThemeToggle, Toaster, Toggle, VersionTag, loginAddress, loginCopyright, loginEmail, loginSocialLinks, loginSponsor, toast };
+//#region src/components/inputs/fileInput.d.ts
+type FileInputProps = {
+  name: string;
+  label?: string;
+  accept?: string;
+  multiple?: boolean;
+  onChange: (files: File[]) => void;
+  className?: string;
+};
+declare function FileInput({
+  name,
+  label,
+  accept,
+  multiple,
+  onChange,
+  className
+}: FileInputProps): import("react").JSX.Element;
+//#endregion
+//#region src/components/container/glassCard.d.ts
+type GlassCardProps = {
+  children: ReactNode;
+  className?: string;
+};
+declare function GlassCard({
+  children,
+  className
+}: GlassCardProps): import("react").JSX.Element;
+//#endregion
+//#region src/components/container/expandableCard.d.ts
+type PulseVariant = 'online' | 'offline' | 'warning' | 'unknown';
+type ExpandableCardProps = {
+  icon: ElementType;
+  iconTone?: IconBubbleTone;
+  title: string;
+  subtitle?: ReactNode;
+  pulse?: {
+    variant: PulseVariant;
+    label: string;
+  };
+  trailing?: ReactNode;
+  isExpanded: boolean;
+  onToggle: () => void;
+  children?: ReactNode;
+};
+declare function ExpandableCard({
+  icon,
+  iconTone,
+  title,
+  subtitle,
+  pulse,
+  trailing,
+  isExpanded,
+  onToggle,
+  children
+}: ExpandableCardProps): import("react").JSX.Element;
+//#endregion
+//#region src/components/modal/modal.d.ts
+type ModalSize = 'sm' | 'md' | 'lg';
+type ModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  title?: string;
+  children: ReactNode;
+  footer?: ReactNode;
+  size?: ModalSize;
+};
+declare function Modal({
+  isOpen,
+  onClose,
+  title,
+  children,
+  footer,
+  size
+}: ModalProps): import("react").JSX.Element | null;
+//#endregion
+//#region src/components/sidebar/sidebar.d.ts
+type SidebarSubItem = {
+  name: string;
+  path: string;
+};
+type SidebarItem = {
+  name: string;
+  path: string;
+  icon: ElementType;
+  status?: ReactNode;
+  items?: SidebarSubItem[];
+};
+type SidebarProps = {
+  items: SidebarItem[];
+  header?: ReactNode;
+  bottomAction?: (expanded: boolean) => ReactNode;
+  mobile?: boolean;
+  initialExpanded?: boolean;
+};
+declare function Sidebar({
+  items,
+  header,
+  bottomAction,
+  mobile,
+  initialExpanded
+}: SidebarProps): import("react").JSX.Element;
+//#endregion
+//#region src/components/badge/badge.d.ts
+type BadgeVariant = 'default' | 'success' | 'warning' | 'danger' | 'info' | 'amber' | 'violet' | 'blue' | 'emerald' | 'orange';
+type BadgeProps = {
+  text: string;
+  variant?: BadgeVariant;
+  size?: 'sm' | 'md';
+  className?: string;
+};
+declare function Badge({
+  text,
+  variant,
+  size,
+  className
+}: BadgeProps): import("react").JSX.Element;
+//#endregion
+//#region src/components/empty/emptyState.d.ts
+type EmptyStateProps = {
+  icon?: ElementType;
+  title: string;
+  description?: string;
+  action?: ReactNode;
+  className?: string;
+};
+declare function EmptyState({
+  icon: Icon,
+  title,
+  description,
+  action,
+  className
+}: EmptyStateProps): import("react").JSX.Element;
+//#endregion
+//#region src/components/spinner/spinner.d.ts
+type SpinnerProps = {
+  size?: 'sm' | 'md' | 'lg';
+  className?: string;
+};
+declare function Spinner({
+  size,
+  className
+}: SpinnerProps): import("react").JSX.Element;
+//#endregion
+//#region src/components/code/code.d.ts
+type CodeProps = {
+  children: ReactNode;
+  className?: string;
+};
+declare function Code({
+  children,
+  className
+}: CodeProps): import("react").JSX.Element;
+type CodeBlockProps = {
+  code: string;
+  language?: string;
+  className?: string;
+};
+declare function CodeBlock({
+  code,
+  language,
+  className
+}: CodeBlockProps): import("react").JSX.Element;
+//#endregion
+export { Accordion, AccordionGroup, Alert, Badge, type BilingualString, Button, Card, Checkbox, Code, CodeBlock, type Column, ConfirmPopup, type Density, EmptyState, ExpandableCard, FileInput, Footer, type FooterColumn, type FooterProps, type FooterSocialLink, type FooterSocialLink as LoginSocialLinkData, GlassCard, Highlight, IconBubble, Input, type Lang, LanguageToggle, LeftBarPanel, LoginPage, Logo, LogoSmall, MarkdownRender, MenuButton, Modal, MultiSelect, NavDropdown, NavItem, Navbar, PageContainer, Pagination, PulseDot, Radio, Range, SearchInput, Select, SeverityPill, Sidebar, type SidebarItem, type SidebarSubItem, type SortState, Spinner, StatCard, Switch, TabPanel, Table, type TableColor, type TableProps, type TableVariant, Tabs, TagInput, Textarea, ThemeToggle, Toaster, Toggle, VersionTag, loginAddress, loginCopyright, loginEmail, loginSocialLinks, loginSponsor, toast };

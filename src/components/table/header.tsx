@@ -49,29 +49,35 @@ export default function Header<T extends Record<string, unknown>>({
                 {hasSelect && (
                     <th className={`sticky top-0 z-10 ${VARIANT_HEAD_BG[variant]} ${VARIANT_HEAD_BORDER[variant]}`}
                         style={{ width: '3rem', minWidth: '3rem' }}>
-                      <div className='flex items-center justify-center'>
-                        <button
-                            type='button'
-                            aria-label={allSelected ? 'Deselect all' : 'Select all'}
-                            onClick={onSelectAll}
-                            className={`
+                        <div className='flex items-center justify-center'>
+                            <button
+                                type='button'
+                                aria-label={allSelected ? 'Deselect all' : 'Select all'}
+                                onClick={onSelectAll}
+                                className={`
                                 h-4 w-4 rounded border flex items-center justify-center transition-colors cursor-pointer
                                 ${allSelected || someSelected
-                                    ? 'bg-login border-login text-white'
-                                    : 'border-login-400 bg-transparent hover:border-login-200'
-                                }
+                        ? 'bg-login border-login text-white'
+                        : 'border-login-400 bg-transparent hover:border-login-200'
+                    }
                             `}
-                        >
-                            {someSelected && !allSelected && (
-                                <span className='block h-0.5 w-2 bg-white rounded-full' />
-                            )}
-                            {allSelected && (
-                                <svg className='h-3 w-3' viewBox='0 0 12 12' fill='none'>
-                                    <path d='M2 6l3 3 5-5' stroke='currentColor' strokeWidth='1.5' strokeLinecap='round' strokeLinejoin='round' />
-                                </svg>
-                            )}
-                        </button>
-                      </div>
+                            >
+                                {someSelected && !allSelected && (
+                                    <span className='block h-0.5 w-2 bg-white rounded-full' />
+                                )}
+                                {allSelected && (
+                                    <svg className='h-3 w-3' viewBox='0 0 12 12' fill='none'>
+                                        <path
+                                            d='M2 6l3 3 5-5'
+                                            stroke='currentColor'
+                                            strokeWidth='1.5'
+                                            strokeLinecap='round'
+                                            strokeLinejoin='round'
+                                        />
+                                    </svg>
+                                )}
+                            </button>
+                        </div>
                     </th>
                 )}
 
@@ -84,7 +90,7 @@ export default function Header<T extends Record<string, unknown>>({
 
                     const alignClass =
                         col.align === 'right'  ? 'justify-end'    :
-                        col.align === 'center' ? 'justify-center' : ''
+                            col.align === 'center' ? 'justify-center' : ''
 
                     return (
                         <th
@@ -126,7 +132,11 @@ export default function Header<T extends Record<string, unknown>>({
                 {hasExpand && (
                     <th className={`sticky top-0 z-10 ${VARIANT_HEAD_BG[variant]} ${VARIANT_HEAD_BORDER[variant]}`}
                         style={{ width: '2.5rem', minWidth: '2.5rem' }}>
-                        <span className={`flex items-center justify-center text-xs font-medium tracking-wider uppercase opacity-50 ${VARIANT_THEAD_TH[variant]}`}>
+                        <span className={`
+                            flex items-center justify-center
+                            text-xs font-medium tracking-wider uppercase opacity-50
+                            ${VARIANT_THEAD_TH[variant]}
+                        `}>
                             +
                         </span>
                     </th>

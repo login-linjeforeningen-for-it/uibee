@@ -220,7 +220,7 @@ export default function DateTimePickerPopup({
     }
 
     return (
-        <div 
+        <div
             className='fixed z-50 bg-login-700 border border-login-500/50 rounded-md shadow-xl p-1 min-w-70 anchor-popup'
             style={{
                 positionAnchor: anchorName,

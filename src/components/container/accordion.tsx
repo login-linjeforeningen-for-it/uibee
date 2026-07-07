@@ -36,7 +36,11 @@ export default function Accordion({ title, children, defaultOpen = false, classN
             <button
                 type='button'
                 onClick={() => setOpen((o) => !o)}
-                className='flex w-full cursor-pointer items-center justify-between bg-login-800 px-4 py-3 text-left transition-colors duration-150 hover:bg-login-700 select-none'
+                className='
+                    flex w-full cursor-pointer items-center justify-between
+                    bg-login-800 px-4 py-3 text-left select-none
+                    transition-colors duration-150 hover:bg-login-700
+                '
             >
                 <div className='text-sm font-medium text-login-50'>{title}</div>
                 <ChevronDown

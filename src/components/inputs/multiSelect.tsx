@@ -93,7 +93,10 @@ export default function MultiSelect({
                             return (
                                 <span
                                     key={val}
-                                    className='flex items-center gap-1 px-2 py-0.5 bg-login-600 text-login-100 border border-login-500 rounded text-sm'
+                                    className='
+                                        flex items-center gap-1 rounded px-2 py-0.5 text-sm
+                                        border border-login-500 bg-login-600 text-login-100
+                                    '
                                 >
                                     {option.label}
                                     {!disabled && (
@@ -116,7 +119,10 @@ export default function MultiSelect({
                 </div>
 
                 {open && options.length > 0 && (
-                    <div className='absolute z-50 mt-1 w-full max-h-60 overflow-auto rounded-md bg-login-800 border border-login-500/50 shadow-lg'>
+                    <div className='
+                        absolute z-50 mt-1 w-full max-h-60 overflow-auto
+                        rounded-md border border-login-500/50 bg-login-800 shadow-lg
+                    '>
                         {options.map((option) => {
                             const selected = value.includes(option.value)
                             return (

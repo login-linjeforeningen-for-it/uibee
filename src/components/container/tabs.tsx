@@ -42,9 +42,9 @@ export function Tabs({ tabs, defaultTab, activeTab: controlledTab, onTabChange, 
                         className={`
                             px-3 py-1.5 rounded text-sm font-medium transition-all duration-150 cursor-pointer select-none
                             ${activeTab === tab.id
-                                ? 'bg-login text-white shadow-sm'
-                                : 'text-login-200 hover:text-login-50 hover:bg-login-600'
-                            }
+                        ? 'bg-login text-white shadow-sm'
+                        : 'text-login-200 hover:text-login-50 hover:bg-login-600'
+                    }
                         `}
                     >
                         {tab.label}

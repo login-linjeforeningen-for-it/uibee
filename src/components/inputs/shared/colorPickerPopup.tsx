@@ -192,7 +192,7 @@ export default function ColorPickerPopup({ value, onChange, onClose, anchorName 
     }
 
     return (
-        <div 
+        <div
             className='fixed z-50 bg-login-700 border border-login-500/50 rounded-md shadow-xl p-3 w-64 select-none anchor-popup'
             style={{
                 positionAnchor: anchorName,

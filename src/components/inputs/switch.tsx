@@ -39,7 +39,11 @@ export default function Switch(props: SwitchProps) {
                     ${inputProps.disabled ? 'opacity-40 cursor-not-allowed' : ''}
                     ${error ? 'ring-1 ring-red-500/60' : ''}
                 `}>
-                    <span className='absolute inset-y-0 my-auto left-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-all group-has-[input:checked]/sw:translate-x-full' />
+                    <span className='
+                        absolute inset-y-0 my-auto left-0.5 h-5 w-5
+                        rounded-full bg-white shadow-sm transition-all
+                        group-has-[input:checked]/sw:translate-x-full
+                    ' />
                 </div>
             </label>
         </FieldWrapper>
