@@ -48,7 +48,7 @@ function InstagramIcon({ size = 24 }: LogfontIconProps) {
         <span className='relative block' style={{ width: size, height: size }}>
             <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 1024'
                 width={size} height={size} aria-hidden='true'
-                className='absolute inset-0 transition-opacity duration-200 opacity-100 group-hover:opacity-0'>
+                className='absolute inset-0 transition-opacity duration-200 opacity-100 group-hover:opacity-0 brightness-0 invert-[.69]'>
                 <g transform='translate(0 960) scale(1 -1)'>
                     <path fill='currentColor' d={INSTAGRAM_PATH} />
                 </g>

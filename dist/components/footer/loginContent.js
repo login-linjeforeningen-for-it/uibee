@@ -78,7 +78,7 @@ function InstagramIcon({ size = 24 }) {
 			width: size,
 			height: size,
 			"aria-hidden": "true",
-			className: "absolute inset-0 transition-opacity duration-200 opacity-100 group-hover:opacity-0",
+			className: "absolute inset-0 transition-opacity duration-200 opacity-100 group-hover:opacity-0 brightness-0 invert-[.69]",
 			children: /* @__PURE__ */ jsx("g", {
 				transform: "translate(0 960) scale(1 -1)",
 				children: /* @__PURE__ */ jsx("path", {
