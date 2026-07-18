@@ -13,7 +13,7 @@
     "skipLibCheck": true,
     "jsx": "react-jsx",
     "resolveJsonModule": true,
-    "types": ["@types/bun"],
+    "types": ["bun"],
     "paths": {
       "@components/*": [
         "./src/components/*"

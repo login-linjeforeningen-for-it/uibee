@@ -1,2 +1,18 @@
+# env
+.env
+.env.*
+
+# dependencies
 node_modules
+package-lock.json
+
+# build info (dist/ is published to npm — do not ignore)
+*.tsbuildinfo
+
+# testing
+coverage
+
+# misc
 .DS_Store
+*.pem
+npm-debug.log*

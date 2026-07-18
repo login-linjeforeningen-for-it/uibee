@@ -26,7 +26,8 @@
     "build": "tsc --noEmit && tsdown",
     "dev": "tsdown --watch",
     "lint": "eslint ./src",
-    "lint:fix": "eslint --fix ./src"
+    "lint:fix": "eslint --fix ./src",
+    "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
     "next": "^16.2.9",
