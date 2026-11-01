@@ -63,6 +63,7 @@ export default function SearchInput({ placeholder = 'Search...', variant = 'defa
             <div className='w-fit min-w-48'>
                 <Input
                     name='search'
+                    reserveError={false}
                     icon={<Search className='w-5 h-5' />}
                     value={searchValue}
                     onChange={handleChange}

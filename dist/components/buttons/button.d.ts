@@ -3,6 +3,7 @@ import { JSX } from "react";
 //#region src/components/buttons/button.d.ts
 type ButtonProps = {
   text?: string;
+  label?: string;
   className?: string;
   icon?: string | JSX.Element;
   path?: string;
@@ -13,6 +14,7 @@ type ButtonProps = {
 };
 declare function Button({
   text,
+  label,
   className,
   icon,
   path,

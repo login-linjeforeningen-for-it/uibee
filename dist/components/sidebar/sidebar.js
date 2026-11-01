@@ -43,7 +43,10 @@ function Sidebar({ items, header, bottomAction, mobile = false, initialExpanded 
                         `,
 					children: typeof header === "function" ? header(expanded) : header
 				}), /* @__PURE__ */ jsx("button", {
+					type: "button",
 					onClick: toggleExpanded,
+					"aria-label": expanded ? "Collapse sidebar" : "Expand sidebar",
+					"aria-expanded": expanded,
 					className: `
                             absolute cursor-pointer rounded-lg p-1.5
                             text-login-200 transition-all duration-300 hover:bg-login-800
@@ -67,6 +70,7 @@ function Sidebar({ items, header, bottomAction, mobile = false, initialExpanded 
 						className: "flex flex-col gap-1",
 						children: [/* @__PURE__ */ jsxs(Link, {
 							href: item.path,
+							"aria-current": pathname === item.path ? "page" : void 0,
 							title: !expanded ? item.name : void 0,
 							className: `
                                     group relative z-10 flex items-center
@@ -98,6 +102,7 @@ function Sidebar({ items, header, bottomAction, mobile = false, initialExpanded 
 								})
 							]
 						}), item.items && /* @__PURE__ */ jsxs("div", {
+							inert: !(expanded && isActive),
 							className: `
                                     relative ml-6 flex flex-col gap-1 overflow-hidden
                                     border-l border-login-800 pl-2
@@ -112,10 +117,11 @@ function Sidebar({ items, header, bottomAction, mobile = false, initialExpanded 
 								const subActive = isSubActive(sub);
 								return /* @__PURE__ */ jsx(Link, {
 									href: sub.path,
+									"aria-current": subActive ? "page" : void 0,
 									className: `
                                                     relative z-10 rounded-lg p-2 text-sm
                                                     transition-all duration-200
-                                                    ${subActive ? "text-login" : "text-login-300 hover:bg-login-800/30 hover:text-login-100"}
+                                                    ${subActive ? "text-login" : "text-login-200 hover:bg-login-800/30 hover:text-login-100"}
                                                 `,
 									children: sub.name
 								}, `${index}-${subIndex}`);

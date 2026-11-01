@@ -15,6 +15,10 @@ type MenuProps = {
 
 export default function Menu({ ref, children, anchor, onClose }: MenuProps) {
     useEffect(() => {
+        ref.current?.querySelector<HTMLElement>('[role=menuitem]')?.focus()
+    }, [ref])
+
+    useEffect(() => {
         function handleKey(e: KeyboardEvent) {
             if (e.key === 'Escape') onClose?.()
         }
@@ -70,6 +74,7 @@ export function MenuButton({
 
     return (
         <button
+            type='button'
             role='menuitem'
             onClick={() => { onClick(); onClose?.() }}
             className={`

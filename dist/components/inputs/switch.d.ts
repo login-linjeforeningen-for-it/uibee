@@ -8,6 +8,7 @@ type SwitchProps = Omit<React.ComponentProps<'input'>, 'name'> & {
   className?: string;
   switchOnly?: boolean;
   textSize?: 'sm' | 'md';
+  reserveError?: boolean;
 };
 declare function Switch(props: SwitchProps): import("react").JSX.Element;
 //#endregion

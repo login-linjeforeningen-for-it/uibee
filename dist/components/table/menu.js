@@ -6,6 +6,9 @@ import { createPortal } from "react-dom";
 const MenuCtx = createContext({});
 function Menu({ ref, children, anchor, onClose }) {
 	useEffect(() => {
+		ref.current?.querySelector("[role=menuitem]")?.focus();
+	}, [ref]);
+	useEffect(() => {
 		function handleKey(e) {
 			if (e.key === "Escape") onClose?.();
 		}
@@ -48,6 +51,7 @@ function MenuButton({ icon, text, hotKey, onClick, className = "" }) {
 		onClose
 	]);
 	return /* @__PURE__ */ jsxs("button", {
+		type: "button",
 		role: "menuitem",
 		onClick: () => {
 			onClick();

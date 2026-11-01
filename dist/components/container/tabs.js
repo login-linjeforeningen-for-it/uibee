@@ -12,9 +12,12 @@ function Tabs({ tabs, defaultTab, activeTab: controlledTab, onTabChange, childre
 	return /* @__PURE__ */ jsxs("div", {
 		className,
 		children: [/* @__PURE__ */ jsx("div", {
+			role: "tablist",
 			className: "flex gap-1 rounded-md bg-login-500/50 border border-login-500/40 p-1 w-fit",
 			children: tabs.map((tab) => /* @__PURE__ */ jsx("button", {
 				type: "button",
+				role: "tab",
+				"aria-selected": activeTab === tab.id,
 				onClick: () => handleTabChange(tab.id),
 				className: `
                             px-3 py-1.5 rounded text-sm font-medium transition-all duration-150 cursor-pointer select-none
@@ -22,7 +25,7 @@ function Tabs({ tabs, defaultTab, activeTab: controlledTab, onTabChange, childre
                         `,
 				children: tab.label
 			}, tab.id))
-		}), /* @__PURE__ */ jsx("div", {
+		}), children != null && /* @__PURE__ */ jsx("div", {
 			className: "mt-3",
 			children
 		})]

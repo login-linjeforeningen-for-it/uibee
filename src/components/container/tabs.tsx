@@ -33,11 +33,13 @@ export function Tabs({ tabs, defaultTab, activeTab: controlledTab, onTabChange, 
 
     return (
         <div className={className}>
-            <div className='flex gap-1 rounded-md bg-login-500/50 border border-login-500/40 p-1 w-fit'>
+            <div role='tablist' className='flex gap-1 rounded-md bg-login-500/50 border border-login-500/40 p-1 w-fit'>
                 {tabs.map((tab) => (
                     <button
                         key={tab.id}
                         type='button'
+                        role='tab'
+                        aria-selected={activeTab === tab.id}
                         onClick={() => handleTabChange(tab.id)}
                         className={`
                             px-3 py-1.5 rounded text-sm font-medium transition-all duration-150 cursor-pointer select-none
@@ -51,9 +53,11 @@ export function Tabs({ tabs, defaultTab, activeTab: controlledTab, onTabChange, 
                     </button>
                 ))}
             </div>
-            <div className='mt-3'>
-                {children}
-            </div>
+            {children != null && (
+                <div className='mt-3'>
+                    {children}
+                </div>
+            )}
         </div>
     )
 }

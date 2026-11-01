@@ -36,11 +36,13 @@ function ToastItem({ toast, index, expanded, onRemove, onHeight, offset, frontHe
 					children: Icon(toast.type)
 				}),
 				/* @__PURE__ */ jsx("p", {
-					className: `flex-1 text-sm font-semibold text-login-800 dark:text-login-100 min-w-0
+					className: `flex-1 text-sm font-semibold text-login-text min-w-0
                         ${!expanded && !isFront ? "truncate" : ""}`,
 					children: toast.message
 				}),
 				/* @__PURE__ */ jsx("button", {
+					type: "button",
+					"aria-label": "Dismiss",
 					onClick: onRemove,
 					className: "hover:text-login-200 text-login-400",
 					children: /* @__PURE__ */ jsx(X, { className: "h-5 w-5" })

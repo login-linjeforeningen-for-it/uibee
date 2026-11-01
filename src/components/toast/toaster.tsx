@@ -96,6 +96,7 @@ export default function Toaster() {
 
     return (
         <ul
+            aria-live='polite'
             className={`fixed bottom-4 right-4 z-9999 w-full max-w-sm flex flex-col items-end transition-all duration-300 ease-out
                 ${expanded ? 'pointer-events-auto' : 'pointer-events-none'}`}
             style={{ height: expanded ? totalHeight + 'px' : 'auto' }}

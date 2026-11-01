@@ -3,7 +3,7 @@ import "./shared/index.js";
 import { jsx, jsxs } from "react/jsx-runtime";
 //#region src/components/inputs/switch.tsx
 function Switch(props) {
-	const { name, label, error, info, description, className, switchOnly, textSize = "sm", ...inputProps } = props;
+	const { name, label, error, info, description, className, switchOnly, textSize = "sm", reserveError, ...inputProps } = props;
 	return /* @__PURE__ */ jsx(FieldWrapper, {
 		label,
 		name,
@@ -12,6 +12,7 @@ function Switch(props) {
 		error,
 		description,
 		textSize,
+		reserveError,
 		className,
 		children: /* @__PURE__ */ jsxs("label", {
 			className: `group/sw inline-flex items-center cursor-pointer ${switchOnly ? "h-fit" : "h-10"}`,
@@ -25,6 +26,7 @@ function Switch(props) {
 				className: `
                     relative flex items-center w-11 h-6 rounded-full transition-colors
                     bg-login-600 group-has-[input:checked]/sw:bg-login
+                    group-has-[input:focus-visible]/sw:ring-2 group-has-[input:focus-visible]/sw:ring-login/60
                     ${inputProps.disabled ? "opacity-40 cursor-not-allowed" : ""}
                     ${error ? "ring-1 ring-red-500/60" : ""}
                 `,

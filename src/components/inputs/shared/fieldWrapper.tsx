@@ -12,6 +12,7 @@ interface FieldWrapperProps {
     error?: string
     description?: string
     textSize?: 'sm' | 'md'
+    reserveError?: boolean
     children: ReactNode
     className?: string
 }
@@ -24,6 +25,7 @@ export default function FieldWrapper({
     error,
     description,
     textSize = 'sm',
+    reserveError = true,
     children,
     className,
 }: FieldWrapperProps) {
@@ -36,19 +38,19 @@ export default function FieldWrapper({
                             label={label}
                             name={name}
                             required={required}
-                            className={`ml-1 ${textSize === 'sm' ? 'text-sm!' : 'text-base!'}`}
+                            className={textSize === 'sm' ? 'text-sm!' : 'text-base!'}
                         />
                     )}
                     {info && <InputInfo info={info} />}
                 </div>
             )}
             {description && (
-                <div className='text-login-100 **:text-xs! ml-1 mb-1'>
+                <div className='text-login-100 **:text-xs! mb-1'>
                     <MarkdownRender MDstr={String(description || '')} />
                 </div>
             )}
             {children}
-            <InputError error={error} id={`${name}-error`} />
+            {(error || reserveError) && <InputError error={error} id={`${name}-error`} />}
         </div>
     )
 }

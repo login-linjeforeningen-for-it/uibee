@@ -5,6 +5,7 @@ import type { JSX } from 'react'
 
 type ButtonProps = {
     text?: string
+    label?: string
     className?: string
     icon?: string | JSX.Element
     path?: string
@@ -24,7 +25,8 @@ const variants = {
 }
 
 const base = 'cursor-pointer rounded-md h-9 flex items-center justify-center gap-2' +
-    ' select-none text-sm font-medium transition-all duration-150'
+    ' select-none whitespace-nowrap text-sm font-medium transition-[background-color,filter] duration-150' +
+    ' focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-login'
 const withText = 'px-4 w-fit'
 const iconOnly = 'w-9'
 const disabledCls = 'opacity-40 cursor-not-allowed pointer-events-none'
@@ -34,6 +36,7 @@ const iconWrap = (icon: ButtonProps['icon']) =>
 
 export default function Button({
     text,
+    label,
     className,
     icon,
     path,
@@ -52,7 +55,8 @@ export default function Button({
                 type={type || 'button'}
                 disabled={disabled}
                 onClick={onClick}
-                aria-label={text}
+                aria-label={label ?? text}
+                title={label}
                 className={cls}
             >
                 {iconWrap(icon)}
@@ -71,7 +75,7 @@ export default function Button({
     }
 
     return (
-        <Link href={path} className={`${base} ${sizing} ${color} ${className || ''}`}>
+        <Link href={path} aria-label={label} title={label} className={`${base} ${sizing} ${color} ${className || ''}`}>
             {iconWrap(icon)}
             {text}
         </Link>

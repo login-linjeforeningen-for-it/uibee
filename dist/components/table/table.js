@@ -33,7 +33,7 @@ function TableShell({ data, columns, idKey, variant, density, striped, loading, 
 			className
 		].filter(Boolean).join(" "),
 		children: [/* @__PURE__ */ jsx("div", {
-			className: "flex-1 min-h-0 overflow-auto",
+			className: "@container flex-1 min-h-0 overflow-auto",
 			children: /* @__PURE__ */ jsxs("table", {
 				className: "min-w-full table-auto border-separate border-spacing-0",
 				children: [/* @__PURE__ */ jsx(Header, {

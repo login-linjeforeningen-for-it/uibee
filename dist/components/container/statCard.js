@@ -11,7 +11,8 @@ function StatCard({ label, value, icon, tone = "slate" }) {
 				icon,
 				tone
 			}), /* @__PURE__ */ jsx("span", {
-				className: "text-sm font-medium text-login-200",
+				className: "min-w-0 truncate text-sm font-medium text-login-200",
+				title: label,
 				children: label
 			})]
 		}), /* @__PURE__ */ jsx("div", {

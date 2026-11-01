@@ -37,8 +37,8 @@ function TagInput({ label, name, value = [], onChange, placeholder = "Add...", e
 		textSize,
 		children: [/* @__PURE__ */ jsxs("div", {
 			className: `
-                    flex flex-wrap gap-2 p-2 rounded-md bg-login-500/50 border border-login-500
-                    text-login-text min-h-10
+                    flex flex-wrap items-center gap-2 px-3 py-1.5 rounded-md bg-login-500/50 border border-login-500
+                    text-login-text text-sm min-h-10
                     focus-within:border-login/60 focus-within:ring-1 focus-within:ring-login/30
                     transition-all duration-150
                     ${error ? "border-red-500/70 focus-within:border-red-500/70 focus-within:ring-red-500/30" : ""}
@@ -48,6 +48,7 @@ function TagInput({ label, name, value = [], onChange, placeholder = "Add...", e
 				children: [tag, !disabled && /* @__PURE__ */ jsx("button", {
 					type: "button",
 					onClick: () => removeTag(index),
+					"aria-label": `Remove ${tag}`,
 					className: "hover:text-red-200 transition-colors",
 					children: /* @__PURE__ */ jsx(X, { size: 14 })
 				})]

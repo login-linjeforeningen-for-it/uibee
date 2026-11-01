@@ -3,10 +3,10 @@
 @layer theme, base, components, utilities;
 @layer theme {
   :root, :host {
-    --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-      "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
-      "Courier New", monospace;
+    --font-sans: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+    monospace;
     --color-red-200: oklch(88.5% 0.062 18.334);
     --color-red-300: oklch(80.8% 0.114 19.571);
     --color-red-400: oklch(70.4% 0.191 22.216);
@@ -102,21 +102,21 @@
 }
 @layer base {
   *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
+::after,
+::before,
+::backdrop,
+::file-selector-button {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     border: 0 solid;
   }
   html,
-  :host {
+:host {
     line-height: 1.5;
     -webkit-text-size-adjust: 100%;
     tab-size: 4;
-    font-family: var(--default-font-family, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji");
+    font-family: var(--default-font-family, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji');
     font-feature-settings: var(--default-font-feature-settings, normal);
     font-variation-settings: var(--default-font-variation-settings, normal);
     -webkit-tap-highlight-color: transparent;
@@ -131,11 +131,11 @@
     text-decoration: underline dotted;
   }
   h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-size: inherit;
     font-weight: inherit;
   }
@@ -145,14 +145,14 @@
     text-decoration: inherit;
   }
   b,
-  strong {
+strong {
     font-weight: bolder;
   }
   code,
-  kbd,
-  samp,
-  pre {
-    font-family: var(--default-mono-font-family, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
+kbd,
+samp,
+pre {
+    font-family: var(--default-mono-font-family, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace);
     font-feature-settings: var(--default-mono-font-feature-settings, normal);
     font-variation-settings: var(--default-mono-font-variation-settings, normal);
     font-size: 1em;
@@ -161,7 +161,7 @@
     font-size: 80%;
   }
   sub,
-  sup {
+sup {
     font-size: 75%;
     line-height: 0;
     position: relative;
@@ -188,32 +188,32 @@
     display: list-item;
   }
   ol,
-  ul,
-  menu {
+ul,
+menu {
     list-style: none;
   }
   img,
-  svg,
-  video,
-  canvas,
-  audio,
-  iframe,
-  embed,
-  object {
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
     display: block;
     vertical-align: middle;
   }
   img,
-  video {
+video {
     max-width: 100%;
     height: auto;
   }
   button,
-  input,
-  select,
-  optgroup,
-  textarea,
-  ::file-selector-button {
+input,
+select,
+optgroup,
+textarea,
+::file-selector-button {
     font: inherit;
     font-feature-settings: inherit;
     font-variation-settings: inherit;
@@ -236,7 +236,7 @@
     opacity: 1;
   }
   @supports (not (-webkit-appearance: -apple-pay-button))  or
-    (contain-intrinsic-size: 1px) {
+  (contain-intrinsic-size: 1px) {
     ::placeholder {
       color: currentcolor;
       @supports (color: color-mix(in lab, red, red)) {
@@ -261,14 +261,14 @@
     padding: 0;
   }
   ::-webkit-datetime-edit,
-  ::-webkit-datetime-edit-year-field,
-  ::-webkit-datetime-edit-month-field,
-  ::-webkit-datetime-edit-day-field,
-  ::-webkit-datetime-edit-hour-field,
-  ::-webkit-datetime-edit-minute-field,
-  ::-webkit-datetime-edit-second-field,
-  ::-webkit-datetime-edit-millisecond-field,
-  ::-webkit-datetime-edit-meridiem-field {
+::-webkit-datetime-edit-year-field,
+::-webkit-datetime-edit-month-field,
+::-webkit-datetime-edit-day-field,
+::-webkit-datetime-edit-hour-field,
+::-webkit-datetime-edit-minute-field,
+::-webkit-datetime-edit-second-field,
+::-webkit-datetime-edit-millisecond-field,
+::-webkit-datetime-edit-meridiem-field {
     padding-block: 0;
   }
   ::-webkit-calendar-picker-indicator {
@@ -278,19 +278,22 @@
     box-shadow: none;
   }
   button,
-  input:where([type="button"], [type="reset"], [type="submit"]),
-  ::file-selector-button {
+input:where([type='button'], [type='reset'], [type='submit']),
+::file-selector-button {
     appearance: button;
   }
   ::-webkit-inner-spin-button,
-  ::-webkit-outer-spin-button {
+::-webkit-outer-spin-button {
     height: auto;
   }
-  [hidden]:where(:not([hidden="until-found"])) {
+  [hidden]:where(:not([hidden='until-found'])) {
     display: none !important;
   }
 }
-@layer utilities {
+@layer components {
+  .\@container {
+    container-type: inline-size;
+  }
   .pointer-events-auto {
     pointer-events: auto;
   }
@@ -1790,6 +1793,9 @@
   .w-\[4\.3rem\] {
     width: 4.3rem;
   }
+  .w-\[100cqw\] {
+    width: 100cqw;
+  }
   .w-\[calc\(100\%-2rem\)\] {
     width: calc(100% - 2rem);
   }
@@ -2890,9 +2896,6 @@
   .text-login-400 {
     color: var(--color-login-400);
   }
-  .text-login-800 {
-    color: var(--color-login-800);
-  }
   .text-login-text {
     color: var(--color-login-text);
   }
@@ -3098,6 +3101,11 @@
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
+  .transition-\[background-color\,filter\] {
+    transition-property: background-color,filter;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
   .transition-all {
     transition-property: all;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
@@ -3188,6 +3196,20 @@
   .group-has-\[input\:checked\]\/sw\:bg-login {
     &:is(:where(.group\/sw):has(*:is(input:checked)) *) {
       background-color: var(--color-login);
+    }
+  }
+  .group-has-\[input\:focus-visible\]\/sw\:ring-2 {
+    &:is(:where(.group\/sw):has(*:is(input:focus-visible)) *) {
+      --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+      box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+    }
+  }
+  .group-has-\[input\:focus-visible\]\/sw\:ring-login\/60 {
+    &:is(:where(.group\/sw):has(*:is(input:focus-visible)) *) {
+      --tw-ring-color: color-mix(in srgb, #fd8738 60%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        --tw-ring-color: color-mix(in oklab, var(--color-login) 60%, transparent);
+      }
     }
   }
   .group-\[\.dropdown\]\:h-auto {
@@ -3584,6 +3606,27 @@
       outline-style: none;
     }
   }
+  .focus-visible\:outline-2 {
+    &:focus-visible {
+      outline-style: var(--tw-outline-style);
+      outline-width: 2px;
+    }
+  }
+  .focus-visible\:-outline-offset-2 {
+    &:focus-visible {
+      outline-offset: calc(2px * -1);
+    }
+  }
+  .focus-visible\:outline-offset-2 {
+    &:focus-visible {
+      outline-offset: 2px;
+    }
+  }
+  .focus-visible\:outline-login {
+    &:focus-visible {
+      outline-color: var(--color-login);
+    }
+  }
   .disabled\:cursor-not-allowed {
     &:disabled {
       cursor: not-allowed;
@@ -3771,6 +3814,11 @@
       margin-top: calc(var(--spacing) * 40);
     }
   }
+  .md\:block {
+    @media (width >= 48rem) {
+      display: block;
+    }
+  }
   .md\:grid {
     @media (width >= 48rem) {
       display: grid;
@@ -3831,9 +3879,9 @@
       padding-top: calc(var(--spacing) * 20);
     }
   }
-  .dark\:text-login-100 {
-    @media (prefers-color-scheme: dark) {
-      color: var(--color-login-100);
+  .lg\:flex-row {
+    @media (width >= 64rem) {
+      flex-direction: row;
     }
   }
   .group-hover\:text-login {
@@ -3958,7 +4006,7 @@
   --color-login-500: #323232;
   --color-login-400: #424242;
   --color-login-300: #5e5e5e;
-  --color-login-200: #6b6b6b;
+  --color-login-200: #8a8a8a;
   --color-login-100: #b0b0b0;
   --color-login-50: #ededed;
   --color-login-text: #ededed;
@@ -4027,6 +4075,16 @@ input::-webkit-credentials-auto-fill-button {
 input::-ms-reveal,
 input::-ms-clear {
   display: none !important;
+}
+@layer base {
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 @property --tw-border-spacing-x {
   syntax: "<length>";
@@ -4339,6 +4397,11 @@ input::-ms-clear {
   syntax: "*";
   inherits: false;
 }
+@property --tw-outline-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -4346,7 +4409,7 @@ input::-ms-clear {
 }
 @keyframes ping {
   75%,
-      100% {
+    100% {
     transform: scale(2);
     opacity: 0;
   }
@@ -4425,6 +4488,7 @@ input::-ms-clear {
       --tw-backdrop-sepia: initial;
       --tw-duration: initial;
       --tw-ease: initial;
+      --tw-outline-style: solid;
     }
   }
 }

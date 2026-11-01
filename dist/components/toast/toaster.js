@@ -97,6 +97,7 @@ function Toaster() {
 	}, [visibleToasts, heights]);
 	const totalHeight = offsets.length > 0 ? offsets[offsets.length - 1] + (heights[visibleToasts[visibleToasts.length - 1]?.id] || 60) : 0;
 	return /* @__PURE__ */ jsx("ul", {
+		"aria-live": "polite",
 		className: `fixed bottom-4 right-4 z-9999 w-full max-w-sm flex flex-col items-end transition-all duration-300 ease-out
                 ${expanded ? "pointer-events-auto" : "pointer-events-none"}`,
 		style: { height: expanded ? totalHeight + "px" : "auto" },

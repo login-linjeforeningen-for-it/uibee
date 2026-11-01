@@ -6,7 +6,7 @@ function InputError({ error, id }) {
 		className: "h-4",
 		children: /* @__PURE__ */ jsx("span", {
 			id,
-			className: "text-xs text-red-400 ml-1 truncate block",
+			className: "text-xs text-red-400 truncate block",
 			role: "alert",
 			title: error,
 			children: error

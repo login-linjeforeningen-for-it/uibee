@@ -14,7 +14,7 @@ export default function StatCard({ label, value, icon, tone = 'slate' }: StatCar
         <Card className='p-4'>
             <div className='mb-3 flex items-center gap-3'>
                 <IconBubble icon={icon} tone={tone} />
-                <span className='text-sm font-medium text-login-200'>{label}</span>
+                <span className='min-w-0 truncate text-sm font-medium text-login-200' title={label}>{label}</span>
             </div>
             <div className='truncate text-lg font-semibold text-login-50' title={value}>
                 {value}

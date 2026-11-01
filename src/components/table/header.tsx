@@ -99,7 +99,7 @@ export default function Header<T extends Record<string, unknown>>({
                             style={col.width ? { width: col.width } : undefined}
                             className={`
                                 sticky top-0 z-10 ${VARIANT_HEAD_BG[variant]} ${VARIANT_HEAD_BORDER[variant]}
-                                text-xs font-medium uppercase tracking-wider
+                                text-xs font-medium
                                 ${DENSITY_TH[density]} ${VARIANT_THEAD_TH[variant]}
                             `}
                         >

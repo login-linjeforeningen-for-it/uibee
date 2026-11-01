@@ -43,6 +43,7 @@ function SearchInput({ placeholder = "Search...", variant = "default" }) {
 		className: "w-fit min-w-48",
 		children: /* @__PURE__ */ jsx(Input, {
 			name: "search",
+			reserveError: false,
 			icon: /* @__PURE__ */ jsx(Search, { className: "w-5 h-5" }),
 			value: searchValue,
 			onChange: handleChange,

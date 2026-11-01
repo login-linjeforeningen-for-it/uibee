@@ -1,4 +1,7 @@
-@import 'tailwindcss';
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/preflight.css' layer(base);
+@import 'tailwindcss/utilities.css' layer(components);
 
 @config '../tailwind.config.ts';
 
@@ -77,7 +80,7 @@
     --color-login-500: #323232;
     --color-login-400: #424242;
     --color-login-300: #5e5e5e;
-    --color-login-200: #6b6b6b;
+    --color-login-200: #8a8a8a;
     --color-login-100: #b0b0b0;
     --color-login-50: #ededed;
 
@@ -294,4 +297,15 @@ input::-webkit-credentials-auto-fill-button {
 input::-ms-reveal,
 input::-ms-clear {
     display: none !important;
+}
+
+@layer base {
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
+    }
 }

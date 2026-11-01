@@ -32,3 +32,18 @@ bun run build
 - `src/types/` - Shared TypeScript type definitions
 - `src/styles/` - Global styles
 - `src/scripts/` - Build and utility scripts
+
+## Styles in a Tailwind app
+
+Import `uibee/styles` once, and let the app's Tailwind scan uibee so its classes are generated in the app's own
+`utilities` layer, sorted together with the app's classes:
+
+```css
+/* app globals.css */
+@import 'tailwindcss';
+@source '../../node_modules/uibee/dist';
+```
+
+uibee's prebuilt utilities ship in the lower `components` layer, so app classes (`lg:flex-row`, `md:block`) always win
+without `!`. Without the `@source` line those prebuilt copies are the fallback, and a class the app also uses (e.g.
+`p-3`) can then beat a uibee class it should lose to (e.g. `pr-10`).

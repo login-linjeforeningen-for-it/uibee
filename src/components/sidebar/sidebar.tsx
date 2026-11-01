@@ -88,7 +88,10 @@ export default function Sidebar({
                         </div>
                     )}
                     <button
+                        type='button'
                         onClick={toggleExpanded}
+                        aria-label={expanded ? 'Collapse sidebar' : 'Expand sidebar'}
+                        aria-expanded={expanded}
                         className={`
                             absolute cursor-pointer rounded-lg p-1.5
                             text-login-200 transition-all duration-300 hover:bg-login-800
@@ -121,6 +124,7 @@ export default function Sidebar({
                         <div key={index} className='flex flex-col gap-1'>
                             <Link
                                 href={item.path}
+                                aria-current={pathname === item.path ? 'page' : undefined}
                                 title={!expanded ? item.name : undefined}
                                 className={`
                                     group relative z-10 flex items-center
@@ -152,7 +156,7 @@ export default function Sidebar({
                             </Link>
 
                             {item.items && (
-                                <div className={`
+                                <div inert={!(expanded && isActive)} className={`
                                     relative ml-6 flex flex-col gap-1 overflow-hidden
                                     border-l border-login-800 pl-2
                                     transition-all duration-300 ease-in-out
@@ -174,12 +178,13 @@ export default function Sidebar({
                                             <Link
                                                 key={`${index}-${subIndex}`}
                                                 href={sub.path}
+                                                aria-current={subActive ? 'page' : undefined}
                                                 className={`
                                                     relative z-10 rounded-lg p-2 text-sm
                                                     transition-all duration-200
                                                     ${subActive
                                                 ? 'text-login'
-                                                : 'text-login-300 hover:bg-login-800/30 hover:text-login-100'
+                                                : 'text-login-200 hover:bg-login-800/30 hover:text-login-100'
                                             }
                                                 `}
                                             >

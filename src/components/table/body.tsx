@@ -160,7 +160,7 @@ export default function Body<T extends Record<string, unknown>>({
 
                 const rowClass = [
                     'transition-colors duration-100',
-                    isClickable ? 'cursor-pointer' : '',
+                    isClickable ? 'cursor-pointer focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-login' : '',
                     VARIANT_ROW_HOVER[variant],
                     striped ? VARIANT_ROW_STRIPED[variant] : '',
                     isSelected ? 'bg-login/5' : '',
@@ -185,6 +185,10 @@ export default function Body<T extends Record<string, unknown>>({
                                 }
                                 if (onRowClick) { onRowClick(row, id); return }
                                 if (url) router.push(url)
+                            }}
+                            tabIndex={isClickable ? 0 : undefined}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' && e.target === e.currentTarget) e.currentTarget.click()
                             }}
                             onContextMenu={(e) => {
                                 if (!hasMenu) return

@@ -59,7 +59,7 @@ function Header({ columns, sort, onSort, hasMenu, hasSelect, hasExpand, allSelec
 					style: col.width ? { width: col.width } : void 0,
 					className: `
                                 sticky top-0 z-10 ${VARIANT_HEAD_BG[variant]} ${VARIANT_HEAD_BORDER[variant]}
-                                text-xs font-medium uppercase tracking-wider
+                                text-xs font-medium
                                 ${DENSITY_TH[density]} ${VARIANT_THEAD_TH[variant]}
                             `,
 					children: sortable ? /* @__PURE__ */ jsxs("button", {

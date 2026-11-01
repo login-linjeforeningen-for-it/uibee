@@ -9,7 +9,7 @@ import { Calendar, Clock } from "lucide-react";
 import { jsx, jsxs } from "react/jsx-runtime";
 //#region src/components/inputs/input.tsx
 function Input(props) {
-	const { name, label, error, className, icon, info, description, textSize = "sm", ...inputProps } = props;
+	const { name, label, error, className, icon, info, description, textSize = "sm", reserveError, ...inputProps } = props;
 	const { type = "text", value } = inputProps;
 	const localRef = useRef(null);
 	const [isOpen, setIsOpen] = useState(false);
@@ -95,6 +95,7 @@ function Input(props) {
 		error,
 		description,
 		textSize,
+		reserveError,
 		className,
 		children: /* @__PURE__ */ jsxs("div", {
 			className: "relative flex items-center",

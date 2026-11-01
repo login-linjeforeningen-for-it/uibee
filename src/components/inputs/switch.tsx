@@ -9,10 +9,11 @@ export type SwitchProps = Omit<React.ComponentProps<'input'>, 'name'> & {
     className?: string
     switchOnly?: boolean
     textSize?: 'sm' | 'md'
+    reserveError?: boolean
 }
 
 export default function Switch(props: SwitchProps) {
-    const { name, label, error, info, description, className, switchOnly, textSize = 'sm', ...inputProps } = props
+    const { name, label, error, info, description, className, switchOnly, textSize = 'sm', reserveError, ...inputProps } = props
 
     return (
         <FieldWrapper
@@ -23,6 +24,7 @@ export default function Switch(props: SwitchProps) {
             error={error}
             description={description}
             textSize={textSize}
+            reserveError={reserveError}
             className={className}
         >
             <label className={`group/sw inline-flex items-center cursor-pointer ${switchOnly ? 'h-fit' : 'h-10'}`}>
@@ -36,6 +38,7 @@ export default function Switch(props: SwitchProps) {
                 <div className={`
                     relative flex items-center w-11 h-6 rounded-full transition-colors
                     bg-login-600 group-has-[input:checked]/sw:bg-login
+                    group-has-[input:focus-visible]/sw:ring-2 group-has-[input:focus-visible]/sw:ring-login/60
                     ${inputProps.disabled ? 'opacity-40 cursor-not-allowed' : ''}
                     ${error ? 'ring-1 ring-red-500/60' : ''}
                 `}>

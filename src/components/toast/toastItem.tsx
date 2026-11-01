@@ -36,12 +36,12 @@ export default function ToastItem({ toast, index, expanded, onRemove, onHeight, 
         >
             <div className='flex items-center space-x-4 rounded-lg p-4 shadow-lg border-2 border-login-400 bg-login-700'>
                 <div className='shrink-0'>{Icon(toast.type)}</div>
-                <p className={`flex-1 text-sm font-semibold text-login-800 dark:text-login-100 min-w-0
+                <p className={`flex-1 text-sm font-semibold text-login-text min-w-0
                         ${!expanded && !isFront ? 'truncate' : ''}`}
                 >
                     {toast.message}
                 </p>
-                <button onClick={onRemove} className='hover:text-login-200 text-login-400'>
+                <button type='button' aria-label='Dismiss' onClick={onRemove} className='hover:text-login-200 text-login-400'>
                     <X className='h-5 w-5' />
                 </button>
             </div>

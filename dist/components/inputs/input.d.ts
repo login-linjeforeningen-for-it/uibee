@@ -10,6 +10,7 @@ type InputProps = Omit<React.ComponentProps<'input'>, 'name'> & {
   info?: string;
   description?: string;
   textSize?: 'sm' | 'md';
+  reserveError?: boolean;
 };
 declare function Input(props: InputProps): JSX.Element;
 //#endregion
